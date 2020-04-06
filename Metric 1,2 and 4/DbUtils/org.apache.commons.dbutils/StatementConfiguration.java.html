@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatementConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons DbUtils</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.dbutils</a> &gt; <span class="el_source">StatementConfiguration.java</span></div><h1>StatementConfiguration.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.dbutils;
+
+/**
+ * Configuration options for a {@link java.sql.Statement} when preparing statements in {@code QueryRunner}.
+ */
+public class StatementConfiguration {
+    private final Integer fetchDirection;
+    private final Integer fetchSize;
+    private final Integer maxFieldSize;
+    private final Integer maxRows;
+    private final Integer queryTimeout;
+
+    /**
+     * Constructor for {@code StatementConfiguration}.  For more flexibility, use {@link Builder}.
+     *
+     * @param fetchDirection The direction for fetching rows from database tables.
+     * @param fetchSize The number of rows that should be fetched from the database when more rows are needed.
+     * @param maxFieldSize The maximum number of bytes that can be returned for character and binary column values.
+     * @param maxRows The maximum number of rows that a {@code ResultSet} can produce.
+     * @param queryTimeout The number of seconds the driver will wait for execution.
+     */
+    public StatementConfiguration(final Integer fetchDirection, final Integer fetchSize,
+                                  final Integer maxFieldSize, final Integer maxRows,
+<span class="fc" id="L40">                                  final Integer queryTimeout) {</span>
+<span class="fc" id="L41">        this.fetchDirection = fetchDirection;</span>
+<span class="fc" id="L42">        this.fetchSize = fetchSize;</span>
+<span class="fc" id="L43">        this.maxFieldSize = maxFieldSize;</span>
+<span class="fc" id="L44">        this.maxRows = maxRows;</span>
+<span class="fc" id="L45">        this.queryTimeout = queryTimeout;</span>
+<span class="fc" id="L46">    }</span>
+
+    /**
+     * Get the fetch direction.
+     *
+     * @return The direction to fetch or null if not set.
+     */
+    public Integer getFetchDirection() {
+<span class="fc" id="L54">        return fetchDirection;</span>
+    }
+
+    /**
+     * Whether fetch direction is set.
+     *
+     * @return true if set, false otherwise.
+     */
+    public boolean isFetchDirectionSet() {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        return fetchDirection != null;</span>
+    }
+
+    /**
+     * Get the fetch size.
+     *
+     * @return The fetch size or null if not set.
+     */
+    public Integer getFetchSize() {
+<span class="fc" id="L72">        return fetchSize;</span>
+    }
+
+    /**
+     * Whether fetch size is set.
+     *
+     * @return true if set, false otherwise.
+     */
+    public boolean isFetchSizeSet() {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        return fetchSize != null;</span>
+    }
+
+    /**
+     * Get the max field size.
+     *
+     * @return The max field size or null if not set.
+     */
+    public Integer getMaxFieldSize() {
+<span class="fc" id="L90">        return maxFieldSize;</span>
+    }
+
+    /**
+     * Whether max field size is set.
+     *
+     * @return true if set, false otherwise.
+     */
+    public boolean isMaxFieldSizeSet() {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        return maxFieldSize != null;</span>
+    }
+
+    /**
+     * Get the max rows.
+     *
+     * @return The max rows or null if not set.
+     */
+    public Integer getMaxRows() {
+<span class="fc" id="L108">        return maxRows;</span>
+    }
+
+    /**
+     * Whether max rows is set.
+     *
+     * @return true if set, false otherwise.
+     */
+    public boolean isMaxRowsSet() {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        return maxRows != null;</span>
+    }
+
+    /**
+     * Get the query timeout.
+     *
+     * @return The query timeout or null if not set.
+     */
+    public Integer getQueryTimeout() {
+<span class="fc" id="L126">        return queryTimeout;</span>
+    }
+
+    /**
+     * Whether query timeout is set.
+     *
+     * @return true if set, false otherwise.
+     */
+    public boolean isQueryTimeoutSet() {
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        return queryTimeout != null;</span>
+    }
+
+    /**
+     * Builder class for {@code StatementConfiguration} for more flexible construction.
+     */
+<span class="fc" id="L141">    public static final class Builder {</span>
+        private Integer fetchDirection;
+        private Integer fetchSize;
+        private Integer maxRows;
+        private Integer queryTimeout;
+        private Integer maxFieldSize;
+
+        /**
+         * @param fetchDirection The direction for fetching rows from database tables.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getFetchDirection()
+         */
+        public Builder fetchDirection(final Integer fetchDirection) {
+<span class="fc" id="L154">            this.fetchDirection = fetchDirection;</span>
+<span class="fc" id="L155">            return this;</span>
+        }
+
+        /**
+         * @param fetchSize The number of rows that should be fetched from the database when more rows are needed.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getFetchSize()
+         */
+        public Builder fetchSize(final Integer fetchSize) {
+<span class="fc" id="L164">            this.fetchSize = fetchSize;</span>
+<span class="fc" id="L165">            return this;</span>
+        }
+
+        /**
+         * @param maxRows The maximum number of rows that a {@code ResultSet} can produce.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getMaxRows()
+         */
+        public Builder maxRows(final Integer maxRows) {
+<span class="fc" id="L174">            this.maxRows = maxRows;</span>
+<span class="fc" id="L175">            return this;</span>
+        }
+
+        /**
+         * @param queryTimeout The number of seconds the driver will wait for execution.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getQueryTimeout()
+         */
+        public Builder queryTimeout(final Integer queryTimeout) {
+<span class="fc" id="L184">            this.queryTimeout = queryTimeout;</span>
+<span class="fc" id="L185">            return this;</span>
+        }
+
+        /**
+         * @param maxFieldSize The maximum number of bytes that can be returned for character and binary column values.
+         * @return This builder for chaining.
+         * @see StatementConfiguration#getMaxFieldSize()
+         */
+        public Builder maxFieldSize(final Integer maxFieldSize) {
+<span class="fc" id="L194">            this.maxFieldSize = maxFieldSize;</span>
+<span class="fc" id="L195">            return this;</span>
+        }
+
+        /**
+         * @return A new and configured {@link StatementConfiguration}.
+         */
+        public StatementConfiguration build() {
+<span class="fc" id="L202">            return new StatementConfiguration(fetchDirection, fetchSize, maxFieldSize, maxRows, queryTimeout);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

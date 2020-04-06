@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractQueryRunner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons DbUtils</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.dbutils</a> &gt; <span class="el_source">AbstractQueryRunner.java</span></div><h1>AbstractQueryRunner.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.dbutils;
+
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ParameterMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.Arrays;
+
+import javax.sql.DataSource;
+
+/**
+ * The base class for QueryRunner &amp;amp; AsyncQueryRunner. This class is thread safe.
+ *
+ * @since 1.4 (mostly extracted from QueryRunner)
+ */
+public abstract class AbstractQueryRunner {
+    /**
+     * Is {@link ParameterMetaData#getParameterType(int)} broken (have we tried
+     * it yet)?
+     */
+<span class="pc" id="L47">    private volatile boolean pmdKnownBroken = false;</span>
+
+    /**
+     * The DataSource to retrieve connections from.
+     * @deprecated Access to this field should be through {@link #getDataSource()}.
+     */
+    @Deprecated
+    protected final DataSource ds;
+
+    /**
+     * Configuration to use when preparing statements.
+     */
+    private final StatementConfiguration stmtConfig;
+
+    /**
+     * Default constructor, sets pmdKnownBroken to false, ds to null and stmtConfig to null.
+     */
+<span class="fc" id="L64">    public AbstractQueryRunner() {</span>
+<span class="fc" id="L65">        ds = null;</span>
+<span class="fc" id="L66">        this.stmtConfig = null;</span>
+<span class="fc" id="L67">    }</span>
+
+    /**
+     * Constructor to control the use of {@code ParameterMetaData}.
+     *
+     * @param pmdKnownBroken
+     *            Some drivers don't support
+     *            {@link ParameterMetaData#getParameterType(int) }; if
+     *            {@code pmdKnownBroken} is set to true, we won't even try
+     *            it; if false, we'll try it, and if it breaks, we'll remember
+     *            not to use it again.
+     */
+<span class="fc" id="L79">    public AbstractQueryRunner(final boolean pmdKnownBroken) {</span>
+<span class="fc" id="L80">        this.pmdKnownBroken = pmdKnownBroken;</span>
+<span class="fc" id="L81">        ds = null;</span>
+<span class="fc" id="L82">        this.stmtConfig = null;</span>
+<span class="fc" id="L83">    }</span>
+
+    /**
+     * Constructor to provide a {@code DataSource}. Methods that do not
+     * take a {@code Connection} parameter will retrieve connections from
+     * this {@code DataSource}.
+     *
+     * @param ds
+     *            The {@code DataSource} to retrieve connections from.
+     */
+<span class="fc" id="L93">    public AbstractQueryRunner(final DataSource ds) {</span>
+<span class="fc" id="L94">        this.ds = ds;</span>
+<span class="fc" id="L95">        this.stmtConfig = null;</span>
+<span class="fc" id="L96">    }</span>
+
+    /**
+     * Constructor to provide a {@code DataSource} and control the use of
+     * {@code ParameterMetaData}. Methods that do not take a
+     * {@code Connection} parameter will retrieve connections from this
+     * {@code DataSource}.
+     *
+     * @param ds
+     *            The {@code DataSource} to retrieve connections from.
+     * @param pmdKnownBroken
+     *            Some drivers don't support
+     *            {@link ParameterMetaData#getParameterType(int) }; if
+     *            {@code pmdKnownBroken} is set to true, we won't even try
+     *            it; if false, we'll try it, and if it breaks, we'll remember
+     *            not to use it again.
+     */
+<span class="fc" id="L113">    public AbstractQueryRunner(final DataSource ds, final boolean pmdKnownBroken) {</span>
+<span class="fc" id="L114">        this.pmdKnownBroken = pmdKnownBroken;</span>
+<span class="fc" id="L115">        this.ds = ds;</span>
+<span class="fc" id="L116">        this.stmtConfig = null;</span>
+<span class="fc" id="L117">    }</span>
+
+    /**
+     * Constructor for QueryRunner that takes a {@code DataSource}, a {@code StatementConfiguration}, and
+     * controls the use of {@code ParameterMetaData}.  Methods that do not take a {@code Connection} parameter
+     * will retrieve connections from this {@code DataSource}.
+     *
+     * @param ds The {@code DataSource} to retrieve connections from.
+     * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
+     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
+     * and if it breaks, we'll remember not to use it again.
+     * @param stmtConfig The configuration to apply to statements when they are prepared.
+     */
+<span class="nc" id="L130">    public AbstractQueryRunner(final DataSource ds, final boolean pmdKnownBroken, final StatementConfiguration stmtConfig) {</span>
+<span class="nc" id="L131">        this.pmdKnownBroken = pmdKnownBroken;</span>
+<span class="nc" id="L132">        this.ds = ds;</span>
+<span class="nc" id="L133">        this.stmtConfig = stmtConfig;</span>
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * Constructor for QueryRunner that takes a {@code DataSource} to use and a {@code StatementConfiguration}.
+     *
+     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
+     * {@code DataSource}.
+     *
+     * @param ds The {@code DataSource} to retrieve connections from.
+     * @param stmtConfig The configuration to apply to statements when they are prepared.
+     */
+<span class="nc" id="L145">    public AbstractQueryRunner(final DataSource ds, final StatementConfiguration stmtConfig) {</span>
+<span class="nc" id="L146">        this.ds = ds;</span>
+<span class="nc" id="L147">        this.stmtConfig = stmtConfig;</span>
+<span class="nc" id="L148">    }</span>
+
+    /**
+     * Constructor for QueryRunner that takes a {@code StatementConfiguration} to configure statements when
+     * preparing them.
+     *
+     * @param stmtConfig The configuration to apply to statements when they are prepared.
+     */
+<span class="fc" id="L156">    public AbstractQueryRunner(final StatementConfiguration stmtConfig) {</span>
+<span class="fc" id="L157">        this.ds = null;</span>
+<span class="fc" id="L158">        this.stmtConfig = stmtConfig;</span>
+<span class="fc" id="L159">    }</span>
+
+    /**
+     * Close a {@code Connection}. This implementation avoids closing if
+     * null and does &lt;strong&gt;not&lt;/strong&gt; suppress any exceptions. Subclasses
+     * can override to provide special handling like logging.
+     *
+     * @param conn
+     *            Connection to close
+     * @throws SQLException
+     *             if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected void close(final Connection conn) throws SQLException {
+<span class="fc" id="L173">        DbUtils.close(conn);</span>
+<span class="fc" id="L174">    }</span>
+
+    /**
+     * Close a {@code ResultSet}. This implementation avoids closing if
+     * null and does &lt;strong&gt;not&lt;/strong&gt; suppress any exceptions. Subclasses
+     * can override to provide special handling like logging.
+     *
+     * @param rs
+     *            ResultSet to close
+     * @throws SQLException
+     *             if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected void close(final ResultSet rs) throws SQLException {
+<span class="fc" id="L188">        DbUtils.close(rs);</span>
+<span class="fc" id="L189">    }</span>
+
+    /**
+     * Close a {@code Statement}. This implementation avoids closing if
+     * null and does &lt;strong&gt;not&lt;/strong&gt; suppress any exceptions. Subclasses
+     * can override to provide special handling like logging.
+     *
+     * @param stmt
+     *            Statement to close
+     * @throws SQLException
+     *             if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected void close(final Statement stmt) throws SQLException {
+<span class="fc" id="L203">        DbUtils.close(stmt);</span>
+<span class="fc" id="L204">    }</span>
+
+    /**
+     * Calls {@link DbUtils#closeQuietly(Connection)}.
+     *
+     * @param conn Connection to close.
+     * @since 2.0
+     */
+    protected void closeQuietly(final Connection conn) {
+<span class="nc" id="L213">        DbUtils.closeQuietly(conn);</span>
+<span class="nc" id="L214">    }</span>
+
+    /**
+     * Calls {@link DbUtils#closeQuietly(ResultSet)}.
+     *
+     * @param rs ResultSet to close.
+     * @since 2.0
+     */
+    protected void closeQuietly(final ResultSet rs) {
+<span class="fc" id="L223">        DbUtils.closeQuietly(rs);</span>
+<span class="fc" id="L224">    }</span>
+
+    /**
+     * Calls {@link DbUtils#closeQuietly(Statement)}.
+     *
+     * @param statement ResultSet to close.
+     * @since 2.0
+     */
+    protected void closeQuietly(final Statement statement) {
+<span class="fc" id="L233">        DbUtils.closeQuietly(statement);</span>
+<span class="fc" id="L234">    }</span>
+
+    private void configureStatement(final Statement stmt) throws SQLException {
+
+<span class="fc bfc" id="L238" title="All 2 branches covered.">        if (stmtConfig != null) {</span>
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">            if (stmtConfig.isFetchDirectionSet()) {</span>
+<span class="fc" id="L240">                stmt.setFetchDirection(stmtConfig.getFetchDirection());</span>
+            }
+
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">            if (stmtConfig.isFetchSizeSet()) {</span>
+<span class="fc" id="L244">                stmt.setFetchSize(stmtConfig.getFetchSize());</span>
+            }
+
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">            if (stmtConfig.isMaxFieldSizeSet()) {</span>
+<span class="fc" id="L248">                stmt.setMaxFieldSize(stmtConfig.getMaxFieldSize());</span>
+            }
+
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">            if (stmtConfig.isMaxRowsSet()) {</span>
+<span class="fc" id="L252">                stmt.setMaxRows(stmtConfig.getMaxRows());</span>
+            }
+
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">            if (stmtConfig.isQueryTimeoutSet()) {</span>
+<span class="fc" id="L256">                stmt.setQueryTimeout(stmtConfig.getQueryTimeout());</span>
+            }
+        }
+<span class="fc" id="L259">    }</span>
+
+    /**
+     * Fill the {@code PreparedStatement} replacement parameters with the
+     * given objects.
+     *
+     * @param stmt
+     *            PreparedStatement to fill
+     * @param params
+     *            Query replacement parameters; {@code null} is a valid
+     *            value to pass in.
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    public void fillStatement(final PreparedStatement stmt, final Object... params)
+            throws SQLException {
+
+        // check the parameter count, if we can
+<span class="fc" id="L277">        ParameterMetaData pmd = null;</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">        if (!pmdKnownBroken) {</span>
+            try {
+<span class="fc" id="L280">                pmd = stmt.getParameterMetaData();</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">                if (pmd == null) { // can be returned by implementations that don't support the method</span>
+<span class="nc" id="L282">                    pmdKnownBroken = true;</span>
+                } else {
+<span class="fc" id="L284">                    final int stmtCount = pmd.getParameterCount();</span>
+<span class="pc bpc" id="L285" title="1 of 2 branches missed.">                    final int paramsCount = params == null ? 0 : params.length;</span>
+
+<span class="fc bfc" id="L287" title="All 2 branches covered.">                    if (stmtCount != paramsCount) {</span>
+<span class="fc" id="L288">                        throw new SQLException(&quot;Wrong number of parameters: expected &quot;</span>
+                                + stmtCount + &quot;, was given &quot; + paramsCount);
+                    }
+                }
+<span class="nc" id="L292">            } catch (final SQLFeatureNotSupportedException ex) {</span>
+<span class="nc" id="L293">                pmdKnownBroken = true;</span>
+<span class="fc" id="L294">            }</span>
+            // TODO see DBUTILS-117: would it make sense to catch any other SQLEx types here?
+        }
+
+        // nothing to do here
+<span class="pc bpc" id="L299" title="1 of 2 branches missed.">        if (params == null) {</span>
+<span class="nc" id="L300">            return;</span>
+        }
+
+<span class="fc" id="L303">        CallableStatement call = null;</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">        if (stmt instanceof CallableStatement) {</span>
+<span class="fc" id="L305">            call = (CallableStatement) stmt;</span>
+        }
+
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">            if (params[i] != null) {</span>
+<span class="fc bfc" id="L310" title="All 4 branches covered.">                if (call != null &amp;&amp; params[i] instanceof OutParameter) {</span>
+<span class="fc" id="L311">                    ((OutParameter)params[i]).register(call, i + 1);</span>
+                } else {
+<span class="fc" id="L313">                    stmt.setObject(i + 1, params[i]);</span>
+                }
+            } else {
+                // VARCHAR works with many drivers regardless
+                // of the actual column type. Oddly, NULL and
+                // OTHER don't work with Oracle's drivers.
+<span class="fc" id="L319">                int sqlType = Types.VARCHAR;</span>
+<span class="pc bpc" id="L320" title="1 of 2 branches missed.">                if (!pmdKnownBroken) {</span>
+                    // TODO see DBUTILS-117: does it make sense to catch SQLEx here?
+                    try {
+                        /*
+                         * It's not possible for pmdKnownBroken to change from
+                         * true to false, (once true, always true) so pmd cannot
+                         * be null here.
+                         */
+<span class="fc" id="L328">                        sqlType = pmd.getParameterType(i + 1);</span>
+<span class="nc" id="L329">                    } catch (final SQLException e) {</span>
+<span class="nc" id="L330">                        pmdKnownBroken = true;</span>
+<span class="fc" id="L331">                    }</span>
+                }
+<span class="fc" id="L333">                stmt.setNull(i + 1, sqlType);</span>
+            }
+        }
+<span class="fc" id="L336">    }</span>
+
+    /**
+     * Fill the {@code PreparedStatement} replacement parameters with the
+     * given object's bean property values.
+     *
+     * @param stmt
+     *            PreparedStatement to fill
+     * @param bean
+     *            a JavaBean object
+     * @param properties
+     *            an ordered array of properties; this gives the order to insert
+     *            values in the statement
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    public void fillStatementWithBean(final PreparedStatement stmt, final Object bean,
+            final PropertyDescriptor[] properties) throws SQLException {
+<span class="fc" id="L354">        final Object[] params = new Object[properties.length];</span>
+<span class="fc bfc" id="L355" title="All 2 branches covered.">        for (int i = 0; i &lt; properties.length; i++) {</span>
+<span class="fc" id="L356">            final PropertyDescriptor property = properties[i];</span>
+<span class="fc" id="L357">            Object value = null;</span>
+<span class="fc" id="L358">            final Method method = property.getReadMethod();</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">            if (method == null) {</span>
+<span class="nc" id="L360">                throw new RuntimeException(&quot;No read method for bean property &quot;</span>
+<span class="nc" id="L361">                        + bean.getClass() + &quot; &quot; + property.getName());</span>
+            }
+            try {
+<span class="fc" id="L364">                value = method.invoke(bean);</span>
+<span class="nc" id="L365">            } catch (final InvocationTargetException e) {</span>
+<span class="nc" id="L366">                throw new RuntimeException(&quot;Couldn't invoke method: &quot; + method,</span>
+                        e);
+<span class="nc" id="L368">            } catch (final IllegalArgumentException e) {</span>
+<span class="nc" id="L369">                throw new RuntimeException(</span>
+                        &quot;Couldn't invoke method with 0 arguments: &quot; + method, e);
+<span class="nc" id="L371">            } catch (final IllegalAccessException e) {</span>
+<span class="nc" id="L372">                throw new RuntimeException(&quot;Couldn't invoke method: &quot; + method,</span>
+                        e);
+<span class="fc" id="L374">            }</span>
+<span class="fc" id="L375">            params[i] = value;</span>
+        }
+<span class="fc" id="L377">        fillStatement(stmt, params);</span>
+<span class="fc" id="L378">    }</span>
+
+    /**
+     * Fill the {@code PreparedStatement} replacement parameters with the
+     * given object's bean property values.
+     *
+     * @param stmt
+     *            PreparedStatement to fill
+     * @param bean
+     *            A JavaBean object
+     * @param propertyNames
+     *            An ordered array of property names (these should match the
+     *            getters/setters); this gives the order to insert values in the
+     *            statement
+     * @throws SQLException
+     *             If a database access error occurs
+     */
+    public void fillStatementWithBean(final PreparedStatement stmt, final Object bean,
+            final String... propertyNames) throws SQLException {
+        PropertyDescriptor[] descriptors;
+        try {
+<span class="fc" id="L399">            descriptors = Introspector.getBeanInfo(bean.getClass())</span>
+<span class="fc" id="L400">                    .getPropertyDescriptors();</span>
+<span class="nc" id="L401">        } catch (final IntrospectionException e) {</span>
+<span class="nc" id="L402">            throw new RuntimeException(&quot;Couldn't introspect bean &quot;</span>
+<span class="nc" id="L403">                    + bean.getClass().toString(), e);</span>
+<span class="fc" id="L404">        }</span>
+<span class="fc" id="L405">        final PropertyDescriptor[] sorted = new PropertyDescriptor[propertyNames.length];</span>
+<span class="fc bfc" id="L406" title="All 2 branches covered.">        for (int i = 0; i &lt; propertyNames.length; i++) {</span>
+<span class="fc" id="L407">            final String propertyName = propertyNames[i];</span>
+<span class="fc bfc" id="L408" title="All 2 branches covered.">            if (propertyName == null) {</span>
+<span class="fc" id="L409">                throw new NullPointerException(&quot;propertyName can't be null: &quot;</span>
+                        + i);
+            }
+<span class="fc" id="L412">            boolean found = false;</span>
+<span class="pc bpc" id="L413" title="1 of 2 branches missed.">            for (final PropertyDescriptor descriptor : descriptors) {</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">                if (propertyName.equals(descriptor.getName())) {</span>
+<span class="fc" id="L415">                    sorted[i] = descriptor;</span>
+<span class="fc" id="L416">                    found = true;</span>
+<span class="fc" id="L417">                    break;</span>
+                }
+            }
+<span class="pc bpc" id="L420" title="1 of 2 branches missed.">            if (!found) {</span>
+<span class="nc" id="L421">                throw new RuntimeException(&quot;Couldn't find bean property: &quot;</span>
+<span class="nc" id="L422">                        + bean.getClass() + &quot; &quot; + propertyName);</span>
+            }
+        }
+<span class="fc" id="L425">        fillStatementWithBean(stmt, bean, sorted);</span>
+<span class="fc" id="L426">    }</span>
+
+    /**
+     * Returns the {@code DataSource} this runner is using.
+     * {@code QueryRunner} methods always call this method to get the
+     * {@code DataSource} so subclasses can provide specialized behavior.
+     *
+     * @return DataSource the runner is using
+     */
+    public DataSource getDataSource() {
+<span class="fc" id="L436">        return this.ds;</span>
+    }
+
+    /**
+     * Some drivers don't support
+     * {@link ParameterMetaData#getParameterType(int) }; if
+     * {@code pmdKnownBroken} is set to true, we won't even try it; if
+     * false, we'll try it, and if it breaks, we'll remember not to use it
+     * again.
+     *
+     * @return the flag to skip (or not)
+     *         {@link ParameterMetaData#getParameterType(int) }
+     * @since 1.4
+     */
+    public boolean isPmdKnownBroken() {
+<span class="nc" id="L451">        return pmdKnownBroken;</span>
+    }
+
+    /**
+     * Factory method that creates and initializes a
+     * {@code CallableStatement} object for the given SQL.
+     * {@code QueryRunner} methods always call this method to prepare
+     * callable statements for them. Subclasses can override this method to
+     * provide special CallableStatement configuration if needed. This
+     * implementation simply calls {@code conn.prepareCall(sql)}.
+     *
+     * @param conn
+     *            The {@code Connection} used to create the
+     *            {@code CallableStatement}
+     * @param sql
+     *            The SQL statement to prepare.
+     * @return An initialized {@code CallableStatement}.
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    protected CallableStatement prepareCall(final Connection conn, final String sql)
+            throws SQLException {
+
+<span class="fc" id="L474">        return conn.prepareCall(sql);</span>
+    }
+
+    /**
+     * Factory method that creates and initializes a {@code Connection}
+     * object. {@code QueryRunner} methods always call this method to
+     * retrieve connections from its DataSource. Subclasses can override this
+     * method to provide special {@code Connection} configuration if
+     * needed. This implementation simply calls {@code ds.getConnection()}.
+     *
+     * @return An initialized {@code Connection}.
+     * @throws SQLException
+     *             if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected Connection prepareConnection() throws SQLException {
+<span class="fc bfc" id="L490" title="All 2 branches covered.">        if (this.getDataSource() == null) {</span>
+<span class="fc" id="L491">            throw new SQLException(</span>
+                    &quot;QueryRunner requires a DataSource to be &quot;
+                            + &quot;invoked in this way, or a Connection should be passed in&quot;);
+        }
+<span class="fc" id="L495">        return this.getDataSource().getConnection();</span>
+    }
+
+    /**
+     * Factory method that creates and initializes a
+     * {@code PreparedStatement} object for the given SQL.
+     * {@code QueryRunner} methods always call this method to prepare
+     * statements for them. Subclasses can override this method to provide
+     * special PreparedStatement configuration if needed. This implementation
+     * simply calls {@code conn.prepareStatement(sql)}.
+     *
+     * @param conn
+     *            The {@code Connection} used to create the
+     *            {@code PreparedStatement}
+     * @param sql
+     *            The SQL statement to prepare.
+     * @return An initialized {@code PreparedStatement}.
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    protected PreparedStatement prepareStatement(final Connection conn, final String sql)
+            throws SQLException {
+
+        @SuppressWarnings(&quot;resource&quot;)
+        final
+<span class="fc" id="L520">        PreparedStatement ps = conn.prepareStatement(sql);</span>
+        try {
+<span class="fc" id="L522">            configureStatement(ps);</span>
+<span class="nc" id="L523">        } catch (final SQLException e) {</span>
+<span class="nc" id="L524">            ps.close();</span>
+<span class="nc" id="L525">            throw e;</span>
+<span class="fc" id="L526">        }</span>
+<span class="fc" id="L527">        return ps;</span>
+    }
+
+    /**
+     * Factory method that creates and initializes a
+     * {@code PreparedStatement} object for the given SQL.
+     * {@code QueryRunner} methods always call this method to prepare
+     * statements for them. Subclasses can override this method to provide
+     * special PreparedStatement configuration if needed. This implementation
+     * simply calls {@code conn.prepareStatement(sql, returnedKeys)}
+     * which will result in the ability to retrieve the automatically-generated
+     * keys from an auto_increment column.
+     *
+     * @param conn
+     *            The {@code Connection} used to create the
+     *            {@code PreparedStatement}
+     * @param sql
+     *            The SQL statement to prepare.
+     * @param returnedKeys
+     *            Flag indicating whether to return generated keys or not.
+     *
+     * @return An initialized {@code PreparedStatement}.
+     * @throws SQLException
+     *             if a database access error occurs
+     * @since 1.6
+     */
+    protected PreparedStatement prepareStatement(final Connection conn, final String sql, final int returnedKeys)
+            throws SQLException {
+
+        @SuppressWarnings(&quot;resource&quot;)
+        final
+<span class="fc" id="L558">        PreparedStatement ps = conn.prepareStatement(sql, returnedKeys);</span>
+        try {
+<span class="fc" id="L560">            configureStatement(ps);</span>
+<span class="nc" id="L561">        } catch (final SQLException e) {</span>
+<span class="nc" id="L562">            ps.close();</span>
+<span class="nc" id="L563">            throw e;</span>
+<span class="fc" id="L564">        }</span>
+<span class="fc" id="L565">        return ps;</span>
+    }
+
+    /**
+     * Throws a new exception with a more informative error message.
+     *
+     * @param cause
+     *            The original exception that will be chained to the new
+     *            exception when it's rethrown.
+     *
+     * @param sql
+     *            The query that was executing when the exception happened.
+     *
+     * @param params
+     *            The query replacement parameters; {@code null} is a valid
+     *            value to pass in.
+     *
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    protected void rethrow(final SQLException cause, final String sql, final Object... params)
+            throws SQLException {
+
+<span class="fc" id="L588">        String causeMessage = cause.getMessage();</span>
+<span class="fc bfc" id="L589" title="All 2 branches covered.">        if (causeMessage == null) {</span>
+<span class="fc" id="L590">            causeMessage = &quot;&quot;;</span>
+        }
+<span class="fc" id="L592">        final StringBuffer msg = new StringBuffer(causeMessage);</span>
+
+<span class="fc" id="L594">        msg.append(&quot; Query: &quot;);</span>
+<span class="fc" id="L595">        msg.append(sql);</span>
+<span class="fc" id="L596">        msg.append(&quot; Parameters: &quot;);</span>
+
+<span class="pc bpc" id="L598" title="1 of 2 branches missed.">        if (params == null) {</span>
+<span class="nc" id="L599">            msg.append(&quot;[]&quot;);</span>
+        } else {
+<span class="fc" id="L601">            msg.append(Arrays.deepToString(params));</span>
+        }
+
+<span class="fc" id="L604">        final SQLException e = new SQLException(msg.toString(), cause.getSQLState(),</span>
+<span class="fc" id="L605">                cause.getErrorCode());</span>
+<span class="fc" id="L606">        e.setNextException(cause);</span>
+
+<span class="fc" id="L608">        throw e;</span>
+    }
+
+    /**
+     * Wrap the {@code ResultSet} in a decorator before processing it. This
+     * implementation returns the {@code ResultSet} it is given without any
+     * decoration.
+     *
+     * &lt;p&gt;
+     * Often, the implementation of this method can be done in an anonymous
+     * inner class like this:
+     * &lt;/p&gt;
+     *
+     * &lt;pre&gt;
+     * QueryRunner run = new QueryRunner() {
+     *     protected ResultSet wrap(ResultSet rs) {
+     *         return StringTrimmedResultSet.wrap(rs);
+     *     }
+     * };
+     * &lt;/pre&gt;
+     *
+     * @param rs
+     *            The {@code ResultSet} to decorate; never
+     *            {@code null}.
+     * @return The {@code ResultSet} wrapped in some decorator.
+     */
+    protected ResultSet wrap(final ResultSet rs) {
+<span class="fc" id="L635">        return rs;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
