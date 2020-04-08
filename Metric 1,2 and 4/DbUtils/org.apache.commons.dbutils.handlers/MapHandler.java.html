@@ -24,8 +24,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.RowProcessor;
 
 /**
- * {@code ResultSetHandler} implementation that converts the first
- * {@code ResultSet} row into a {@code Map}. This class is thread
+ * &lt;code&gt;ResultSetHandler&lt;/code&gt; implementation that converts the first
+ * &lt;code&gt;ResultSet&lt;/code&gt; row into a &lt;code&gt;Map&lt;/code&gt;. This class is thread
  * safe.
  *
  * @see org.apache.commons.dbutils.ResultSetHandler
@@ -40,7 +40,7 @@ public class MapHandler implements ResultSetHandler&lt;Map&lt;String, Object&gt;
 
     /**
      * Creates a new instance of MapHandler using a
-     * {@code BasicRowProcessor} for conversion.
+     * &lt;code&gt;BasicRowProcessor&lt;/code&gt; for conversion.
      */
     public MapHandler() {
 <span class="fc" id="L46">        this(ArrayHandler.ROW_PROCESSOR);</span>
@@ -49,29 +49,29 @@ public class MapHandler implements ResultSetHandler&lt;Map&lt;String, Object&gt;
     /**
      * Creates a new instance of MapHandler.
      *
-     * @param convert The {@code RowProcessor} implementation
+     * @param convert The &lt;code&gt;RowProcessor&lt;/code&gt; implementation
      * to use when converting rows into Maps.
      */
-    public MapHandler(final RowProcessor convert) {
+    public MapHandler(RowProcessor convert) {
 <span class="fc" id="L56">        super();</span>
 <span class="fc" id="L57">        this.convert = convert;</span>
 <span class="fc" id="L58">    }</span>
 
     /**
-     * Converts the first row in the {@code ResultSet} into a
-     * {@code Map}.
-     * @param rs {@code ResultSet} to process.
-     * @return A {@code Map} with the values from the first row or
-     * {@code null} if there are no rows in the {@code ResultSet}.
+     * Converts the first row in the &lt;code&gt;ResultSet&lt;/code&gt; into a
+     * &lt;code&gt;Map&lt;/code&gt;.
+     * @param rs &lt;code&gt;ResultSet&lt;/code&gt; to process.
+     * @return A &lt;code&gt;Map&lt;/code&gt; with the values from the first row or
+     * &lt;code&gt;null&lt;/code&gt; if there are no rows in the &lt;code&gt;ResultSet&lt;/code&gt;.
      *
      * @throws SQLException if a database access error occurs
      *
      * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
      */
     @Override
-    public Map&lt;String, Object&gt; handle(final ResultSet rs) throws SQLException {
+    public Map&lt;String, Object&gt; handle(ResultSet rs) throws SQLException {
 <span class="fc bfc" id="L73" title="All 2 branches covered.">        return rs.next() ? this.convert.toMap(rs) : null;</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

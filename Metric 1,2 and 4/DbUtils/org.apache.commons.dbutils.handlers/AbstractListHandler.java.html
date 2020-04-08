@@ -24,26 +24,26 @@ import java.util.List;
 import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
- * Abstract class that simplify development of {@code ResultSetHandler}
- * classes that convert {@code ResultSet} into {@code List}.
+ * Abstract class that simplify development of &lt;code&gt;ResultSetHandler&lt;/code&gt;
+ * classes that convert &lt;code&gt;ResultSet&lt;/code&gt; into &lt;code&gt;List&lt;/code&gt;.
  *
  * @param &lt;T&gt; the target List generic type
  * @see org.apache.commons.dbutils.ResultSetHandler
  */
 <span class="fc" id="L33">public abstract class AbstractListHandler&lt;T&gt; implements ResultSetHandler&lt;List&lt;T&gt;&gt; {</span>
     /**
-     * Whole {@code ResultSet} handler. It produce {@code List} as
+     * Whole &lt;code&gt;ResultSet&lt;/code&gt; handler. It produce &lt;code&gt;List&lt;/code&gt; as
      * result. To convert individual rows into Java objects it uses
-     * {@code handleRow(ResultSet)} method.
+     * &lt;code&gt;handleRow(ResultSet)&lt;/code&gt; method.
      *
      * @see #handleRow(ResultSet)
-     * @param rs {@code ResultSet} to process.
+     * @param rs &lt;code&gt;ResultSet&lt;/code&gt; to process.
      * @return a list of all rows in the result set
      * @throws SQLException error occurs
      */
     @Override
-    public List&lt;T&gt; handle(final ResultSet rs) throws SQLException {
-<span class="fc" id="L46">        final List&lt;T&gt; rows = new ArrayList&lt;&gt;();</span>
+    public List&lt;T&gt; handle(ResultSet rs) throws SQLException {
+<span class="fc" id="L46">        List&lt;T&gt; rows = new ArrayList&lt;T&gt;();</span>
 <span class="fc bfc" id="L47" title="All 2 branches covered.">        while (rs.next()) {</span>
 <span class="fc" id="L48">            rows.add(this.handleRow(rs));</span>
         }
@@ -53,10 +53,10 @@ import org.apache.commons.dbutils.ResultSetHandler;
     /**
      * Row handler. Method converts current row into some Java object.
      *
-     * @param rs {@code ResultSet} to process.
+     * @param rs &lt;code&gt;ResultSet&lt;/code&gt; to process.
      * @return row processing result
      * @throws SQLException error occurs
      */
     protected abstract T handleRow(ResultSet rs) throws SQLException;
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

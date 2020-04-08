@@ -23,8 +23,8 @@ import java.util.Map;
 import org.apache.commons.dbutils.RowProcessor;
 
 /**
- * {@code ResultSetHandler} implementation that converts a
- * {@code ResultSet} into a {@code List} of {@code Map}s.
+ * &lt;code&gt;ResultSetHandler&lt;/code&gt; implementation that converts a
+ * &lt;code&gt;ResultSet&lt;/code&gt; into a &lt;code&gt;List&lt;/code&gt; of &lt;code&gt;Map&lt;/code&gt;s.
  * This class is thread safe.
  *
  * @see org.apache.commons.dbutils.ResultSetHandler
@@ -39,7 +39,7 @@ public class MapListHandler extends AbstractListHandler&lt;Map&lt;String, Object
 
     /**
      * Creates a new instance of MapListHandler using a
-     * {@code BasicRowProcessor} for conversion.
+     * &lt;code&gt;BasicRowProcessor&lt;/code&gt; for conversion.
      */
     public MapListHandler() {
 <span class="fc" id="L45">        this(ArrayHandler.ROW_PROCESSOR);</span>
@@ -48,27 +48,27 @@ public class MapListHandler extends AbstractListHandler&lt;Map&lt;String, Object
     /**
      * Creates a new instance of MapListHandler.
      *
-     * @param convert The {@code RowProcessor} implementation
+     * @param convert The &lt;code&gt;RowProcessor&lt;/code&gt; implementation
      * to use when converting rows into Maps.
      */
-    public MapListHandler(final RowProcessor convert) {
+    public MapListHandler(RowProcessor convert) {
 <span class="fc" id="L55">        super();</span>
 <span class="fc" id="L56">        this.convert = convert;</span>
 <span class="fc" id="L57">    }</span>
 
     /**
-     * Converts the {@code ResultSet} row into a {@code Map} object.
-     * @param rs {@code ResultSet} to process.
-     * @return A {@code Map}, never null.
+     * Converts the &lt;code&gt;ResultSet&lt;/code&gt; row into a &lt;code&gt;Map&lt;/code&gt; object.
+     * @param rs &lt;code&gt;ResultSet&lt;/code&gt; to process.
+     * @return A &lt;code&gt;Map&lt;/code&gt;, never null.
      *
      * @throws SQLException if a database access error occurs
      *
      * @see org.apache.commons.dbutils.handlers.AbstractListHandler#handle(ResultSet)
      */
     @Override
-    protected Map&lt;String, Object&gt; handleRow(final ResultSet rs) throws SQLException {
+    protected Map&lt;String, Object&gt; handleRow(ResultSet rs) throws SQLException {
 <span class="fc" id="L70">        return this.convert.toMap(rs);</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

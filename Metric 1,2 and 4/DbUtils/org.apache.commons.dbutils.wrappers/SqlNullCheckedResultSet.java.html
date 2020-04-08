@@ -35,11 +35,11 @@ import java.util.Map;
 import org.apache.commons.dbutils.ProxyFactory;
 
 /**
- * Decorates a {@code ResultSet} with checks for a SQL NULL value on each
- * {@code getXXX} method. If a column value obtained by a
- * {@code getXXX} method is not SQL NULL, the column value is returned. If
+ * Decorates a &lt;code&gt;ResultSet&lt;/code&gt; with checks for a SQL NULL value on each
+ * &lt;code&gt;getXXX&lt;/code&gt; method. If a column value obtained by a
+ * &lt;code&gt;getXXX&lt;/code&gt; method is not SQL NULL, the column value is returned. If
  * the column value is SQL null, an alternate value is returned. The alternate
- * value defaults to the Java {@code null} value, which can be overridden
+ * value defaults to the Java &lt;code&gt;null&lt;/code&gt; value, which can be overridden
  * for instances of the class.
  *
  * &lt;p&gt;
@@ -74,7 +74,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
      * Maps normal method names (ie. &quot;getBigDecimal&quot;) to the corresponding null
      * Method object (ie. getNullBigDecimal).
      */
-<span class="fc" id="L77">    private static final Map&lt;String, Method&gt; nullMethods = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L77">    private static final Map&lt;String, Method&gt; nullMethods = new HashMap&lt;String, Method&gt;();</span>
 
     /**
      * The {@code getNull} string prefix.
@@ -83,13 +83,13 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
     private static final String GET_NULL_PREFIX = &quot;getNull&quot;;
 
     static {
-<span class="fc" id="L86">        final Method[] methods = SqlNullCheckedResultSet.class.getMethods();</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (Method method : methods) {</span>
-<span class="fc" id="L88">            final String methodName = method.getName();</span>
+<span class="fc" id="L86">        Method[] methods = SqlNullCheckedResultSet.class.getMethods();</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        for (int i = 0; i &lt; methods.length; i++) {</span>
+<span class="fc" id="L88">            String methodName = methods[i].getName();</span>
 
 <span class="fc bfc" id="L90" title="All 2 branches covered.">            if (methodName.startsWith(GET_NULL_PREFIX)) {</span>
-<span class="fc" id="L91">                final String normalName = &quot;get&quot; + methodName.substring(GET_NULL_PREFIX.length());</span>
-<span class="fc" id="L92">                nullMethods.put(normalName, method);</span>
+<span class="fc" id="L91">                String normalName = &quot;get&quot; + methodName.substring(GET_NULL_PREFIX.length());</span>
+<span class="fc" id="L92">                nullMethods.put(normalName, methods[i]);</span>
             }
         }
     }
@@ -100,17 +100,17 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 <span class="fc" id="L100">    private static final ProxyFactory factory = ProxyFactory.instance();</span>
 
     /**
-     * Wraps the {@code ResultSet} in an instance of this class.  This is
+     * Wraps the &lt;code&gt;ResultSet&lt;/code&gt; in an instance of this class.  This is
      * equivalent to:
      * &lt;pre&gt;
      * ProxyFactory.instance().createResultSet(new SqlNullCheckedResultSet(rs));
      * &lt;/pre&gt;
      *
-     * @param rs The {@code ResultSet} to wrap.
+     * @param rs The &lt;code&gt;ResultSet&lt;/code&gt; to wrap.
      * @return wrapped ResultSet
      */
-    public static ResultSet wrap(final ResultSet rs) {
-<span class="fc" id="L113">        return factory.createResultSet(new SqlNullCheckedResultSet(rs));</span>
+    public static ResultSet wrap(ResultSet rs) {
+<span class="nc" id="L113">        return factory.createResultSet(new SqlNullCheckedResultSet(rs));</span>
     }
 
 <span class="fc" id="L116">    private InputStream nullAsciiStream = null;</span>
@@ -142,18 +142,18 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Constructs a new instance of
-     * {@code SqlNullCheckedResultSet}
-     * to wrap the specified {@code ResultSet}.
+     * &lt;code&gt;SqlNullCheckedResultSet&lt;/code&gt;
+     * to wrap the specified &lt;code&gt;ResultSet&lt;/code&gt;.
      * @param rs ResultSet to wrap
      */
-    public SqlNullCheckedResultSet(final ResultSet rs) {
+    public SqlNullCheckedResultSet(ResultSet rs) {
 <span class="fc" id="L150">        super();</span>
 <span class="fc" id="L151">        this.rs = rs;</span>
 <span class="fc" id="L152">    }</span>
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getAsciiStream} method.
+     * invoking a &lt;code&gt;getAsciiStream&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -163,7 +163,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getBigDecimal} method.
+     * invoking a &lt;code&gt;getBigDecimal&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -173,7 +173,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getBinaryStream} method.
+     * invoking a &lt;code&gt;getBinaryStream&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -183,7 +183,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getBlob} method.
+     * invoking a &lt;code&gt;getBlob&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -193,7 +193,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getBoolean} method.
+     * invoking a &lt;code&gt;getBoolean&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -203,7 +203,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getByte} method.
+     * invoking a &lt;code&gt;getByte&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -213,7 +213,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getBytes} method.
+     * invoking a &lt;code&gt;getBytes&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -221,14 +221,14 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 <span class="fc bfc" id="L221" title="All 2 branches covered.">        if (this.nullBytes == null) {</span>
 <span class="fc" id="L222">            return null;</span>
         }
-<span class="fc" id="L224">        final byte[] copy = new byte[this.nullBytes.length];</span>
+<span class="fc" id="L224">        byte[] copy = new byte[this.nullBytes.length];</span>
 <span class="fc" id="L225">        System.arraycopy(this.nullBytes, 0, copy, 0, this.nullBytes.length);</span>
 <span class="fc" id="L226">        return copy;</span>
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getCharacterStream} method.
+     * invoking a &lt;code&gt;getCharacterStream&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -238,7 +238,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getClob} method.
+     * invoking a &lt;code&gt;getClob&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -248,7 +248,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getDate} method.
+     * invoking a &lt;code&gt;getDate&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -258,7 +258,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getDouble} method.
+     * invoking a &lt;code&gt;getDouble&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -268,7 +268,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getFloat} method.
+     * invoking a &lt;code&gt;getFloat&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -278,7 +278,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getInt} method.
+     * invoking a &lt;code&gt;getInt&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -288,7 +288,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getLong} method.
+     * invoking a &lt;code&gt;getLong&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -298,7 +298,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getObject} method.
+     * invoking a &lt;code&gt;getObject&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -308,7 +308,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getRef} method.
+     * invoking a &lt;code&gt;getRef&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -318,7 +318,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getShort} method.
+     * invoking a &lt;code&gt;getShort&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -328,7 +328,7 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getString} method.
+     * invoking a &lt;code&gt;getString&lt;/code&gt; method.
      *
      * @return the value
      */
@@ -338,44 +338,38 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getTime} method.
+     * invoking a &lt;code&gt;getTime&lt;/code&gt; method.
      *
      * @return the value
      */
     public Time getNullTime() {
-<span class="fc bfc" id="L346" title="All 2 branches covered.">        return this.nullTime != null ? new Time(this.nullTime.getTime()) : null;</span>
+<span class="fc" id="L346">        return this.nullTime;</span>
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getTimestamp} method.
+     * invoking a &lt;code&gt;getTimestamp&lt;/code&gt; method.
      *
      * @return the value
      */
     public Timestamp getNullTimestamp() {
-<span class="fc bfc" id="L356" title="All 2 branches covered.">        if (this.nullTimestamp == null) {</span>
-<span class="fc" id="L357">            return null;</span>
-        }
-
-<span class="fc" id="L360">        Timestamp ts = new Timestamp(this.nullTimestamp.getTime());</span>
-<span class="fc" id="L361">        ts.setNanos(this.nullTimestamp.getNanos());</span>
-<span class="fc" id="L362">        return ts;</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">        return this.nullTimestamp != null ? new Timestamp(this.nullTimestamp.getTime()) : null;</span>
     }
 
     /**
      * Returns the value when a SQL null is encountered as the result of
-     * invoking a {@code getURL} method.
+     * invoking a &lt;code&gt;getURL&lt;/code&gt; method.
      *
      * @return the value
      */
     public URL getNullURL() {
-<span class="fc" id="L372">        return this.nullURL;</span>
+<span class="fc" id="L366">        return this.nullURL;</span>
     }
 
     /**
-     * Intercepts calls to {@code get*} methods and calls the appropriate
-     * {@code getNull*} method if the {@code ResultSet} returned
-     * {@code null}.
+     * Intercepts calls to &lt;code&gt;get*&lt;/code&gt; methods and calls the appropriate
+     * &lt;code&gt;getNull*&lt;/code&gt; method if the &lt;code&gt;ResultSet&lt;/code&gt; returned
+     * &lt;code&gt;null&lt;/code&gt;.
      *
      *  @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      * @param proxy Not used; all method calls go to the internal result set
@@ -385,240 +379,231 @@ public class SqlNullCheckedResultSet implements InvocationHandler {
      * @throws Throwable error
      */
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args)
+    public Object invoke(Object proxy, Method method, Object[] args)
         throws Throwable {
 
-<span class="fc" id="L391">        final Object result = method.invoke(this.rs, args);</span>
+<span class="fc" id="L385">        Object result = method.invoke(this.rs, args);</span>
 
-<span class="fc" id="L393">        final Method nullMethod = nullMethods.get(method.getName());</span>
+<span class="fc" id="L387">        Method nullMethod = nullMethods.get(method.getName());</span>
 
         // Check nullMethod != null first so that we don't call wasNull()
         // before a true getter method was invoked on the ResultSet.
-<span class="pc bpc" id="L397" title="1 of 4 branches missed.">        return (nullMethod != null &amp;&amp; this.rs.wasNull())</span>
-<span class="fc" id="L398">            ? nullMethod.invoke(this, (Object[]) null)</span>
-<span class="fc" id="L399">            : result;</span>
+<span class="pc bpc" id="L391" title="1 of 4 branches missed.">        return (nullMethod != null &amp;&amp; this.rs.wasNull())</span>
+<span class="fc" id="L392">            ? nullMethod.invoke(this, (Object[]) null)</span>
+<span class="fc" id="L393">            : result;</span>
     }
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getAsciiStream} method.
+     * invoking a &lt;code&gt;getAsciiStream&lt;/code&gt; method.
      *
      * @param nullAsciiStream the value
      */
-    public void setNullAsciiStream(final InputStream nullAsciiStream) {
-<span class="fc" id="L409">        this.nullAsciiStream = nullAsciiStream;</span>
-<span class="fc" id="L410">    }</span>
+    public void setNullAsciiStream(InputStream nullAsciiStream) {
+<span class="fc" id="L403">        this.nullAsciiStream = nullAsciiStream;</span>
+<span class="fc" id="L404">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getBigDecimal} method.
+     * invoking a &lt;code&gt;getBigDecimal&lt;/code&gt; method.
      *
      * @param nullBigDecimal the value
      */
-    public void setNullBigDecimal(final BigDecimal nullBigDecimal) {
-<span class="fc" id="L419">        this.nullBigDecimal = nullBigDecimal;</span>
-<span class="fc" id="L420">    }</span>
+    public void setNullBigDecimal(BigDecimal nullBigDecimal) {
+<span class="fc" id="L413">        this.nullBigDecimal = nullBigDecimal;</span>
+<span class="fc" id="L414">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getBinaryStream} method.
+     * invoking a &lt;code&gt;getBinaryStream&lt;/code&gt; method.
      *
      * @param nullBinaryStream the value
      */
-    public void setNullBinaryStream(final InputStream nullBinaryStream) {
-<span class="fc" id="L429">        this.nullBinaryStream = nullBinaryStream;</span>
-<span class="fc" id="L430">    }</span>
+    public void setNullBinaryStream(InputStream nullBinaryStream) {
+<span class="fc" id="L423">        this.nullBinaryStream = nullBinaryStream;</span>
+<span class="fc" id="L424">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getBlob} method.
+     * invoking a &lt;code&gt;getBlob&lt;/code&gt; method.
      *
      * @param nullBlob the value
      */
-    public void setNullBlob(final Blob nullBlob) {
-<span class="fc" id="L439">        this.nullBlob = nullBlob;</span>
-<span class="fc" id="L440">    }</span>
+    public void setNullBlob(Blob nullBlob) {
+<span class="fc" id="L433">        this.nullBlob = nullBlob;</span>
+<span class="fc" id="L434">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getBoolean} method.
+     * invoking a &lt;code&gt;getBoolean&lt;/code&gt; method.
      *
      * @param nullBoolean the value
      */
-    public void setNullBoolean(final boolean nullBoolean) {
-<span class="fc" id="L449">        this.nullBoolean = nullBoolean;</span>
-<span class="fc" id="L450">    }</span>
+    public void setNullBoolean(boolean nullBoolean) {
+<span class="fc" id="L443">        this.nullBoolean = nullBoolean;</span>
+<span class="fc" id="L444">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getByte} method.
+     * invoking a &lt;code&gt;getByte&lt;/code&gt; method.
      *
      * @param nullByte the value
      */
-    public void setNullByte(final byte nullByte) {
-<span class="fc" id="L459">        this.nullByte = nullByte;</span>
-<span class="fc" id="L460">    }</span>
+    public void setNullByte(byte nullByte) {
+<span class="fc" id="L453">        this.nullByte = nullByte;</span>
+<span class="fc" id="L454">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getBytes} method.
+     * invoking a &lt;code&gt;getBytes&lt;/code&gt; method.
      *
      * @param nullBytes the value
      */
-    public void setNullBytes(final byte[] nullBytes) {
-<span class="fc bfc" id="L469" title="All 2 branches covered.">        if (nullBytes != null) {</span>
-<span class="fc" id="L470">            final byte[] copy = new byte[nullBytes.length];</span>
-<span class="fc" id="L471">            System.arraycopy(nullBytes, 0, copy, 0, nullBytes.length);</span>
-<span class="fc" id="L472">            this.nullBytes = copy;</span>
-<span class="fc" id="L473">        } else {</span>
-<span class="fc" id="L474">            this.nullBytes = null;</span>
-        }
+    public void setNullBytes(byte[] nullBytes) {
+<span class="fc" id="L463">        byte[] copy = new byte[nullBytes.length];</span>
+<span class="fc" id="L464">        System.arraycopy(nullBytes, 0, copy, 0, nullBytes.length);</span>
+<span class="fc" id="L465">        this.nullBytes = copy;</span>
+<span class="fc" id="L466">    }</span>
+
+    /**
+     * Sets the value to return when a SQL null is encountered as the result of
+     * invoking a &lt;code&gt;getCharacterStream&lt;/code&gt; method.
+     *
+     * @param nullCharacterStream the value
+     */
+    public void setNullCharacterStream(Reader nullCharacterStream) {
+<span class="fc" id="L475">        this.nullCharacterStream = nullCharacterStream;</span>
 <span class="fc" id="L476">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getCharacterStream} method.
+     * invoking a &lt;code&gt;getClob&lt;/code&gt; method.
      *
-     * @param nullCharacterStream the value
+     * @param nullClob the value
      */
-    public void setNullCharacterStream(final Reader nullCharacterStream) {
-<span class="fc" id="L485">        this.nullCharacterStream = nullCharacterStream;</span>
+    public void setNullClob(Clob nullClob) {
+<span class="fc" id="L485">        this.nullClob = nullClob;</span>
 <span class="fc" id="L486">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getClob} method.
+     * invoking a &lt;code&gt;getDate&lt;/code&gt; method.
      *
-     * @param nullClob the value
+     * @param nullDate the value
      */
-    public void setNullClob(final Clob nullClob) {
-<span class="fc" id="L495">        this.nullClob = nullClob;</span>
+    public void setNullDate(Date nullDate) {
+<span class="pc bpc" id="L495" title="1 of 2 branches missed.">        this.nullDate = nullDate != null ? new Date(nullDate.getTime()) : null;</span>
 <span class="fc" id="L496">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getDate} method.
+     * invoking a &lt;code&gt;getDouble&lt;/code&gt; method.
      *
-     * @param nullDate the value
+     * @param nullDouble the value
      */
-    public void setNullDate(final Date nullDate) {
-<span class="fc bfc" id="L505" title="All 2 branches covered.">        this.nullDate = nullDate != null ? new Date(nullDate.getTime()) : null;</span>
+    public void setNullDouble(double nullDouble) {
+<span class="fc" id="L505">        this.nullDouble = nullDouble;</span>
 <span class="fc" id="L506">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getDouble} method.
+     * invoking a &lt;code&gt;getFloat&lt;/code&gt; method.
      *
-     * @param nullDouble the value
+     * @param nullFloat the value
      */
-    public void setNullDouble(final double nullDouble) {
-<span class="fc" id="L515">        this.nullDouble = nullDouble;</span>
+    public void setNullFloat(float nullFloat) {
+<span class="fc" id="L515">        this.nullFloat = nullFloat;</span>
 <span class="fc" id="L516">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getFloat} method.
+     * invoking a &lt;code&gt;getInt&lt;/code&gt; method.
      *
-     * @param nullFloat the value
+     * @param nullInt the value
      */
-    public void setNullFloat(final float nullFloat) {
-<span class="fc" id="L525">        this.nullFloat = nullFloat;</span>
+    public void setNullInt(int nullInt) {
+<span class="fc" id="L525">        this.nullInt = nullInt;</span>
 <span class="fc" id="L526">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getInt} method.
+     * invoking a &lt;code&gt;getLong&lt;/code&gt; method.
      *
-     * @param nullInt the value
+     * @param nullLong the value
      */
-    public void setNullInt(final int nullInt) {
-<span class="fc" id="L535">        this.nullInt = nullInt;</span>
+    public void setNullLong(long nullLong) {
+<span class="fc" id="L535">        this.nullLong = nullLong;</span>
 <span class="fc" id="L536">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getLong} method.
+     * invoking a &lt;code&gt;getObject&lt;/code&gt; method.
      *
-     * @param nullLong the value
+     * @param nullObject the value
      */
-    public void setNullLong(final long nullLong) {
-<span class="fc" id="L545">        this.nullLong = nullLong;</span>
+    public void setNullObject(Object nullObject) {
+<span class="fc" id="L545">        this.nullObject = nullObject;</span>
 <span class="fc" id="L546">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getObject} method.
+     * invoking a &lt;code&gt;getRef&lt;/code&gt; method.
      *
-     * @param nullObject the value
+     * @param nullRef the value
      */
-    public void setNullObject(final Object nullObject) {
-<span class="fc" id="L555">        this.nullObject = nullObject;</span>
+    public void setNullRef(Ref nullRef) {
+<span class="fc" id="L555">        this.nullRef = nullRef;</span>
 <span class="fc" id="L556">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getRef} method.
+     * invoking a &lt;code&gt;getShort&lt;/code&gt; method.
      *
-     * @param nullRef the value
+     * @param nullShort the value
      */
-    public void setNullRef(final Ref nullRef) {
-<span class="fc" id="L565">        this.nullRef = nullRef;</span>
+    public void setNullShort(short nullShort) {
+<span class="fc" id="L565">        this.nullShort = nullShort;</span>
 <span class="fc" id="L566">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getShort} method.
+     * invoking a &lt;code&gt;getString&lt;/code&gt; method.
      *
-     * @param nullShort the value
+     * @param nullString the value
      */
-    public void setNullShort(final short nullShort) {
-<span class="fc" id="L575">        this.nullShort = nullShort;</span>
+    public void setNullString(String nullString) {
+<span class="fc" id="L575">        this.nullString = nullString;</span>
 <span class="fc" id="L576">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getString} method.
+     * invoking a &lt;code&gt;getTime&lt;/code&gt; method.
      *
-     * @param nullString the value
+     * @param nullTime the value
      */
-    public void setNullString(final String nullString) {
-<span class="fc" id="L585">        this.nullString = nullString;</span>
+    public void setNullTime(Time nullTime) {
+<span class="fc" id="L585">        this.nullTime = nullTime;</span>
 <span class="fc" id="L586">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getTime} method.
+     * invoking a &lt;code&gt;getTimestamp&lt;/code&gt; method.
      *
-     * @param nullTime the value
+     * @param nullTimestamp the value
      */
-    public void setNullTime(final Time nullTime) {
-<span class="fc bfc" id="L595" title="All 2 branches covered.">        this.nullTime = nullTime != null ? new Time(nullTime.getTime()) : null;</span>
+    public void setNullTimestamp(Timestamp nullTimestamp) {
+<span class="pc bpc" id="L595" title="1 of 2 branches missed.">        this.nullTimestamp = nullTimestamp != null ? new Timestamp(nullTimestamp.getTime()) : null;</span>
 <span class="fc" id="L596">    }</span>
 
     /**
      * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getTimestamp} method.
-     *
-     * @param nullTimestamp the value
-     */
-    public void setNullTimestamp(final Timestamp nullTimestamp) {
-<span class="fc bfc" id="L605" title="All 2 branches covered.">        if (nullTimestamp != null) {</span>
-<span class="fc" id="L606">            this.nullTimestamp = new Timestamp(nullTimestamp.getTime());</span>
-<span class="fc" id="L607">            this.nullTimestamp.setNanos(nullTimestamp.getNanos());</span>
-        } else {
-<span class="fc" id="L609">            this.nullTimestamp = null;</span>
-        }
-<span class="fc" id="L611">    }</span>
-
-    /**
-     * Sets the value to return when a SQL null is encountered as the result of
-     * invoking a {@code getURL} method.
+     * invoking a &lt;code&gt;getURL&lt;/code&gt; method.
      *
      * @param nullURL the value
      */
-    public void setNullURL(final URL nullURL) {
-<span class="fc" id="L620">        this.nullURL = nullURL;</span>
-<span class="fc" id="L621">    }</span>
+    public void setNullURL(URL nullURL) {
+<span class="fc" id="L605">        this.nullURL = nullURL;</span>
+<span class="fc" id="L606">    }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

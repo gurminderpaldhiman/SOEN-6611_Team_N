@@ -16,52 +16,46 @@
  */
 package org.apache.commons.dbutils.handlers.properties;
 
+import java.sql.Timestamp;
+
 import org.apache.commons.dbutils.PropertyHandler;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
-/**
- * {@link PropertyHandler} for date fields. Will convert {@link java.sql.Date}, {@link java.sql.Time}, and
- * {@link java.sql.Timestamp} from SQL types to java types.
- */
-<span class="fc" id="L28">public class DatePropertyHandler implements PropertyHandler {</span>
+<span class="fc" id="L23">public class DatePropertyHandler implements PropertyHandler {</span>
     @Override
-    public boolean match(final Class&lt;?&gt; parameter, final Object value) {
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (value instanceof Date) {</span>
-<span class="fc" id="L32">            final String targetType = parameter.getName();</span>
-<span class="fc bfc" id="L33" title="All 2 branches covered.">            if (&quot;java.sql.Date&quot;.equals(targetType)) {</span>
-<span class="fc" id="L34">                return true;</span>
+    public boolean match(Class&lt;?&gt; parameter, Object value) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (value instanceof java.util.Date) {</span>
+<span class="fc" id="L27">            final String targetType = parameter.getName();</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            if (&quot;java.sql.Date&quot;.equals(targetType)) {</span>
+<span class="fc" id="L29">                return true;</span>
             } else
-<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (&quot;java.sql.Time&quot;.equals(targetType)) {</span>
-<span class="fc" id="L37">                return true;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            if (&quot;java.sql.Time&quot;.equals(targetType)) {</span>
+<span class="fc" id="L32">                return true;</span>
             } else
-<span class="fc bfc" id="L39" title="All 2 branches covered.">            if (&quot;java.sql.Timestamp&quot;.equals(targetType)</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">                    &amp;&amp; !Timestamp.class.isInstance(value)) {</span>
-<span class="fc" id="L41">                return true;</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            if (&quot;java.sql.Timestamp&quot;.equals(targetType)) {</span>
+<span class="fc" id="L35">                return true;</span>
             }
         }
 
-<span class="fc" id="L45">        return false;</span>
+<span class="fc" id="L39">        return false;</span>
     }
 
     @Override
-    public Object apply(final Class&lt;?&gt; parameter, Object value) {
-<span class="fc" id="L50">        final String targetType = parameter.getName();</span>
-<span class="fc" id="L51">        final Date dateValue = (Date) value;</span>
-<span class="fc" id="L52">        final long time = dateValue.getTime();</span>
-
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (&quot;java.sql.Date&quot;.equals(targetType)) {</span>
-<span class="fc" id="L55">            value = new java.sql.Date(time);</span>
+    public Object apply(Class&lt;?&gt; parameter, Object value) {
+<span class="fc" id="L44">        final String targetType = parameter.getName();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (&quot;java.sql.Date&quot;.equals(targetType)) {</span>
+<span class="fc" id="L46">            value = new java.sql.Date(((java.util.Date) value).getTime());</span>
         } else
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (&quot;java.sql.Time&quot;.equals(targetType)) {</span>
-<span class="fc" id="L58">            value = new java.sql.Time(time);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (&quot;java.sql.Time&quot;.equals(targetType)) {</span>
+<span class="fc" id="L49">            value = new java.sql.Time(((java.util.Date) value).getTime());</span>
         } else
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (&quot;java.sql.Timestamp&quot;.equals(targetType)) {</span>
-<span class="fc" id="L61">            value = new Timestamp(time);</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (&quot;java.sql.Timestamp&quot;.equals(targetType)) {</span>
+<span class="fc" id="L52">            Timestamp tsValue = (Timestamp) value;</span>
+<span class="fc" id="L53">            int nanos = tsValue.getNanos();</span>
+<span class="fc" id="L54">            value = new java.sql.Timestamp(tsValue.getTime());</span>
+<span class="fc" id="L55">            ((Timestamp) value).setNanos(nanos);</span>
         }
 
-<span class="fc" id="L64">        return value;</span>
+<span class="fc" id="L58">        return value;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

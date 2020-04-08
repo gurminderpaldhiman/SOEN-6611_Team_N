@@ -41,10 +41,10 @@ import java.util.Map;
 /**
  * Extensions of this class convert ResultSets into other objects.
  *
- * According to the &lt;i&gt;DRY&lt;/i&gt; principle (Don't Repeat Yourself), repeating {@code resultSet}
+ * According to the &lt;i&gt;DRY&lt;/i&gt; principle (Don't Repeat Yourself), repeating &lt;code&gt;resultSet&lt;/code&gt;
  * variable inside the {@link ResultSetHandler#handle(ResultSet)} over and over for each iteration
- * can get a little tedious, {@code AbstractResultSetHandler} implicitly gives users access to
- * {@code ResultSet}'s methods.
+ * can get a little tedious, &lt;code&gt;AbstractResultSetHandler&lt;/code&gt; implicitly gives users access to
+ * &lt;code&gt;ResultSet&lt;/code&gt;'s methods.
  *
  * &lt;b&gt;NOTE&lt;/b&gt; This class is &lt;i&gt;NOT&lt;/i&gt; thread safe!
  *
@@ -62,7 +62,7 @@ import java.util.Map;
      * {@inheritDoc}
      */
     @Override
-    public final T handle(final ResultSet rs) throws SQLException {
+    public final T handle(ResultSet rs) throws SQLException {
 <span class="nc bnc" id="L66" title="All 2 branches missed.">        if (this.rs != null) {</span>
 <span class="nc" id="L67">            throw new IllegalStateException(&quot;Re-entry not allowed!&quot;);</span>
         }
@@ -77,1344 +77,1898 @@ import java.util.Map;
     }
 
     /**
-     * Turn the {@code ResultSet} into an Object.
+     * Turn the &lt;code&gt;ResultSet&lt;/code&gt; into an Object.
      *
-     * @return An Object initialized with {@code ResultSet} data
+     * @return An Object initialized with &lt;code&gt;ResultSet&lt;/code&gt; data
      * @throws SQLException if a database access error occurs
      * @see ResultSetHandler#handle(ResultSet)
      */
     protected abstract T handle() throws SQLException;
 
     /**
-     * {@inheritDoc}
+     * @param row
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#absolute(int)
      */
-    protected final boolean absolute(final int row) throws SQLException {
-<span class="nc" id="L92">        return rs.absolute(row);</span>
+    protected final boolean absolute(int row) throws SQLException {
+<span class="nc" id="L95">        return rs.absolute(row);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#afterLast()
      */
     protected final void afterLast() throws SQLException {
-<span class="nc" id="L99">        rs.afterLast();</span>
-<span class="nc" id="L100">    }</span>
+<span class="nc" id="L103">        rs.afterLast();</span>
+<span class="nc" id="L104">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#beforeFirst()
      */
     protected final void beforeFirst() throws SQLException {
-<span class="nc" id="L106">        rs.beforeFirst();</span>
-<span class="nc" id="L107">    }</span>
+<span class="nc" id="L111">        rs.beforeFirst();</span>
+<span class="nc" id="L112">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#cancelRowUpdates()
      */
     protected final void cancelRowUpdates() throws SQLException {
-<span class="nc" id="L113">        rs.cancelRowUpdates();</span>
-<span class="nc" id="L114">    }</span>
+<span class="nc" id="L119">        rs.cancelRowUpdates();</span>
+<span class="nc" id="L120">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#clearWarnings()
      */
     protected final void clearWarnings() throws SQLException {
-<span class="nc" id="L120">        rs.clearWarnings();</span>
-<span class="nc" id="L121">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void close() throws SQLException {
-<span class="nc" id="L127">        rs.close();</span>
+<span class="nc" id="L127">        rs.clearWarnings();</span>
 <span class="nc" id="L128">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#close()
+     */
+    protected final void close() throws SQLException {
+<span class="nc" id="L135">        rs.close();</span>
+<span class="nc" id="L136">    }</span>
+
+    /**
+     * @throws SQLException
+     * @see java.sql.ResultSet#deleteRow()
      */
     protected final void deleteRow() throws SQLException {
-<span class="nc" id="L134">        rs.deleteRow();</span>
-<span class="nc" id="L135">    }</span>
+<span class="nc" id="L143">        rs.deleteRow();</span>
+<span class="nc" id="L144">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#findColumn(java.lang.String)
      */
-    protected final int findColumn(final String columnLabel) throws SQLException {
-<span class="nc" id="L141">        return rs.findColumn(columnLabel);</span>
+    protected final int findColumn(String columnLabel) throws SQLException {
+<span class="nc" id="L153">        return rs.findColumn(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#first()
      */
     protected final boolean first() throws SQLException {
-<span class="nc" id="L148">        return rs.first();</span>
+<span class="nc" id="L162">        return rs.first();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getArray(int)
      */
-    protected final Array getArray(final int columnIndex) throws SQLException {
-<span class="nc" id="L155">        return rs.getArray(columnIndex);</span>
+    protected final Array getArray(int columnIndex) throws SQLException {
+<span class="nc" id="L172">        return rs.getArray(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getArray(java.lang.String)
      */
-    protected final Array getArray(final String columnLabel) throws SQLException {
-<span class="nc" id="L162">        return rs.getArray(columnLabel);</span>
+    protected final Array getArray(String columnLabel) throws SQLException {
+<span class="nc" id="L182">        return rs.getArray(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getAsciiStream(int)
      */
-    protected final InputStream getAsciiStream(final int columnIndex) throws SQLException {
-<span class="nc" id="L169">        return rs.getAsciiStream(columnIndex);</span>
+    protected final InputStream getAsciiStream(int columnIndex) throws SQLException {
+<span class="nc" id="L192">        return rs.getAsciiStream(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getAsciiStream(java.lang.String)
      */
-    protected final InputStream getAsciiStream(final String columnLabel) throws SQLException {
-<span class="nc" id="L176">        return rs.getAsciiStream(columnLabel);</span>
+    protected final InputStream getAsciiStream(String columnLabel) throws SQLException {
+<span class="nc" id="L202">        return rs.getAsciiStream(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param scale
+     * @return
+     * @throws SQLException
+     * @deprecated
+     * @see java.sql.ResultSet#getBigDecimal(int, int)
      */
     @Deprecated
-    protected final BigDecimal getBigDecimal(final int columnIndex, final int scale) throws SQLException {
-<span class="nc" id="L184">        return rs.getBigDecimal(columnIndex, scale);</span>
+    protected final BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
+<span class="nc" id="L215">        return rs.getBigDecimal(columnIndex, scale);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBigDecimal(int)
      */
-    protected final BigDecimal getBigDecimal(final int columnIndex) throws SQLException {
-<span class="nc" id="L191">        return rs.getBigDecimal(columnIndex);</span>
+    protected final BigDecimal getBigDecimal(int columnIndex) throws SQLException {
+<span class="nc" id="L225">        return rs.getBigDecimal(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param scale
+     * @return
+     * @throws SQLException
+     * @deprecated
+     * @see java.sql.ResultSet#getBigDecimal(java.lang.String, int)
      */
     @Deprecated
-    protected final BigDecimal getBigDecimal(final String columnLabel, final int scale) throws SQLException {
-<span class="nc" id="L199">        return rs.getBigDecimal(columnLabel, scale);</span>
+    protected final BigDecimal getBigDecimal(String columnLabel, int scale) throws SQLException {
+<span class="nc" id="L238">        return rs.getBigDecimal(columnLabel, scale);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBigDecimal(java.lang.String)
      */
-    protected final BigDecimal getBigDecimal(final String columnLabel) throws SQLException {
-<span class="nc" id="L206">        return rs.getBigDecimal(columnLabel);</span>
+    protected final BigDecimal getBigDecimal(String columnLabel) throws SQLException {
+<span class="nc" id="L248">        return rs.getBigDecimal(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBinaryStream(int)
      */
-    protected final InputStream getBinaryStream(final int columnIndex) throws SQLException {
-<span class="nc" id="L213">        return rs.getBinaryStream(columnIndex);</span>
+    protected final InputStream getBinaryStream(int columnIndex) throws SQLException {
+<span class="nc" id="L258">        return rs.getBinaryStream(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBinaryStream(java.lang.String)
      */
-    protected final InputStream getBinaryStream(final String columnLabel) throws SQLException {
-<span class="nc" id="L220">        return rs.getBinaryStream(columnLabel);</span>
+    protected final InputStream getBinaryStream(String columnLabel) throws SQLException {
+<span class="nc" id="L268">        return rs.getBinaryStream(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBlob(int)
      */
-    protected final Blob getBlob(final int columnIndex) throws SQLException {
-<span class="nc" id="L227">        return rs.getBlob(columnIndex);</span>
+    protected final Blob getBlob(int columnIndex) throws SQLException {
+<span class="nc" id="L278">        return rs.getBlob(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBlob(java.lang.String)
      */
-    protected final Blob getBlob(final String columnLabel) throws SQLException {
-<span class="nc" id="L234">        return rs.getBlob(columnLabel);</span>
+    protected final Blob getBlob(String columnLabel) throws SQLException {
+<span class="nc" id="L288">        return rs.getBlob(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBoolean(int)
      */
-    protected final boolean getBoolean(final int columnIndex) throws SQLException {
-<span class="nc" id="L241">        return rs.getBoolean(columnIndex);</span>
+    protected final boolean getBoolean(int columnIndex) throws SQLException {
+<span class="nc" id="L298">        return rs.getBoolean(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBoolean(java.lang.String)
      */
-    protected final boolean getBoolean(final String columnLabel) throws SQLException {
-<span class="nc" id="L248">        return rs.getBoolean(columnLabel);</span>
+    protected final boolean getBoolean(String columnLabel) throws SQLException {
+<span class="nc" id="L308">        return rs.getBoolean(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getByte(int)
      */
-    protected final byte getByte(final int columnIndex) throws SQLException {
-<span class="nc" id="L255">        return rs.getByte(columnIndex);</span>
+    protected final byte getByte(int columnIndex) throws SQLException {
+<span class="nc" id="L318">        return rs.getByte(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getByte(java.lang.String)
      */
-    protected final byte getByte(final String columnLabel) throws SQLException {
-<span class="nc" id="L262">        return rs.getByte(columnLabel);</span>
+    protected final byte getByte(String columnLabel) throws SQLException {
+<span class="nc" id="L328">        return rs.getByte(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBytes(int)
      */
-    protected final byte[] getBytes(final int columnIndex) throws SQLException {
-<span class="nc" id="L269">        return rs.getBytes(columnIndex);</span>
+    protected final byte[] getBytes(int columnIndex) throws SQLException {
+<span class="nc" id="L338">        return rs.getBytes(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getBytes(java.lang.String)
      */
-    protected final byte[] getBytes(final String columnLabel) throws SQLException {
-<span class="nc" id="L276">        return rs.getBytes(columnLabel);</span>
+    protected final byte[] getBytes(String columnLabel) throws SQLException {
+<span class="nc" id="L348">        return rs.getBytes(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getCharacterStream(int)
      */
-    protected final Reader getCharacterStream(final int columnIndex) throws SQLException {
-<span class="nc" id="L283">        return rs.getCharacterStream(columnIndex);</span>
+    protected final Reader getCharacterStream(int columnIndex) throws SQLException {
+<span class="nc" id="L358">        return rs.getCharacterStream(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getCharacterStream(java.lang.String)
      */
-    protected final Reader getCharacterStream(final String columnLabel) throws SQLException {
-<span class="nc" id="L290">        return rs.getCharacterStream(columnLabel);</span>
+    protected final Reader getCharacterStream(String columnLabel) throws SQLException {
+<span class="nc" id="L368">        return rs.getCharacterStream(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getClob(int)
      */
-    protected final Clob getClob(final int columnIndex) throws SQLException {
-<span class="nc" id="L297">        return rs.getClob(columnIndex);</span>
+    protected final Clob getClob(int columnIndex) throws SQLException {
+<span class="nc" id="L378">        return rs.getClob(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getClob(java.lang.String)
      */
-    protected final Clob getClob(final String columnLabel) throws SQLException {
-<span class="nc" id="L304">        return rs.getClob(columnLabel);</span>
+    protected final Clob getClob(String columnLabel) throws SQLException {
+<span class="nc" id="L388">        return rs.getClob(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getConcurrency()
      */
     protected final int getConcurrency() throws SQLException {
-<span class="nc" id="L311">        return rs.getConcurrency();</span>
+<span class="nc" id="L397">        return rs.getConcurrency();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getCursorName()
      */
     protected final String getCursorName() throws SQLException {
-<span class="nc" id="L318">        return rs.getCursorName();</span>
+<span class="nc" id="L406">        return rs.getCursorName();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param cal
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getDate(int, java.util.Calendar)
      */
-    protected final Date getDate(final int columnIndex, final Calendar cal) throws SQLException {
-<span class="nc" id="L325">        return rs.getDate(columnIndex, cal);</span>
+    protected final Date getDate(int columnIndex, Calendar cal) throws SQLException {
+<span class="nc" id="L417">        return rs.getDate(columnIndex, cal);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getDate(int)
      */
-    protected final Date getDate(final int columnIndex) throws SQLException {
-<span class="nc" id="L332">        return rs.getDate(columnIndex);</span>
+    protected final Date getDate(int columnIndex) throws SQLException {
+<span class="nc" id="L427">        return rs.getDate(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param cal
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getDate(java.lang.String, java.util.Calendar)
      */
-    protected final Date getDate(final String columnLabel, final Calendar cal) throws SQLException {
-<span class="nc" id="L339">        return rs.getDate(columnLabel, cal);</span>
+    protected final Date getDate(String columnLabel, Calendar cal) throws SQLException {
+<span class="nc" id="L438">        return rs.getDate(columnLabel, cal);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getDate(java.lang.String)
      */
-    protected final Date getDate(final String columnLabel) throws SQLException {
-<span class="nc" id="L346">        return rs.getDate(columnLabel);</span>
+    protected final Date getDate(String columnLabel) throws SQLException {
+<span class="nc" id="L448">        return rs.getDate(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getDouble(int)
      */
-    protected final double getDouble(final int columnIndex) throws SQLException {
-<span class="nc" id="L353">        return rs.getDouble(columnIndex);</span>
+    protected final double getDouble(int columnIndex) throws SQLException {
+<span class="nc" id="L458">        return rs.getDouble(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getDouble(java.lang.String)
      */
-    protected final double getDouble(final String columnLabel) throws SQLException {
-<span class="nc" id="L360">        return rs.getDouble(columnLabel);</span>
+    protected final double getDouble(String columnLabel) throws SQLException {
+<span class="nc" id="L468">        return rs.getDouble(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getFetchDirection()
      */
     protected final int getFetchDirection() throws SQLException {
-<span class="nc" id="L367">        return rs.getFetchDirection();</span>
+<span class="nc" id="L477">        return rs.getFetchDirection();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getFetchSize()
      */
     protected final int getFetchSize() throws SQLException {
-<span class="nc" id="L374">        return rs.getFetchSize();</span>
+<span class="nc" id="L486">        return rs.getFetchSize();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getFloat(int)
      */
-    protected final float getFloat(final int columnIndex) throws SQLException {
-<span class="nc" id="L381">        return rs.getFloat(columnIndex);</span>
+    protected final float getFloat(int columnIndex) throws SQLException {
+<span class="nc" id="L496">        return rs.getFloat(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getFloat(java.lang.String)
      */
-    protected final float getFloat(final String columnLabel) throws SQLException {
-<span class="nc" id="L388">        return rs.getFloat(columnLabel);</span>
+    protected final float getFloat(String columnLabel) throws SQLException {
+<span class="nc" id="L506">        return rs.getFloat(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getHoldability()
      */
     protected final int getHoldability() throws SQLException {
-<span class="nc" id="L395">        return rs.getHoldability();</span>
+<span class="nc" id="L515">        return rs.getHoldability();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getInt(int)
      */
-    protected final int getInt(final int columnIndex) throws SQLException {
-<span class="nc" id="L402">        return rs.getInt(columnIndex);</span>
+    protected final int getInt(int columnIndex) throws SQLException {
+<span class="nc" id="L525">        return rs.getInt(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getInt(java.lang.String)
      */
-    protected final int getInt(final String columnLabel) throws SQLException {
-<span class="nc" id="L409">        return rs.getInt(columnLabel);</span>
+    protected final int getInt(String columnLabel) throws SQLException {
+<span class="nc" id="L535">        return rs.getInt(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getLong(int)
      */
-    protected final long getLong(final int columnIndex) throws SQLException {
-<span class="nc" id="L416">        return rs.getLong(columnIndex);</span>
+    protected final long getLong(int columnIndex) throws SQLException {
+<span class="nc" id="L545">        return rs.getLong(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getLong(java.lang.String)
      */
-    protected final long getLong(final String columnLabel) throws SQLException {
-<span class="nc" id="L423">        return rs.getLong(columnLabel);</span>
+    protected final long getLong(String columnLabel) throws SQLException {
+<span class="nc" id="L555">        return rs.getLong(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getMetaData()
      */
     protected final ResultSetMetaData getMetaData() throws SQLException {
-<span class="nc" id="L430">        return rs.getMetaData();</span>
+<span class="nc" id="L564">        return rs.getMetaData();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getNCharacterStream(int)
      */
-    protected final Reader getNCharacterStream(final int columnIndex) throws SQLException {
-<span class="nc" id="L437">        return rs.getNCharacterStream(columnIndex);</span>
+    protected final Reader getNCharacterStream(int columnIndex) throws SQLException {
+<span class="nc" id="L574">        return rs.getNCharacterStream(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getNCharacterStream(java.lang.String)
      */
-    protected final Reader getNCharacterStream(final String columnLabel) throws SQLException {
-<span class="nc" id="L444">        return rs.getNCharacterStream(columnLabel);</span>
+    protected final Reader getNCharacterStream(String columnLabel) throws SQLException {
+<span class="nc" id="L584">        return rs.getNCharacterStream(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getNClob(int)
      */
-    protected final NClob getNClob(final int columnIndex) throws SQLException {
-<span class="nc" id="L451">        return rs.getNClob(columnIndex);</span>
+    protected final NClob getNClob(int columnIndex) throws SQLException {
+<span class="nc" id="L594">        return rs.getNClob(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getNClob(java.lang.String)
      */
-    protected final NClob getNClob(final String columnLabel) throws SQLException {
-<span class="nc" id="L458">        return rs.getNClob(columnLabel);</span>
+    protected final NClob getNClob(String columnLabel) throws SQLException {
+<span class="nc" id="L604">        return rs.getNClob(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getNString(int)
      */
-    protected final String getNString(final int columnIndex) throws SQLException {
-<span class="nc" id="L465">        return rs.getNString(columnIndex);</span>
+    protected final String getNString(int columnIndex) throws SQLException {
+<span class="nc" id="L614">        return rs.getNString(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getNString(java.lang.String)
      */
-    protected final String getNString(final String columnLabel) throws SQLException {
-<span class="nc" id="L472">        return rs.getNString(columnLabel);</span>
+    protected final String getNString(String columnLabel) throws SQLException {
+<span class="nc" id="L624">        return rs.getNString(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param map
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getObject(int, java.util.Map)
      */
-    protected final Object getObject(final int columnIndex, final Map&lt;String, Class&lt;?&gt;&gt; map) throws SQLException {
-<span class="nc" id="L479">        return rs.getObject(columnIndex, map);</span>
+    protected final Object getObject(int columnIndex, Map&lt;String, Class&lt;?&gt;&gt; map) throws SQLException {
+<span class="nc" id="L635">        return rs.getObject(columnIndex, map);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getObject(int)
      */
-    protected final Object getObject(final int columnIndex) throws SQLException {
-<span class="nc" id="L486">        return rs.getObject(columnIndex);</span>
+    protected final Object getObject(int columnIndex) throws SQLException {
+<span class="nc" id="L645">        return rs.getObject(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param map
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getObject(java.lang.String, java.util.Map)
      */
-    protected final Object getObject(final String columnLabel, final Map&lt;String, Class&lt;?&gt;&gt; map) throws SQLException {
-<span class="nc" id="L493">        return rs.getObject(columnLabel, map);</span>
+    protected final Object getObject(String columnLabel, Map&lt;String, Class&lt;?&gt;&gt; map) throws SQLException {
+<span class="nc" id="L656">        return rs.getObject(columnLabel, map);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getObject(java.lang.String)
      */
-    protected final Object getObject(final String columnLabel) throws SQLException {
-<span class="nc" id="L500">        return rs.getObject(columnLabel);</span>
+    protected final Object getObject(String columnLabel) throws SQLException {
+<span class="nc" id="L666">        return rs.getObject(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getRef(int)
      */
-    protected final Ref getRef(final int columnIndex) throws SQLException {
-<span class="nc" id="L507">        return rs.getRef(columnIndex);</span>
+    protected final Ref getRef(int columnIndex) throws SQLException {
+<span class="nc" id="L676">        return rs.getRef(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getRef(java.lang.String)
      */
-    protected final Ref getRef(final String columnLabel) throws SQLException {
-<span class="nc" id="L514">        return rs.getRef(columnLabel);</span>
+    protected final Ref getRef(String columnLabel) throws SQLException {
+<span class="nc" id="L686">        return rs.getRef(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getRow()
      */
     protected final int getRow() throws SQLException {
-<span class="nc" id="L521">        return rs.getRow();</span>
+<span class="nc" id="L695">        return rs.getRow();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getRowId(int)
      */
-    protected final RowId getRowId(final int columnIndex) throws SQLException {
-<span class="nc" id="L528">        return rs.getRowId(columnIndex);</span>
+    protected final RowId getRowId(int columnIndex) throws SQLException {
+<span class="nc" id="L705">        return rs.getRowId(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getRowId(java.lang.String)
      */
-    protected final RowId getRowId(final String columnLabel) throws SQLException {
-<span class="nc" id="L535">        return rs.getRowId(columnLabel);</span>
+    protected final RowId getRowId(String columnLabel) throws SQLException {
+<span class="nc" id="L715">        return rs.getRowId(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getSQLXML(int)
      */
-    protected final SQLXML getSQLXML(final int columnIndex) throws SQLException {
-<span class="nc" id="L542">        return rs.getSQLXML(columnIndex);</span>
+    protected final SQLXML getSQLXML(int columnIndex) throws SQLException {
+<span class="nc" id="L725">        return rs.getSQLXML(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getSQLXML(java.lang.String)
      */
-    protected final SQLXML getSQLXML(final String columnLabel) throws SQLException {
-<span class="nc" id="L549">        return rs.getSQLXML(columnLabel);</span>
+    protected final SQLXML getSQLXML(String columnLabel) throws SQLException {
+<span class="nc" id="L735">        return rs.getSQLXML(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getShort(int)
      */
-    protected final short getShort(final int columnIndex) throws SQLException {
-<span class="nc" id="L556">        return rs.getShort(columnIndex);</span>
+    protected final short getShort(int columnIndex) throws SQLException {
+<span class="nc" id="L745">        return rs.getShort(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getShort(java.lang.String)
      */
-    protected final short getShort(final String columnLabel) throws SQLException {
-<span class="nc" id="L563">        return rs.getShort(columnLabel);</span>
+    protected final short getShort(String columnLabel) throws SQLException {
+<span class="nc" id="L755">        return rs.getShort(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getStatement()
      */
     protected final Statement getStatement() throws SQLException {
-<span class="nc" id="L570">        return rs.getStatement();</span>
+<span class="nc" id="L764">        return rs.getStatement();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getString(int)
      */
-    protected final String getString(final int columnIndex) throws SQLException {
-<span class="nc" id="L577">        return rs.getString(columnIndex);</span>
+    protected final String getString(int columnIndex) throws SQLException {
+<span class="nc" id="L774">        return rs.getString(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getString(java.lang.String)
      */
-    protected final String getString(final String columnLabel) throws SQLException {
-<span class="nc" id="L584">        return rs.getString(columnLabel);</span>
+    protected final String getString(String columnLabel) throws SQLException {
+<span class="nc" id="L784">        return rs.getString(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param cal
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTime(int, java.util.Calendar)
      */
-    protected final Time getTime(final int columnIndex, final Calendar cal) throws SQLException {
-<span class="nc" id="L591">        return rs.getTime(columnIndex, cal);</span>
+    protected final Time getTime(int columnIndex, Calendar cal) throws SQLException {
+<span class="nc" id="L795">        return rs.getTime(columnIndex, cal);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTime(int)
      */
-    protected final Time getTime(final int columnIndex) throws SQLException {
-<span class="nc" id="L598">        return rs.getTime(columnIndex);</span>
+    protected final Time getTime(int columnIndex) throws SQLException {
+<span class="nc" id="L805">        return rs.getTime(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param cal
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTime(java.lang.String, java.util.Calendar)
      */
-    protected final Time getTime(final String columnLabel, final Calendar cal) throws SQLException {
-<span class="nc" id="L605">        return rs.getTime(columnLabel, cal);</span>
+    protected final Time getTime(String columnLabel, Calendar cal) throws SQLException {
+<span class="nc" id="L816">        return rs.getTime(columnLabel, cal);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTime(java.lang.String)
      */
-    protected final Time getTime(final String columnLabel) throws SQLException {
-<span class="nc" id="L612">        return rs.getTime(columnLabel);</span>
+    protected final Time getTime(String columnLabel) throws SQLException {
+<span class="nc" id="L826">        return rs.getTime(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param cal
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTimestamp(int, java.util.Calendar)
      */
-    protected final Timestamp getTimestamp(final int columnIndex, final Calendar cal) throws SQLException {
-<span class="nc" id="L619">        return rs.getTimestamp(columnIndex, cal);</span>
+    protected final Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
+<span class="nc" id="L837">        return rs.getTimestamp(columnIndex, cal);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTimestamp(int)
      */
-    protected final Timestamp getTimestamp(final int columnIndex) throws SQLException {
-<span class="nc" id="L626">        return rs.getTimestamp(columnIndex);</span>
+    protected final Timestamp getTimestamp(int columnIndex) throws SQLException {
+<span class="nc" id="L847">        return rs.getTimestamp(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param cal
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTimestamp(java.lang.String, java.util.Calendar)
      */
-    protected final Timestamp getTimestamp(final String columnLabel, final Calendar cal) throws SQLException {
-<span class="nc" id="L633">        return rs.getTimestamp(columnLabel, cal);</span>
+    protected final Timestamp getTimestamp(String columnLabel, Calendar cal) throws SQLException {
+<span class="nc" id="L858">        return rs.getTimestamp(columnLabel, cal);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getTimestamp(java.lang.String)
      */
-    protected final Timestamp getTimestamp(final String columnLabel) throws SQLException {
-<span class="nc" id="L640">        return rs.getTimestamp(columnLabel);</span>
+    protected final Timestamp getTimestamp(String columnLabel) throws SQLException {
+<span class="nc" id="L868">        return rs.getTimestamp(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getType()
      */
     protected final int getType() throws SQLException {
-<span class="nc" id="L647">        return rs.getType();</span>
+<span class="nc" id="L877">        return rs.getType();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getURL(int)
      */
-    protected final URL getURL(final int columnIndex) throws SQLException {
-<span class="nc" id="L654">        return rs.getURL(columnIndex);</span>
+    protected final URL getURL(int columnIndex) throws SQLException {
+<span class="nc" id="L887">        return rs.getURL(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getURL(java.lang.String)
      */
-    protected final URL getURL(final String columnLabel) throws SQLException {
-<span class="nc" id="L661">        return rs.getURL(columnLabel);</span>
+    protected final URL getURL(String columnLabel) throws SQLException {
+<span class="nc" id="L897">        return rs.getURL(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @return
+     * @throws SQLException
+     * @deprecated
+     * @see java.sql.ResultSet#getUnicodeStream(int)
      */
     @Deprecated
-    protected final InputStream getUnicodeStream(final int columnIndex) throws SQLException {
-<span class="nc" id="L669">        return rs.getUnicodeStream(columnIndex);</span>
+    protected final InputStream getUnicodeStream(int columnIndex) throws SQLException {
+<span class="nc" id="L909">        return rs.getUnicodeStream(columnIndex);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @return
+     * @throws SQLException
+     * @deprecated
+     * @see java.sql.ResultSet#getUnicodeStream(java.lang.String)
      */
     @Deprecated
-    protected final InputStream getUnicodeStream(final String columnLabel) throws SQLException {
-<span class="nc" id="L677">        return rs.getUnicodeStream(columnLabel);</span>
+    protected final InputStream getUnicodeStream(String columnLabel) throws SQLException {
+<span class="nc" id="L921">        return rs.getUnicodeStream(columnLabel);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#getWarnings()
      */
     protected final SQLWarning getWarnings() throws SQLException {
-<span class="nc" id="L684">        return rs.getWarnings();</span>
+<span class="nc" id="L930">        return rs.getWarnings();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#insertRow()
      */
     protected final void insertRow() throws SQLException {
-<span class="nc" id="L691">        rs.insertRow();</span>
-<span class="nc" id="L692">    }</span>
+<span class="nc" id="L938">        rs.insertRow();</span>
+<span class="nc" id="L939">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#isAfterLast()
      */
     protected final boolean isAfterLast() throws SQLException {
-<span class="nc" id="L698">        return rs.isAfterLast();</span>
+<span class="nc" id="L947">        return rs.isAfterLast();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#isBeforeFirst()
      */
     protected final boolean isBeforeFirst() throws SQLException {
-<span class="nc" id="L705">        return rs.isBeforeFirst();</span>
+<span class="nc" id="L956">        return rs.isBeforeFirst();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#isClosed()
      */
     protected final boolean isClosed() throws SQLException {
-<span class="nc" id="L712">        return rs.isClosed();</span>
+<span class="nc" id="L965">        return rs.isClosed();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#isFirst()
      */
     protected final boolean isFirst() throws SQLException {
-<span class="nc" id="L719">        return rs.isFirst();</span>
+<span class="nc" id="L974">        return rs.isFirst();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#isLast()
      */
     protected final boolean isLast() throws SQLException {
-<span class="nc" id="L726">        return rs.isLast();</span>
+<span class="nc" id="L983">        return rs.isLast();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param iface
+     * @return
+     * @throws SQLException
+     * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
      */
-    protected final boolean isWrapperFor(final Class&lt;?&gt; iface) throws SQLException {
-<span class="nc" id="L733">        return rs.isWrapperFor(iface);</span>
+    protected final boolean isWrapperFor(Class&lt;?&gt; iface) throws SQLException {
+<span class="nc" id="L993">        return rs.isWrapperFor(iface);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#last()
      */
     protected final boolean last() throws SQLException {
-<span class="nc" id="L740">        return rs.last();</span>
+<span class="nc" id="L1002">        return rs.last();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#moveToCurrentRow()
      */
     protected final void moveToCurrentRow() throws SQLException {
-<span class="nc" id="L747">        rs.moveToCurrentRow();</span>
-<span class="nc" id="L748">    }</span>
+<span class="nc" id="L1010">        rs.moveToCurrentRow();</span>
+<span class="nc" id="L1011">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#moveToInsertRow()
      */
     protected final void moveToInsertRow() throws SQLException {
-<span class="nc" id="L754">        rs.moveToInsertRow();</span>
-<span class="nc" id="L755">    }</span>
+<span class="nc" id="L1018">        rs.moveToInsertRow();</span>
+<span class="nc" id="L1019">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#next()
      */
     protected final boolean next() throws SQLException {
-<span class="nc" id="L761">        return rs.next();</span>
+<span class="nc" id="L1027">        return rs.next();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#previous()
      */
     protected final boolean previous() throws SQLException {
-<span class="nc" id="L768">        return rs.previous();</span>
+<span class="nc" id="L1036">        return rs.previous();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @throws SQLException
+     * @see java.sql.ResultSet#refreshRow()
      */
     protected final void refreshRow() throws SQLException {
-<span class="nc" id="L775">        rs.refreshRow();</span>
-<span class="nc" id="L776">    }</span>
+<span class="nc" id="L1044">        rs.refreshRow();</span>
+<span class="nc" id="L1045">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param rows
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#relative(int)
      */
-    protected final boolean relative(final int rows) throws SQLException {
-<span class="nc" id="L782">        return rs.relative(rows);</span>
+    protected final boolean relative(int rows) throws SQLException {
+<span class="nc" id="L1054">        return rs.relative(rows);</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#rowDeleted()
      */
     protected final boolean rowDeleted() throws SQLException {
-<span class="nc" id="L789">        return rs.rowDeleted();</span>
+<span class="nc" id="L1063">        return rs.rowDeleted();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#rowInserted()
      */
     protected final boolean rowInserted() throws SQLException {
-<span class="nc" id="L796">        return rs.rowInserted();</span>
+<span class="nc" id="L1072">        return rs.rowInserted();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#rowUpdated()
      */
     protected final boolean rowUpdated() throws SQLException {
-<span class="nc" id="L803">        return rs.rowUpdated();</span>
+<span class="nc" id="L1081">        return rs.rowUpdated();</span>
     }
 
     /**
-     * {@inheritDoc}
+     * @param direction
+     * @throws SQLException
+     * @see java.sql.ResultSet#setFetchDirection(int)
      */
-    protected final void setFetchDirection(final int direction) throws SQLException {
-<span class="nc" id="L810">        rs.setFetchDirection(direction);</span>
-<span class="nc" id="L811">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void setFetchSize(final int rows) throws SQLException {
-<span class="nc" id="L817">        rs.setFetchSize(rows);</span>
-<span class="nc" id="L818">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final &lt;E&gt; E unwrap(final Class&lt;E&gt; iface) throws SQLException {
-<span class="nc" id="L824">        return rs.unwrap(iface);</span>
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateArray(final int columnIndex, final Array x) throws SQLException {
-<span class="nc" id="L831">        rs.updateArray(columnIndex, x);</span>
-<span class="nc" id="L832">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateArray(final String columnLabel, final Array x) throws SQLException {
-<span class="nc" id="L838">        rs.updateArray(columnLabel, x);</span>
-<span class="nc" id="L839">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateAsciiStream(final int columnIndex, final InputStream x, final int length) throws SQLException {
-<span class="nc" id="L845">        rs.updateAsciiStream(columnIndex, x, length);</span>
-<span class="nc" id="L846">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateAsciiStream(final int columnIndex, final InputStream x, final long length) throws SQLException {
-<span class="nc" id="L852">        rs.updateAsciiStream(columnIndex, x, length);</span>
-<span class="nc" id="L853">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateAsciiStream(final int columnIndex, final InputStream x) throws SQLException {
-<span class="nc" id="L859">        rs.updateAsciiStream(columnIndex, x);</span>
-<span class="nc" id="L860">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateAsciiStream(final String columnLabel, final InputStream x, final int length) throws SQLException {
-<span class="nc" id="L866">        rs.updateAsciiStream(columnLabel, x, length);</span>
-<span class="nc" id="L867">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateAsciiStream(final String columnLabel, final InputStream x, final long length) throws SQLException {
-<span class="nc" id="L873">        rs.updateAsciiStream(columnLabel, x, length);</span>
-<span class="nc" id="L874">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateAsciiStream(final String columnLabel, final InputStream x) throws SQLException {
-<span class="nc" id="L880">        rs.updateAsciiStream(columnLabel, x);</span>
-<span class="nc" id="L881">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBigDecimal(final int columnIndex, final BigDecimal x) throws SQLException {
-<span class="nc" id="L887">        rs.updateBigDecimal(columnIndex, x);</span>
-<span class="nc" id="L888">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBigDecimal(final String columnLabel, final BigDecimal x) throws SQLException {
-<span class="nc" id="L894">        rs.updateBigDecimal(columnLabel, x);</span>
-<span class="nc" id="L895">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBinaryStream(final int columnIndex, final InputStream x, final int length) throws SQLException {
-<span class="nc" id="L901">        rs.updateBinaryStream(columnIndex, x, length);</span>
-<span class="nc" id="L902">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBinaryStream(final int columnIndex, final InputStream x, final long length) throws SQLException {
-<span class="nc" id="L908">        rs.updateBinaryStream(columnIndex, x, length);</span>
-<span class="nc" id="L909">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBinaryStream(final int columnIndex, final InputStream x) throws SQLException {
-<span class="nc" id="L915">        rs.updateBinaryStream(columnIndex, x);</span>
-<span class="nc" id="L916">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBinaryStream(final String columnLabel, final InputStream x, final int length) throws SQLException {
-<span class="nc" id="L922">        rs.updateBinaryStream(columnLabel, x, length);</span>
-<span class="nc" id="L923">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBinaryStream(final String columnLabel, final InputStream x, final long length) throws SQLException {
-<span class="nc" id="L929">        rs.updateBinaryStream(columnLabel, x, length);</span>
-<span class="nc" id="L930">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBinaryStream(final String columnLabel, final InputStream x) throws SQLException {
-<span class="nc" id="L936">        rs.updateBinaryStream(columnLabel, x);</span>
-<span class="nc" id="L937">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBlob(final int columnIndex, final Blob x) throws SQLException {
-<span class="nc" id="L943">        rs.updateBlob(columnIndex, x);</span>
-<span class="nc" id="L944">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBlob(final int columnIndex, final InputStream inputStream, final long length) throws SQLException {
-<span class="nc" id="L950">        rs.updateBlob(columnIndex, inputStream, length);</span>
-<span class="nc" id="L951">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBlob(final int columnIndex, final InputStream inputStream) throws SQLException {
-<span class="nc" id="L957">        rs.updateBlob(columnIndex, inputStream);</span>
-<span class="nc" id="L958">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBlob(final String columnLabel, final Blob x) throws SQLException {
-<span class="nc" id="L964">        rs.updateBlob(columnLabel, x);</span>
-<span class="nc" id="L965">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBlob(final String columnLabel, final InputStream inputStream, final long length) throws SQLException {
-<span class="nc" id="L971">        rs.updateBlob(columnLabel, inputStream, length);</span>
-<span class="nc" id="L972">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBlob(final String columnLabel, final InputStream inputStream) throws SQLException {
-<span class="nc" id="L978">        rs.updateBlob(columnLabel, inputStream);</span>
-<span class="nc" id="L979">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBoolean(final int columnIndex, final boolean x) throws SQLException {
-<span class="nc" id="L985">        rs.updateBoolean(columnIndex, x);</span>
-<span class="nc" id="L986">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBoolean(final String columnLabel, final boolean x) throws SQLException {
-<span class="nc" id="L992">        rs.updateBoolean(columnLabel, x);</span>
-<span class="nc" id="L993">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateByte(final int columnIndex, final byte x) throws SQLException {
-<span class="nc" id="L999">        rs.updateByte(columnIndex, x);</span>
-<span class="nc" id="L1000">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateByte(final String columnLabel, final byte x) throws SQLException {
-<span class="nc" id="L1006">        rs.updateByte(columnLabel, x);</span>
-<span class="nc" id="L1007">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBytes(final int columnIndex, final byte[] x) throws SQLException {
-<span class="nc" id="L1013">        rs.updateBytes(columnIndex, x);</span>
-<span class="nc" id="L1014">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateBytes(final String columnLabel, final byte[] x) throws SQLException {
-<span class="nc" id="L1020">        rs.updateBytes(columnLabel, x);</span>
-<span class="nc" id="L1021">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateCharacterStream(final int columnIndex, final Reader x, final int length) throws SQLException {
-<span class="nc" id="L1027">        rs.updateCharacterStream(columnIndex, x, length);</span>
-<span class="nc" id="L1028">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateCharacterStream(final int columnIndex, final Reader x, final long length) throws SQLException {
-<span class="nc" id="L1034">        rs.updateCharacterStream(columnIndex, x, length);</span>
-<span class="nc" id="L1035">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateCharacterStream(final int columnIndex, final Reader x) throws SQLException {
-<span class="nc" id="L1041">        rs.updateCharacterStream(columnIndex, x);</span>
-<span class="nc" id="L1042">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateCharacterStream(final String columnLabel, final Reader reader, final int length) throws SQLException {
-<span class="nc" id="L1048">        rs.updateCharacterStream(columnLabel, reader, length);</span>
-<span class="nc" id="L1049">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateCharacterStream(final String columnLabel, final Reader reader, final long length) throws SQLException {
-<span class="nc" id="L1055">        rs.updateCharacterStream(columnLabel, reader, length);</span>
-<span class="nc" id="L1056">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateCharacterStream(final String columnLabel, final Reader reader) throws SQLException {
-<span class="nc" id="L1062">        rs.updateCharacterStream(columnLabel, reader);</span>
-<span class="nc" id="L1063">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateClob(final int columnIndex, final Clob x) throws SQLException {
-<span class="nc" id="L1069">        rs.updateClob(columnIndex, x);</span>
-<span class="nc" id="L1070">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateClob(final int columnIndex, final Reader reader, final long length) throws SQLException {
-<span class="nc" id="L1076">        rs.updateClob(columnIndex, reader, length);</span>
-<span class="nc" id="L1077">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateClob(final int columnIndex, final Reader reader) throws SQLException {
-<span class="nc" id="L1083">        rs.updateClob(columnIndex, reader);</span>
-<span class="nc" id="L1084">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateClob(final String columnLabel, final Clob x) throws SQLException {
-<span class="nc" id="L1090">        rs.updateClob(columnLabel, x);</span>
+    protected final void setFetchDirection(int direction) throws SQLException {
+<span class="nc" id="L1090">        rs.setFetchDirection(direction);</span>
 <span class="nc" id="L1091">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param rows
+     * @throws SQLException
+     * @see java.sql.ResultSet#setFetchSize(int)
      */
-    protected final void updateClob(final String columnLabel, final Reader reader, final long length) throws SQLException {
-<span class="nc" id="L1097">        rs.updateClob(columnLabel, reader, length);</span>
-<span class="nc" id="L1098">    }</span>
+    protected final void setFetchSize(int rows) throws SQLException {
+<span class="nc" id="L1099">        rs.setFetchSize(rows);</span>
+<span class="nc" id="L1100">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param iface
+     * @return
+     * @throws SQLException
+     * @see java.sql.Wrapper#unwrap(java.lang.Class)
      */
-    protected final void updateClob(final String columnLabel, final Reader reader) throws SQLException {
-<span class="nc" id="L1104">        rs.updateClob(columnLabel, reader);</span>
-<span class="nc" id="L1105">    }</span>
+    protected final &lt;E&gt; E unwrap(Class&lt;E&gt; iface) throws SQLException {
+<span class="nc" id="L1109">        return rs.unwrap(iface);</span>
+    }
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateArray(int, java.sql.Array)
      */
-    protected final void updateDate(final int columnIndex, final Date x) throws SQLException {
-<span class="nc" id="L1111">        rs.updateDate(columnIndex, x);</span>
-<span class="nc" id="L1112">    }</span>
+    protected final void updateArray(int columnIndex, Array x) throws SQLException {
+<span class="nc" id="L1119">        rs.updateArray(columnIndex, x);</span>
+<span class="nc" id="L1120">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateArray(java.lang.String, java.sql.Array)
      */
-    protected final void updateDate(final String columnLabel, final Date x) throws SQLException {
-<span class="nc" id="L1118">        rs.updateDate(columnLabel, x);</span>
-<span class="nc" id="L1119">    }</span>
+    protected final void updateArray(String columnLabel, Array x) throws SQLException {
+<span class="nc" id="L1129">        rs.updateArray(columnLabel, x);</span>
+<span class="nc" id="L1130">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateAsciiStream(int, java.io.InputStream, int)
      */
-    protected final void updateDouble(final int columnIndex, final double x) throws SQLException {
-<span class="nc" id="L1125">        rs.updateDouble(columnIndex, x);</span>
-<span class="nc" id="L1126">    }</span>
+    protected final void updateAsciiStream(int columnIndex, InputStream x, int length) throws SQLException {
+<span class="nc" id="L1140">        rs.updateAsciiStream(columnIndex, x, length);</span>
+<span class="nc" id="L1141">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateAsciiStream(int, java.io.InputStream, long)
      */
-    protected final void updateDouble(final String columnLabel, final double x) throws SQLException {
-<span class="nc" id="L1132">        rs.updateDouble(columnLabel, x);</span>
-<span class="nc" id="L1133">    }</span>
+    protected final void updateAsciiStream(int columnIndex, InputStream x, long length) throws SQLException {
+<span class="nc" id="L1151">        rs.updateAsciiStream(columnIndex, x, length);</span>
+<span class="nc" id="L1152">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateAsciiStream(int, java.io.InputStream)
      */
-    protected final void updateFloat(final int columnIndex, final float x) throws SQLException {
-<span class="nc" id="L1139">        rs.updateFloat(columnIndex, x);</span>
-<span class="nc" id="L1140">    }</span>
+    protected final void updateAsciiStream(int columnIndex, InputStream x) throws SQLException {
+<span class="nc" id="L1161">        rs.updateAsciiStream(columnIndex, x);</span>
+<span class="nc" id="L1162">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateAsciiStream(java.lang.String, java.io.InputStream, int)
      */
-    protected final void updateFloat(final String columnLabel, final float x) throws SQLException {
-<span class="nc" id="L1146">        rs.updateFloat(columnLabel, x);</span>
-<span class="nc" id="L1147">    }</span>
+    protected final void updateAsciiStream(String columnLabel, InputStream x, int length) throws SQLException {
+<span class="nc" id="L1172">        rs.updateAsciiStream(columnLabel, x, length);</span>
+<span class="nc" id="L1173">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateAsciiStream(java.lang.String, java.io.InputStream, long)
      */
-    protected final void updateInt(final int columnIndex, final int x) throws SQLException {
-<span class="nc" id="L1153">        rs.updateInt(columnIndex, x);</span>
-<span class="nc" id="L1154">    }</span>
+    protected final void updateAsciiStream(String columnLabel, InputStream x, long length) throws SQLException {
+<span class="nc" id="L1183">        rs.updateAsciiStream(columnLabel, x, length);</span>
+<span class="nc" id="L1184">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateAsciiStream(java.lang.String, java.io.InputStream)
      */
-    protected final void updateInt(final String columnLabel, final int x) throws SQLException {
-<span class="nc" id="L1160">        rs.updateInt(columnLabel, x);</span>
-<span class="nc" id="L1161">    }</span>
+    protected final void updateAsciiStream(String columnLabel, InputStream x) throws SQLException {
+<span class="nc" id="L1193">        rs.updateAsciiStream(columnLabel, x);</span>
+<span class="nc" id="L1194">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBigDecimal(int, java.math.BigDecimal)
      */
-    protected final void updateLong(final int columnIndex, final long x) throws SQLException {
-<span class="nc" id="L1167">        rs.updateLong(columnIndex, x);</span>
-<span class="nc" id="L1168">    }</span>
+    protected final void updateBigDecimal(int columnIndex, BigDecimal x) throws SQLException {
+<span class="nc" id="L1203">        rs.updateBigDecimal(columnIndex, x);</span>
+<span class="nc" id="L1204">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBigDecimal(java.lang.String, java.math.BigDecimal)
      */
-    protected final void updateLong(final String columnLabel, final long x) throws SQLException {
-<span class="nc" id="L1174">        rs.updateLong(columnLabel, x);</span>
-<span class="nc" id="L1175">    }</span>
+    protected final void updateBigDecimal(String columnLabel, BigDecimal x) throws SQLException {
+<span class="nc" id="L1213">        rs.updateBigDecimal(columnLabel, x);</span>
+<span class="nc" id="L1214">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBinaryStream(int, java.io.InputStream, int)
      */
-    protected final void updateNCharacterStream(final int columnIndex, final Reader x, final long length) throws SQLException {
-<span class="nc" id="L1181">        rs.updateNCharacterStream(columnIndex, x, length);</span>
-<span class="nc" id="L1182">    }</span>
+    protected final void updateBinaryStream(int columnIndex, InputStream x, int length) throws SQLException {
+<span class="nc" id="L1224">        rs.updateBinaryStream(columnIndex, x, length);</span>
+<span class="nc" id="L1225">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBinaryStream(int, java.io.InputStream, long)
      */
-    protected final void updateNCharacterStream(final int columnIndex, final Reader x) throws SQLException {
-<span class="nc" id="L1188">        rs.updateNCharacterStream(columnIndex, x);</span>
-<span class="nc" id="L1189">    }</span>
+    protected final void updateBinaryStream(int columnIndex, InputStream x, long length) throws SQLException {
+<span class="nc" id="L1235">        rs.updateBinaryStream(columnIndex, x, length);</span>
+<span class="nc" id="L1236">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBinaryStream(int, java.io.InputStream)
      */
-    protected final void updateNCharacterStream(final String columnLabel, final Reader reader, final long length) throws SQLException {
-<span class="nc" id="L1195">        rs.updateNCharacterStream(columnLabel, reader, length);</span>
-<span class="nc" id="L1196">    }</span>
+    protected final void updateBinaryStream(int columnIndex, InputStream x) throws SQLException {
+<span class="nc" id="L1245">        rs.updateBinaryStream(columnIndex, x);</span>
+<span class="nc" id="L1246">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBinaryStream(java.lang.String, java.io.InputStream, int)
      */
-    protected final void updateNCharacterStream(final String columnLabel, final Reader reader) throws SQLException {
-<span class="nc" id="L1202">        rs.updateNCharacterStream(columnLabel, reader);</span>
-<span class="nc" id="L1203">    }</span>
+    protected final void updateBinaryStream(String columnLabel, InputStream x, int length) throws SQLException {
+<span class="nc" id="L1256">        rs.updateBinaryStream(columnLabel, x, length);</span>
+<span class="nc" id="L1257">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBinaryStream(java.lang.String, java.io.InputStream, long)
      */
-    protected final void updateNClob(final int columnIndex, final NClob nClob) throws SQLException {
-<span class="nc" id="L1209">        rs.updateNClob(columnIndex, nClob);</span>
-<span class="nc" id="L1210">    }</span>
+    protected final void updateBinaryStream(String columnLabel, InputStream x, long length) throws SQLException {
+<span class="nc" id="L1267">        rs.updateBinaryStream(columnLabel, x, length);</span>
+<span class="nc" id="L1268">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBinaryStream(java.lang.String, java.io.InputStream)
      */
-    protected final void updateNClob(final int columnIndex, final Reader reader, final long length) throws SQLException {
-<span class="nc" id="L1216">        rs.updateNClob(columnIndex, reader, length);</span>
-<span class="nc" id="L1217">    }</span>
+    protected final void updateBinaryStream(String columnLabel, InputStream x) throws SQLException {
+<span class="nc" id="L1277">        rs.updateBinaryStream(columnLabel, x);</span>
+<span class="nc" id="L1278">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBlob(int, java.sql.Blob)
      */
-    protected final void updateNClob(final int columnIndex, final Reader reader) throws SQLException {
-<span class="nc" id="L1223">        rs.updateNClob(columnIndex, reader);</span>
-<span class="nc" id="L1224">    }</span>
+    protected final void updateBlob(int columnIndex, Blob x) throws SQLException {
+<span class="nc" id="L1287">        rs.updateBlob(columnIndex, x);</span>
+<span class="nc" id="L1288">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param inputStream
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBlob(int, java.io.InputStream, long)
      */
-    protected final void updateNClob(final String columnLabel, final NClob nClob) throws SQLException {
-<span class="nc" id="L1230">        rs.updateNClob(columnLabel, nClob);</span>
-<span class="nc" id="L1231">    }</span>
+    protected final void updateBlob(int columnIndex, InputStream inputStream, long length) throws SQLException {
+<span class="nc" id="L1298">        rs.updateBlob(columnIndex, inputStream, length);</span>
+<span class="nc" id="L1299">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param inputStream
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBlob(int, java.io.InputStream)
      */
-    protected final void updateNClob(final String columnLabel, final Reader reader, final long length) throws SQLException {
-<span class="nc" id="L1237">        rs.updateNClob(columnLabel, reader, length);</span>
-<span class="nc" id="L1238">    }</span>
+    protected final void updateBlob(int columnIndex, InputStream inputStream) throws SQLException {
+<span class="nc" id="L1308">        rs.updateBlob(columnIndex, inputStream);</span>
+<span class="nc" id="L1309">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBlob(java.lang.String, java.sql.Blob)
      */
-    protected final void updateNClob(final String columnLabel, final Reader reader) throws SQLException {
-<span class="nc" id="L1244">        rs.updateNClob(columnLabel, reader);</span>
-<span class="nc" id="L1245">    }</span>
+    protected final void updateBlob(String columnLabel, Blob x) throws SQLException {
+<span class="nc" id="L1318">        rs.updateBlob(columnLabel, x);</span>
+<span class="nc" id="L1319">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param inputStream
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBlob(java.lang.String, java.io.InputStream, long)
      */
-    protected final void updateNString(final int columnIndex, final String nString) throws SQLException {
-<span class="nc" id="L1251">        rs.updateNString(columnIndex, nString);</span>
-<span class="nc" id="L1252">    }</span>
+    protected final void updateBlob(String columnLabel, InputStream inputStream, long length) throws SQLException {
+<span class="nc" id="L1329">        rs.updateBlob(columnLabel, inputStream, length);</span>
+<span class="nc" id="L1330">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param inputStream
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBlob(java.lang.String, java.io.InputStream)
      */
-    protected final void updateNString(final String columnLabel, final String nString) throws SQLException {
-<span class="nc" id="L1258">        rs.updateNString(columnLabel, nString);</span>
-<span class="nc" id="L1259">    }</span>
+    protected final void updateBlob(String columnLabel, InputStream inputStream) throws SQLException {
+<span class="nc" id="L1339">        rs.updateBlob(columnLabel, inputStream);</span>
+<span class="nc" id="L1340">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBoolean(int, boolean)
      */
-    protected final void updateNull(final int columnIndex) throws SQLException {
-<span class="nc" id="L1265">        rs.updateNull(columnIndex);</span>
-<span class="nc" id="L1266">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateNull(final String columnLabel) throws SQLException {
-<span class="nc" id="L1272">        rs.updateNull(columnLabel);</span>
-<span class="nc" id="L1273">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateObject(final int columnIndex, final Object x, final int scaleOrLength) throws SQLException {
-<span class="nc" id="L1279">        rs.updateObject(columnIndex, x, scaleOrLength);</span>
-<span class="nc" id="L1280">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateObject(final int columnIndex, final Object x) throws SQLException {
-<span class="nc" id="L1286">        rs.updateObject(columnIndex, x);</span>
-<span class="nc" id="L1287">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateObject(final String columnLabel, final Object x, final int scaleOrLength) throws SQLException {
-<span class="nc" id="L1293">        rs.updateObject(columnLabel, x, scaleOrLength);</span>
-<span class="nc" id="L1294">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateObject(final String columnLabel, final Object x) throws SQLException {
-<span class="nc" id="L1300">        rs.updateObject(columnLabel, x);</span>
-<span class="nc" id="L1301">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateRef(final int columnIndex, final Ref x) throws SQLException {
-<span class="nc" id="L1307">        rs.updateRef(columnIndex, x);</span>
-<span class="nc" id="L1308">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateRef(final String columnLabel, final Ref x) throws SQLException {
-<span class="nc" id="L1314">        rs.updateRef(columnLabel, x);</span>
-<span class="nc" id="L1315">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateRow() throws SQLException {
-<span class="nc" id="L1321">        rs.updateRow();</span>
-<span class="nc" id="L1322">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateRowId(final int columnIndex, final RowId x) throws SQLException {
-<span class="nc" id="L1328">        rs.updateRowId(columnIndex, x);</span>
-<span class="nc" id="L1329">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateRowId(final String columnLabel, final RowId x) throws SQLException {
-<span class="nc" id="L1335">        rs.updateRowId(columnLabel, x);</span>
-<span class="nc" id="L1336">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateSQLXML(final int columnIndex, final SQLXML xmlObject) throws SQLException {
-<span class="nc" id="L1342">        rs.updateSQLXML(columnIndex, xmlObject);</span>
-<span class="nc" id="L1343">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    protected final void updateSQLXML(final String columnLabel, final SQLXML xmlObject) throws SQLException {
-<span class="nc" id="L1349">        rs.updateSQLXML(columnLabel, xmlObject);</span>
+    protected final void updateBoolean(int columnIndex, boolean x) throws SQLException {
+<span class="nc" id="L1349">        rs.updateBoolean(columnIndex, x);</span>
 <span class="nc" id="L1350">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBoolean(java.lang.String, boolean)
      */
-    protected final void updateShort(final int columnIndex, final short x) throws SQLException {
-<span class="nc" id="L1356">        rs.updateShort(columnIndex, x);</span>
-<span class="nc" id="L1357">    }</span>
+    protected final void updateBoolean(String columnLabel, boolean x) throws SQLException {
+<span class="nc" id="L1359">        rs.updateBoolean(columnLabel, x);</span>
+<span class="nc" id="L1360">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateByte(int, byte)
      */
-    protected final void updateShort(final String columnLabel, final short x) throws SQLException {
-<span class="nc" id="L1363">        rs.updateShort(columnLabel, x);</span>
-<span class="nc" id="L1364">    }</span>
+    protected final void updateByte(int columnIndex, byte x) throws SQLException {
+<span class="nc" id="L1369">        rs.updateByte(columnIndex, x);</span>
+<span class="nc" id="L1370">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateByte(java.lang.String, byte)
      */
-    protected final void updateString(final int columnIndex, final String x) throws SQLException {
-<span class="nc" id="L1370">        rs.updateString(columnIndex, x);</span>
-<span class="nc" id="L1371">    }</span>
+    protected final void updateByte(String columnLabel, byte x) throws SQLException {
+<span class="nc" id="L1379">        rs.updateByte(columnLabel, x);</span>
+<span class="nc" id="L1380">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBytes(int, byte[])
      */
-    protected final void updateString(final String columnLabel, final String x) throws SQLException {
-<span class="nc" id="L1377">        rs.updateString(columnLabel, x);</span>
-<span class="nc" id="L1378">    }</span>
+    protected final void updateBytes(int columnIndex, byte[] x) throws SQLException {
+<span class="nc" id="L1389">        rs.updateBytes(columnIndex, x);</span>
+<span class="nc" id="L1390">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateBytes(java.lang.String, byte[])
      */
-    protected final void updateTime(final int columnIndex, final Time x) throws SQLException {
-<span class="nc" id="L1384">        rs.updateTime(columnIndex, x);</span>
-<span class="nc" id="L1385">    }</span>
+    protected final void updateBytes(String columnLabel, byte[] x) throws SQLException {
+<span class="nc" id="L1399">        rs.updateBytes(columnLabel, x);</span>
+<span class="nc" id="L1400">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateCharacterStream(int, java.io.Reader, int)
      */
-    protected final void updateTime(final String columnLabel, final Time x) throws SQLException {
-<span class="nc" id="L1391">        rs.updateTime(columnLabel, x);</span>
-<span class="nc" id="L1392">    }</span>
+    protected final void updateCharacterStream(int columnIndex, Reader x, int length) throws SQLException {
+<span class="nc" id="L1410">        rs.updateCharacterStream(columnIndex, x, length);</span>
+<span class="nc" id="L1411">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateCharacterStream(int, java.io.Reader, long)
      */
-    protected final void updateTimestamp(final int columnIndex, final Timestamp x) throws SQLException {
-<span class="nc" id="L1398">        rs.updateTimestamp(columnIndex, x);</span>
-<span class="nc" id="L1399">    }</span>
+    protected final void updateCharacterStream(int columnIndex, Reader x, long length) throws SQLException {
+<span class="nc" id="L1421">        rs.updateCharacterStream(columnIndex, x, length);</span>
+<span class="nc" id="L1422">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateCharacterStream(int, java.io.Reader)
      */
-    protected final void updateTimestamp(final String columnLabel, final Timestamp x) throws SQLException {
-<span class="nc" id="L1405">        rs.updateTimestamp(columnLabel, x);</span>
-<span class="nc" id="L1406">    }</span>
+    protected final void updateCharacterStream(int columnIndex, Reader x) throws SQLException {
+<span class="nc" id="L1431">        rs.updateCharacterStream(columnIndex, x);</span>
+<span class="nc" id="L1432">    }</span>
 
     /**
-     * {@inheritDoc}
+     * @param columnLabel
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateCharacterStream(java.lang.String, java.io.Reader, int)
+     */
+    protected final void updateCharacterStream(String columnLabel, Reader reader, int length) throws SQLException {
+<span class="nc" id="L1442">        rs.updateCharacterStream(columnLabel, reader, length);</span>
+<span class="nc" id="L1443">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateCharacterStream(java.lang.String, java.io.Reader, long)
+     */
+    protected final void updateCharacterStream(String columnLabel, Reader reader, long length) throws SQLException {
+<span class="nc" id="L1453">        rs.updateCharacterStream(columnLabel, reader, length);</span>
+<span class="nc" id="L1454">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateCharacterStream(java.lang.String, java.io.Reader)
+     */
+    protected final void updateCharacterStream(String columnLabel, Reader reader) throws SQLException {
+<span class="nc" id="L1463">        rs.updateCharacterStream(columnLabel, reader);</span>
+<span class="nc" id="L1464">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateClob(int, java.sql.Clob)
+     */
+    protected final void updateClob(int columnIndex, Clob x) throws SQLException {
+<span class="nc" id="L1473">        rs.updateClob(columnIndex, x);</span>
+<span class="nc" id="L1474">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateClob(int, java.io.Reader, long)
+     */
+    protected final void updateClob(int columnIndex, Reader reader, long length) throws SQLException {
+<span class="nc" id="L1484">        rs.updateClob(columnIndex, reader, length);</span>
+<span class="nc" id="L1485">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param reader
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateClob(int, java.io.Reader)
+     */
+    protected final void updateClob(int columnIndex, Reader reader) throws SQLException {
+<span class="nc" id="L1494">        rs.updateClob(columnIndex, reader);</span>
+<span class="nc" id="L1495">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateClob(java.lang.String, java.sql.Clob)
+     */
+    protected final void updateClob(String columnLabel, Clob x) throws SQLException {
+<span class="nc" id="L1504">        rs.updateClob(columnLabel, x);</span>
+<span class="nc" id="L1505">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateClob(java.lang.String, java.io.Reader, long)
+     */
+    protected final void updateClob(String columnLabel, Reader reader, long length) throws SQLException {
+<span class="nc" id="L1515">        rs.updateClob(columnLabel, reader, length);</span>
+<span class="nc" id="L1516">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateClob(java.lang.String, java.io.Reader)
+     */
+    protected final void updateClob(String columnLabel, Reader reader) throws SQLException {
+<span class="nc" id="L1525">        rs.updateClob(columnLabel, reader);</span>
+<span class="nc" id="L1526">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateDate(int, java.sql.Date)
+     */
+    protected final void updateDate(int columnIndex, Date x) throws SQLException {
+<span class="nc" id="L1535">        rs.updateDate(columnIndex, x);</span>
+<span class="nc" id="L1536">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateDate(java.lang.String, java.sql.Date)
+     */
+    protected final void updateDate(String columnLabel, Date x) throws SQLException {
+<span class="nc" id="L1545">        rs.updateDate(columnLabel, x);</span>
+<span class="nc" id="L1546">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateDouble(int, double)
+     */
+    protected final void updateDouble(int columnIndex, double x) throws SQLException {
+<span class="nc" id="L1555">        rs.updateDouble(columnIndex, x);</span>
+<span class="nc" id="L1556">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateDouble(java.lang.String, double)
+     */
+    protected final void updateDouble(String columnLabel, double x) throws SQLException {
+<span class="nc" id="L1565">        rs.updateDouble(columnLabel, x);</span>
+<span class="nc" id="L1566">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateFloat(int, float)
+     */
+    protected final void updateFloat(int columnIndex, float x) throws SQLException {
+<span class="nc" id="L1575">        rs.updateFloat(columnIndex, x);</span>
+<span class="nc" id="L1576">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateFloat(java.lang.String, float)
+     */
+    protected final void updateFloat(String columnLabel, float x) throws SQLException {
+<span class="nc" id="L1585">        rs.updateFloat(columnLabel, x);</span>
+<span class="nc" id="L1586">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateInt(int, int)
+     */
+    protected final void updateInt(int columnIndex, int x) throws SQLException {
+<span class="nc" id="L1595">        rs.updateInt(columnIndex, x);</span>
+<span class="nc" id="L1596">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateInt(java.lang.String, int)
+     */
+    protected final void updateInt(String columnLabel, int x) throws SQLException {
+<span class="nc" id="L1605">        rs.updateInt(columnLabel, x);</span>
+<span class="nc" id="L1606">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateLong(int, long)
+     */
+    protected final void updateLong(int columnIndex, long x) throws SQLException {
+<span class="nc" id="L1615">        rs.updateLong(columnIndex, x);</span>
+<span class="nc" id="L1616">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateLong(java.lang.String, long)
+     */
+    protected final void updateLong(String columnLabel, long x) throws SQLException {
+<span class="nc" id="L1625">        rs.updateLong(columnLabel, x);</span>
+<span class="nc" id="L1626">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNCharacterStream(int, java.io.Reader, long)
+     */
+    protected final void updateNCharacterStream(int columnIndex, Reader x, long length) throws SQLException {
+<span class="nc" id="L1636">        rs.updateNCharacterStream(columnIndex, x, length);</span>
+<span class="nc" id="L1637">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNCharacterStream(int, java.io.Reader)
+     */
+    protected final void updateNCharacterStream(int columnIndex, Reader x) throws SQLException {
+<span class="nc" id="L1646">        rs.updateNCharacterStream(columnIndex, x);</span>
+<span class="nc" id="L1647">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNCharacterStream(java.lang.String, java.io.Reader, long)
+     */
+    protected final void updateNCharacterStream(String columnLabel, Reader reader, long length) throws SQLException {
+<span class="nc" id="L1657">        rs.updateNCharacterStream(columnLabel, reader, length);</span>
+<span class="nc" id="L1658">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNCharacterStream(java.lang.String, java.io.Reader)
+     */
+    protected final void updateNCharacterStream(String columnLabel, Reader reader) throws SQLException {
+<span class="nc" id="L1667">        rs.updateNCharacterStream(columnLabel, reader);</span>
+<span class="nc" id="L1668">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param nClob
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNClob(int, java.sql.NClob)
+     */
+    protected final void updateNClob(int columnIndex, NClob nClob) throws SQLException {
+<span class="nc" id="L1677">        rs.updateNClob(columnIndex, nClob);</span>
+<span class="nc" id="L1678">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNClob(int, java.io.Reader, long)
+     */
+    protected final void updateNClob(int columnIndex, Reader reader, long length) throws SQLException {
+<span class="nc" id="L1688">        rs.updateNClob(columnIndex, reader, length);</span>
+<span class="nc" id="L1689">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param reader
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNClob(int, java.io.Reader)
+     */
+    protected final void updateNClob(int columnIndex, Reader reader) throws SQLException {
+<span class="nc" id="L1698">        rs.updateNClob(columnIndex, reader);</span>
+<span class="nc" id="L1699">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param nClob
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNClob(java.lang.String, java.sql.NClob)
+     */
+    protected final void updateNClob(String columnLabel, NClob nClob) throws SQLException {
+<span class="nc" id="L1708">        rs.updateNClob(columnLabel, nClob);</span>
+<span class="nc" id="L1709">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @param length
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNClob(java.lang.String, java.io.Reader, long)
+     */
+    protected final void updateNClob(String columnLabel, Reader reader, long length) throws SQLException {
+<span class="nc" id="L1719">        rs.updateNClob(columnLabel, reader, length);</span>
+<span class="nc" id="L1720">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param reader
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNClob(java.lang.String, java.io.Reader)
+     */
+    protected final void updateNClob(String columnLabel, Reader reader) throws SQLException {
+<span class="nc" id="L1729">        rs.updateNClob(columnLabel, reader);</span>
+<span class="nc" id="L1730">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param nString
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNString(int, java.lang.String)
+     */
+    protected final void updateNString(int columnIndex, String nString) throws SQLException {
+<span class="nc" id="L1739">        rs.updateNString(columnIndex, nString);</span>
+<span class="nc" id="L1740">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param nString
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNString(java.lang.String, java.lang.String)
+     */
+    protected final void updateNString(String columnLabel, String nString) throws SQLException {
+<span class="nc" id="L1749">        rs.updateNString(columnLabel, nString);</span>
+<span class="nc" id="L1750">    }</span>
+
+    /**
+     * @param columnIndex
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNull(int)
+     */
+    protected final void updateNull(int columnIndex) throws SQLException {
+<span class="nc" id="L1758">        rs.updateNull(columnIndex);</span>
+<span class="nc" id="L1759">    }</span>
+
+    /**
+     * @param columnLabel
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateNull(java.lang.String)
+     */
+    protected final void updateNull(String columnLabel) throws SQLException {
+<span class="nc" id="L1767">        rs.updateNull(columnLabel);</span>
+<span class="nc" id="L1768">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @param scaleOrLength
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateObject(int, java.lang.Object, int)
+     */
+    protected final void updateObject(int columnIndex, Object x, int scaleOrLength) throws SQLException {
+<span class="nc" id="L1778">        rs.updateObject(columnIndex, x, scaleOrLength);</span>
+<span class="nc" id="L1779">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateObject(int, java.lang.Object)
+     */
+    protected final void updateObject(int columnIndex, Object x) throws SQLException {
+<span class="nc" id="L1788">        rs.updateObject(columnIndex, x);</span>
+<span class="nc" id="L1789">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @param scaleOrLength
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateObject(java.lang.String, java.lang.Object, int)
+     */
+    protected final void updateObject(String columnLabel, Object x, int scaleOrLength) throws SQLException {
+<span class="nc" id="L1799">        rs.updateObject(columnLabel, x, scaleOrLength);</span>
+<span class="nc" id="L1800">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateObject(java.lang.String, java.lang.Object)
+     */
+    protected final void updateObject(String columnLabel, Object x) throws SQLException {
+<span class="nc" id="L1809">        rs.updateObject(columnLabel, x);</span>
+<span class="nc" id="L1810">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateRef(int, java.sql.Ref)
+     */
+    protected final void updateRef(int columnIndex, Ref x) throws SQLException {
+<span class="nc" id="L1819">        rs.updateRef(columnIndex, x);</span>
+<span class="nc" id="L1820">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateRef(java.lang.String, java.sql.Ref)
+     */
+    protected final void updateRef(String columnLabel, Ref x) throws SQLException {
+<span class="nc" id="L1829">        rs.updateRef(columnLabel, x);</span>
+<span class="nc" id="L1830">    }</span>
+
+    /**
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateRow()
+     */
+    protected final void updateRow() throws SQLException {
+<span class="nc" id="L1837">        rs.updateRow();</span>
+<span class="nc" id="L1838">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateRowId(int, java.sql.RowId)
+     */
+    protected final void updateRowId(int columnIndex, RowId x) throws SQLException {
+<span class="nc" id="L1847">        rs.updateRowId(columnIndex, x);</span>
+<span class="nc" id="L1848">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateRowId(java.lang.String, java.sql.RowId)
+     */
+    protected final void updateRowId(String columnLabel, RowId x) throws SQLException {
+<span class="nc" id="L1857">        rs.updateRowId(columnLabel, x);</span>
+<span class="nc" id="L1858">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param xmlObject
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateSQLXML(int, java.sql.SQLXML)
+     */
+    protected final void updateSQLXML(int columnIndex, SQLXML xmlObject) throws SQLException {
+<span class="nc" id="L1867">        rs.updateSQLXML(columnIndex, xmlObject);</span>
+<span class="nc" id="L1868">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param xmlObject
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateSQLXML(java.lang.String, java.sql.SQLXML)
+     */
+    protected final void updateSQLXML(String columnLabel, SQLXML xmlObject) throws SQLException {
+<span class="nc" id="L1877">        rs.updateSQLXML(columnLabel, xmlObject);</span>
+<span class="nc" id="L1878">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateShort(int, short)
+     */
+    protected final void updateShort(int columnIndex, short x) throws SQLException {
+<span class="nc" id="L1887">        rs.updateShort(columnIndex, x);</span>
+<span class="nc" id="L1888">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateShort(java.lang.String, short)
+     */
+    protected final void updateShort(String columnLabel, short x) throws SQLException {
+<span class="nc" id="L1897">        rs.updateShort(columnLabel, x);</span>
+<span class="nc" id="L1898">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateString(int, java.lang.String)
+     */
+    protected final void updateString(int columnIndex, String x) throws SQLException {
+<span class="nc" id="L1907">        rs.updateString(columnIndex, x);</span>
+<span class="nc" id="L1908">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateString(java.lang.String, java.lang.String)
+     */
+    protected final void updateString(String columnLabel, String x) throws SQLException {
+<span class="nc" id="L1917">        rs.updateString(columnLabel, x);</span>
+<span class="nc" id="L1918">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateTime(int, java.sql.Time)
+     */
+    protected final void updateTime(int columnIndex, Time x) throws SQLException {
+<span class="nc" id="L1927">        rs.updateTime(columnIndex, x);</span>
+<span class="nc" id="L1928">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateTime(java.lang.String, java.sql.Time)
+     */
+    protected final void updateTime(String columnLabel, Time x) throws SQLException {
+<span class="nc" id="L1937">        rs.updateTime(columnLabel, x);</span>
+<span class="nc" id="L1938">    }</span>
+
+    /**
+     * @param columnIndex
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateTimestamp(int, java.sql.Timestamp)
+     */
+    protected final void updateTimestamp(int columnIndex, Timestamp x) throws SQLException {
+<span class="nc" id="L1947">        rs.updateTimestamp(columnIndex, x);</span>
+<span class="nc" id="L1948">    }</span>
+
+    /**
+     * @param columnLabel
+     * @param x
+     * @throws SQLException
+     * @see java.sql.ResultSet#updateTimestamp(java.lang.String, java.sql.Timestamp)
+     */
+    protected final void updateTimestamp(String columnLabel, Timestamp x) throws SQLException {
+<span class="nc" id="L1957">        rs.updateTimestamp(columnLabel, x);</span>
+<span class="nc" id="L1958">    }</span>
+
+    /**
+     * @return
+     * @throws SQLException
+     * @see java.sql.ResultSet#wasNull()
      */
     protected final boolean wasNull() throws SQLException {
-<span class="nc" id="L1412">        return rs.wasNull();</span>
+<span class="nc" id="L1966">        return rs.wasNull();</span>
     }
 
     protected final ResultSet getAdaptedResultSet() {
-<span class="nc" id="L1416">        return rs;</span>
+<span class="nc" id="L1970">        return rs;</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

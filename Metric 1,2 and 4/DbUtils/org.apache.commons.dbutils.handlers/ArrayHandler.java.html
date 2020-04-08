@@ -24,8 +24,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.RowProcessor;
 
 /**
- * {@code ResultSetHandler} implementation that converts a
- * {@code ResultSet} into an {@code Object[]}. This class is
+ * &lt;code&gt;ResultSetHandler&lt;/code&gt; implementation that converts a
+ * &lt;code&gt;ResultSet&lt;/code&gt; into an &lt;code&gt;Object[]&lt;/code&gt;. This class is
  * thread safe.
  *
  * @see org.apache.commons.dbutils.ResultSetHandler
@@ -52,7 +52,7 @@ public class ArrayHandler implements ResultSetHandler&lt;Object[]&gt; {
 
     /**
      * Creates a new instance of ArrayHandler using a
-     * {@code BasicRowProcessor} for conversion.
+     * &lt;code&gt;BasicRowProcessor&lt;/code&gt; for conversion.
      */
     public ArrayHandler() {
 <span class="fc" id="L58">        this(ROW_PROCESSOR);</span>
@@ -61,27 +61,27 @@ public class ArrayHandler implements ResultSetHandler&lt;Object[]&gt; {
     /**
      * Creates a new instance of ArrayHandler.
      *
-     * @param convert The {@code RowProcessor} implementation
+     * @param convert The &lt;code&gt;RowProcessor&lt;/code&gt; implementation
      * to use when converting rows into arrays.
      */
-    public ArrayHandler(final RowProcessor convert) {
+    public ArrayHandler(RowProcessor convert) {
 <span class="fc" id="L68">        super();</span>
 <span class="fc" id="L69">        this.convert = convert;</span>
 <span class="fc" id="L70">    }</span>
 
     /**
-     * Places the column values from the first row in an {@code Object[]}.
-     * @param rs {@code ResultSet} to process.
-     * @return An Object[]. If there are no rows in the {@code ResultSet}
+     * Places the column values from the first row in an &lt;code&gt;Object[]&lt;/code&gt;.
+     * @param rs &lt;code&gt;ResultSet&lt;/code&gt; to process.
+     * @return An Object[]. If there are no rows in the &lt;code&gt;ResultSet&lt;/code&gt;
      * an empty array will be returned.
      *
      * @throws SQLException if a database access error occurs
      * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
      */
     @Override
-    public Object[] handle(final ResultSet rs) throws SQLException {
+    public Object[] handle(ResultSet rs) throws SQLException {
 <span class="fc bfc" id="L83" title="All 2 branches covered.">        return rs.next() ? this.convert.toArray(rs) : EMPTY_ARRAY;</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

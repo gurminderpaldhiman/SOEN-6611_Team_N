@@ -28,7 +28,7 @@ import javax.sql.DataSource;
 
 /**
  * Executes SQL queries with pluggable strategies for handling
- * {@code ResultSet}s.  This class is thread safe.
+ * &lt;code&gt;ResultSet&lt;/code&gt;s.  This class is thread safe.
  *
  * @see ResultSetHandler
  */
@@ -42,77 +42,77 @@ public class QueryRunner extends AbstractQueryRunner {
 <span class="fc" id="L42">    }</span>
 
     /**
-     * Constructor for QueryRunner that controls the use of {@code ParameterMetaData}.
+     * Constructor for QueryRunner that controls the use of &lt;code&gt;ParameterMetaData&lt;/code&gt;.
      *
      * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
-     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
+     * if &lt;code&gt;pmdKnownBroken&lt;/code&gt; is set to true, we won't even try it; if false, we'll try it,
      * and if it breaks, we'll remember not to use it again.
      */
-    public QueryRunner(final boolean pmdKnownBroken) {
+    public QueryRunner(boolean pmdKnownBroken) {
 <span class="fc" id="L52">        super(pmdKnownBroken);</span>
 <span class="fc" id="L53">    }</span>
 
     /**
-     * Constructor for QueryRunner that takes a {@code DataSource} to use.
+     * Constructor for QueryRunner that takes a &lt;code&gt;DataSource&lt;/code&gt; to use.
      *
-     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
-     * {@code DataSource}.
+     * Methods that do not take a &lt;code&gt;Connection&lt;/code&gt; parameter will retrieve connections from this
+     * &lt;code&gt;DataSource&lt;/code&gt;.
      *
-     * @param ds The {@code DataSource} to retrieve connections from.
+     * @param ds The &lt;code&gt;DataSource&lt;/code&gt; to retrieve connections from.
      */
-    public QueryRunner(final DataSource ds) {
+    public QueryRunner(DataSource ds) {
 <span class="fc" id="L64">        super(ds);</span>
 <span class="fc" id="L65">    }</span>
 
     /**
-     * Constructor for QueryRunner that takes a {@code StatementConfiguration} to configure statements when
+     * Constructor for QueryRunner that takes a &lt;code&gt;StatementConfiguration&lt;/code&gt; to configure statements when
      * preparing them.
      *
      * @param stmtConfig The configuration to apply to statements when they are prepared.
      */
-    public QueryRunner(final StatementConfiguration stmtConfig) {
+    public QueryRunner(StatementConfiguration stmtConfig) {
 <span class="fc" id="L74">        super(stmtConfig);</span>
 <span class="fc" id="L75">    }</span>
 
     /**
-     * Constructor for QueryRunner that takes a {@code DataSource} and controls the use of {@code ParameterMetaData}.
-     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
-     * {@code DataSource}.
+     * Constructor for QueryRunner that takes a &lt;code&gt;DataSource&lt;/code&gt; and controls the use of &lt;code&gt;ParameterMetaData&lt;/code&gt;.
+     * Methods that do not take a &lt;code&gt;Connection&lt;/code&gt; parameter will retrieve connections from this
+     * &lt;code&gt;DataSource&lt;/code&gt;.
      *
-     * @param ds The {@code DataSource} to retrieve connections from.
+     * @param ds The &lt;code&gt;DataSource&lt;/code&gt; to retrieve connections from.
      * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
-     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
+     * if &lt;code&gt;pmdKnownBroken&lt;/code&gt; is set to true, we won't even try it; if false, we'll try it,
      * and if it breaks, we'll remember not to use it again.
      */
-    public QueryRunner(final DataSource ds, final boolean pmdKnownBroken) {
+    public QueryRunner(DataSource ds, boolean pmdKnownBroken) {
 <span class="fc" id="L88">        super(ds, pmdKnownBroken);</span>
 <span class="fc" id="L89">    }</span>
 
     /**
-     * Constructor for QueryRunner that takes a {@code DataSource} to use and a {@code StatementConfiguration}.
+     * Constructor for QueryRunner that takes a &lt;code&gt;DataSource&lt;/code&gt; to use and a &lt;code&gt;StatementConfiguration&lt;/code&gt;.
      *
-     * Methods that do not take a {@code Connection} parameter will retrieve connections from this
-     * {@code DataSource}.
+     * Methods that do not take a &lt;code&gt;Connection&lt;/code&gt; parameter will retrieve connections from this
+     * &lt;code&gt;DataSource&lt;/code&gt;.
      *
-     * @param ds The {@code DataSource} to retrieve connections from.
+     * @param ds The &lt;code&gt;DataSource&lt;/code&gt; to retrieve connections from.
      * @param stmtConfig The configuration to apply to statements when they are prepared.
      */
-    public QueryRunner(final DataSource ds, final StatementConfiguration stmtConfig) {
+    public QueryRunner(DataSource ds, StatementConfiguration stmtConfig) {
 <span class="nc" id="L101">        super(ds, stmtConfig);</span>
 <span class="nc" id="L102">    }</span>
 
     /**
-     * Constructor for QueryRunner that takes a {@code DataSource}, a {@code StatementConfiguration}, and
-     * controls the use of {@code ParameterMetaData}.  Methods that do not take a {@code Connection} parameter
-     * will retrieve connections from this {@code DataSource}.
+     * Constructor for QueryRunner that takes a &lt;code&gt;DataSource&lt;/code&gt;, a &lt;code&gt;StatementConfiguration&lt;/code&gt;, and
+     * controls the use of &lt;code&gt;ParameterMetaData&lt;/code&gt;.  Methods that do not take a &lt;code&gt;Connection&lt;/code&gt; parameter
+     * will retrieve connections from this &lt;code&gt;DataSource&lt;/code&gt;.
      *
-     * @param ds The {@code DataSource} to retrieve connections from.
+     * @param ds The &lt;code&gt;DataSource&lt;/code&gt; to retrieve connections from.
      * @param pmdKnownBroken Some drivers don't support {@link java.sql.ParameterMetaData#getParameterType(int) };
-     * if {@code pmdKnownBroken} is set to true, we won't even try it; if false, we'll try it,
+     * if &lt;code&gt;pmdKnownBroken&lt;/code&gt; is set to true, we won't even try it; if false, we'll try it,
      * and if it breaks, we'll remember not to use it again.
      * @param stmtConfig The configuration to apply to statements when they are prepared.
      */
-    public QueryRunner(final DataSource ds, final boolean pmdKnownBroken, final StatementConfiguration stmtConfig) {
+    public QueryRunner(DataSource ds, boolean pmdKnownBroken, StatementConfiguration stmtConfig) {
 <span class="nc" id="L116">        super(ds, pmdKnownBroken, stmtConfig);</span>
 <span class="nc" id="L117">    }</span>
 
@@ -128,14 +128,14 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @since DbUtils 1.1
      */
-    public int[] batch(final Connection conn, final String sql, final Object[][] params) throws SQLException {
+    public int[] batch(Connection conn, String sql, Object[][] params) throws SQLException {
 <span class="fc" id="L132">        return this.batch(conn, false, sql, params);</span>
     }
 
     /**
      * Execute a batch of SQL INSERT, UPDATE, or DELETE queries.  The
-     * {@code Connection} is retrieved from the {@code DataSource}
-     * set in the constructor.  This {@code Connection} must be in
+     * &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt;
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in
      * auto-commit mode or the update will not be saved.
      *
      * @param sql The SQL to execute.
@@ -145,8 +145,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @since DbUtils 1.1
      */
-    public int[] batch(final String sql, final Object[][] params) throws SQLException {
-<span class="fc" id="L149">        final Connection conn = this.prepareConnection();</span>
+    public int[] batch(String sql, Object[][] params) throws SQLException {
+<span class="fc" id="L149">        Connection conn = this.prepareConnection();</span>
 
 <span class="fc" id="L151">        return this.batch(conn, true, sql, params);</span>
     }
@@ -161,7 +161,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated in the batch.
      * @throws SQLException If there are database or parameter errors.
      */
-    private int[] batch(final Connection conn, final boolean closeConn, final String sql, final Object[][] params) throws SQLException {
+    private int[] batch(Connection conn, boolean closeConn, String sql, Object[][] params) throws SQLException {
 <span class="fc bfc" id="L165" title="All 2 branches covered.">        if (conn == null) {</span>
 <span class="fc" id="L166">            throw new SQLException(&quot;Null connection&quot;);</span>
         }
@@ -185,13 +185,13 @@ public class QueryRunner extends AbstractQueryRunner {
         try {
 <span class="fc" id="L186">            stmt = this.prepareStatement(conn, sql);</span>
 
-<span class="fc bfc" id="L188" title="All 2 branches covered.">            for (Object[] param : params) {</span>
-<span class="fc" id="L189">                this.fillStatement(stmt, param);</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">            for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="fc" id="L189">                this.fillStatement(stmt, params[i]);</span>
 <span class="fc" id="L190">                stmt.addBatch();</span>
             }
 <span class="fc" id="L192">            rows = stmt.executeBatch();</span>
 
-<span class="fc" id="L194">        } catch (final SQLException e) {</span>
+<span class="fc" id="L194">        } catch (SQLException e) {</span>
 <span class="nc" id="L195">            this.rethrow(e, sql, (Object[])params);</span>
         } finally {
 <span class="fc" id="L197">            close(stmt);</span>
@@ -216,8 +216,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @deprecated Use {@link #query(Connection, String, ResultSetHandler, Object...)}
      */
     @Deprecated
-    public &lt;T&gt; T query(final Connection conn, final String sql, final Object param, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
-<span class="nc" id="L220">        return this.&lt;T&gt;query(conn, false, sql, rsh, param);</span>
+    public &lt;T&gt; T query(Connection conn, String sql, Object param, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+<span class="nc" id="L220">        return this.&lt;T&gt;query(conn, false, sql, rsh, new Object[]{param});</span>
     }
 
     /**
@@ -233,7 +233,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @deprecated Use {@link #query(Connection,String,ResultSetHandler,Object...)} instead
      */
     @Deprecated
-    public &lt;T&gt; T query(final Connection conn, final String sql, final Object[] params, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+    public &lt;T&gt; T query(Connection conn, String sql, Object[] params, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
 <span class="nc" id="L237">        return this.&lt;T&gt;query(conn, false, sql, rsh, params);</span>
     }
 
@@ -248,7 +248,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The object returned by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public &lt;T&gt; T query(final Connection conn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
+    public &lt;T&gt; T query(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
 <span class="fc" id="L252">        return this.&lt;T&gt;query(conn, false, sql, rsh, params);</span>
     }
 
@@ -262,87 +262,87 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The object returned by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public &lt;T&gt; T query(final Connection conn, final String sql, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+    public &lt;T&gt; T query(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
 <span class="fc" id="L266">        return this.&lt;T&gt;query(conn, false, sql, rsh, (Object[]) null);</span>
     }
 
     /**
      * Executes the given SELECT SQL with a single replacement parameter.
-     * The {@code Connection} is retrieved from the
-     * {@code DataSource} set in the constructor.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param param The replacement parameter.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet}.
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
      *
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @deprecated Use {@link #query(String, ResultSetHandler, Object...)}
      */
     @Deprecated
-    public &lt;T&gt; T query(final String sql, final Object param, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
-<span class="nc" id="L285">        final Connection conn = this.prepareConnection();</span>
+    public &lt;T&gt; T query(String sql, Object param, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+<span class="nc" id="L285">        Connection conn = this.prepareConnection();</span>
 
-<span class="nc" id="L287">        return this.&lt;T&gt;query(conn, true, sql, rsh, param);</span>
+<span class="nc" id="L287">        return this.&lt;T&gt;query(conn, true, sql, rsh, new Object[]{param});</span>
     }
 
     /**
      * Executes the given SELECT SQL query and returns a result object.
-     * The {@code Connection} is retrieved from the
-     * {@code DataSource} set in the constructor.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param params Initialize the PreparedStatement's IN parameters with
      * this array.
      *
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet}.
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
      *
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @deprecated Use {@link #query(String, ResultSetHandler, Object...)}
      */
     @Deprecated
-    public &lt;T&gt; T query(final String sql, final Object[] params, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
-<span class="nc" id="L308">        final Connection conn = this.prepareConnection();</span>
+    public &lt;T&gt; T query(String sql, Object[] params, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+<span class="nc" id="L308">        Connection conn = this.prepareConnection();</span>
 
 <span class="nc" id="L310">        return this.&lt;T&gt;query(conn, true, sql, rsh, params);</span>
     }
 
     /**
      * Executes the given SELECT SQL query and returns a result object.
-     * The {@code Connection} is retrieved from the
-     * {@code DataSource} set in the constructor.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet}.
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
      * @param params Initialize the PreparedStatement's IN parameters with
      * this array.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public &lt;T&gt; T query(final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
-<span class="fc" id="L327">        final Connection conn = this.prepareConnection();</span>
+    public &lt;T&gt; T query(String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+<span class="fc" id="L327">        Connection conn = this.prepareConnection();</span>
 
 <span class="fc" id="L329">        return this.&lt;T&gt;query(conn, true, sql, rsh, params);</span>
     }
 
     /**
      * Executes the given SELECT SQL without any replacement parameters.
-     * The {@code Connection} is retrieved from the
-     * {@code DataSource} set in the constructor.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet}.
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
      *
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      */
-    public &lt;T&gt; T query(final String sql, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
-<span class="fc" id="L345">        final Connection conn = this.prepareConnection();</span>
+    public &lt;T&gt; T query(String sql, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+<span class="fc" id="L345">        Connection conn = this.prepareConnection();</span>
 
 <span class="fc" id="L347">        return this.&lt;T&gt;query(conn, true, sql, rsh, (Object[]) null);</span>
     }
@@ -357,7 +357,7 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The results of the query.
      * @throws SQLException If there are database or parameter errors.
      */
-    private &lt;T&gt; T query(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params)
+    private &lt;T&gt; T query(Connection conn, boolean closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)
             throws SQLException {
 <span class="fc bfc" id="L362" title="All 2 branches covered.">        if (conn == null) {</span>
 <span class="fc" id="L363">            throw new SQLException(&quot;Null connection&quot;);</span>
@@ -377,34 +377,31 @@ public class QueryRunner extends AbstractQueryRunner {
 <span class="fc" id="L377">            throw new SQLException(&quot;Null ResultSetHandler&quot;);</span>
         }
 
-<span class="fc" id="L380">        Statement stmt = null;</span>
+<span class="fc" id="L380">        PreparedStatement stmt = null;</span>
 <span class="fc" id="L381">        ResultSet rs = null;</span>
 <span class="fc" id="L382">        T result = null;</span>
 
         try {
-<span class="pc bpc" id="L385" title="1 of 4 branches missed.">            if (params != null &amp;&amp; params.length &gt; 0) {</span>
-<span class="fc" id="L386">                PreparedStatement ps = this.prepareStatement(conn, sql);</span>
-<span class="fc" id="L387">                stmt = ps;</span>
-<span class="fc" id="L388">                this.fillStatement(ps, params);</span>
-<span class="fc" id="L389">                rs = this.wrap(ps.executeQuery());</span>
-<span class="fc" id="L390">            } else {</span>
-<span class="fc" id="L391">                stmt = conn.createStatement();</span>
-<span class="fc" id="L392">                rs = this.wrap(stmt.executeQuery(sql));</span>
-            }
-<span class="fc" id="L394">            result = rsh.handle(rs);</span>
+<span class="fc" id="L385">            stmt = this.prepareStatement(conn, sql);</span>
+<span class="fc" id="L386">            this.fillStatement(stmt, params);</span>
+<span class="fc" id="L387">            rs = this.wrap(stmt.executeQuery());</span>
+<span class="fc" id="L388">            result = rsh.handle(rs);</span>
 
-<span class="fc" id="L396">        } catch (final SQLException e) {</span>
-<span class="nc" id="L397">            this.rethrow(e, sql, params);</span>
+<span class="fc" id="L390">        } catch (SQLException e) {</span>
+<span class="nc" id="L391">            this.rethrow(e, sql, params);</span>
 
         } finally {
-<span class="fc" id="L400">            closeQuietly(rs);</span>
-<span class="fc" id="L401">            closeQuietly(stmt);</span>
-<span class="fc bfc" id="L402" title="All 2 branches covered.">            if (closeConn) {</span>
-<span class="fc" id="L403">                close(conn);</span>
+            try {
+<span class="fc" id="L395">                close(rs);</span>
+            } finally {
+<span class="fc" id="L397">                close(stmt);</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">                if (closeConn) {</span>
+<span class="fc" id="L399">                    close(conn);</span>
+                }
             }
         }
 
-<span class="fc" id="L407">        return result;</span>
+<span class="fc" id="L404">        return result;</span>
     }
 
     /**
@@ -416,8 +413,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int update(final Connection conn, final String sql) throws SQLException {
-<span class="fc" id="L420">        return this.update(conn, false, sql, (Object[]) null);</span>
+    public int update(Connection conn, String sql) throws SQLException {
+<span class="fc" id="L417">        return this.update(conn, false, sql, (Object[]) null);</span>
     }
 
     /**
@@ -430,8 +427,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int update(final Connection conn, final String sql, final Object param) throws SQLException {
-<span class="fc" id="L434">        return this.update(conn, false, sql, param);</span>
+    public int update(Connection conn, String sql, Object param) throws SQLException {
+<span class="fc" id="L431">        return this.update(conn, false, sql, new Object[]{param});</span>
     }
 
     /**
@@ -443,32 +440,32 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int update(final Connection conn, final String sql, final Object... params) throws SQLException {
-<span class="fc" id="L447">        return update(conn, false, sql, params);</span>
+    public int update(Connection conn, String sql, Object... params) throws SQLException {
+<span class="fc" id="L444">        return update(conn, false, sql, params);</span>
     }
 
     /**
      * Executes the given INSERT, UPDATE, or DELETE SQL statement without
-     * any replacement parameters. The {@code Connection} is retrieved
-     * from the {@code DataSource} set in the constructor.  This
-     * {@code Connection} must be in auto-commit mode or the update will
+     * any replacement parameters. The &lt;code&gt;Connection&lt;/code&gt; is retrieved
+     * from the &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.  This
+     * &lt;code&gt;Connection&lt;/code&gt; must be in auto-commit mode or the update will
      * not be saved.
      *
      * @param sql The SQL statement to execute.
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int update(final String sql) throws SQLException {
-<span class="fc" id="L462">        final Connection conn = this.prepareConnection();</span>
+    public int update(String sql) throws SQLException {
+<span class="fc" id="L459">        Connection conn = this.prepareConnection();</span>
 
-<span class="fc" id="L464">        return this.update(conn, true, sql, (Object[]) null);</span>
+<span class="fc" id="L461">        return this.update(conn, true, sql, (Object[]) null);</span>
     }
 
     /**
      * Executes the given INSERT, UPDATE, or DELETE SQL statement with
-     * a single replacement parameter.  The {@code Connection} is
-     * retrieved from the {@code DataSource} set in the constructor.
-     * This {@code Connection} must be in auto-commit mode or the
+     * a single replacement parameter.  The &lt;code&gt;Connection&lt;/code&gt; is
+     * retrieved from the &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
+     * This &lt;code&gt;Connection&lt;/code&gt; must be in auto-commit mode or the
      * update will not be saved.
      *
      * @param sql The SQL statement to execute.
@@ -476,16 +473,16 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int update(final String sql, final Object param) throws SQLException {
-<span class="fc" id="L480">        final Connection conn = this.prepareConnection();</span>
+    public int update(String sql, Object param) throws SQLException {
+<span class="fc" id="L477">        Connection conn = this.prepareConnection();</span>
 
-<span class="fc" id="L482">        return this.update(conn, true, sql, param);</span>
+<span class="fc" id="L479">        return this.update(conn, true, sql, new Object[]{param});</span>
     }
 
     /**
      * Executes the given INSERT, UPDATE, or DELETE SQL statement.  The
-     * {@code Connection} is retrieved from the {@code DataSource}
-     * set in the constructor.  This {@code Connection} must be in
+     * &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt;
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in
      * auto-commit mode or the update will not be saved.
      *
      * @param sql The SQL statement to execute.
@@ -494,10 +491,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int update(final String sql, final Object... params) throws SQLException {
-<span class="fc" id="L498">        final Connection conn = this.prepareConnection();</span>
+    public int update(String sql, Object... params) throws SQLException {
+<span class="fc" id="L495">        Connection conn = this.prepareConnection();</span>
 
-<span class="fc" id="L500">        return this.update(conn, true, sql, params);</span>
+<span class="fc" id="L497">        return this.update(conn, true, sql, params);</span>
     }
 
     /**
@@ -510,77 +507,71 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException If there are database or parameter errors.
      */
-    private int update(final Connection conn, final boolean closeConn, final String sql, final Object... params) throws SQLException {
-<span class="fc bfc" id="L514" title="All 2 branches covered.">        if (conn == null) {</span>
-<span class="fc" id="L515">            throw new SQLException(&quot;Null connection&quot;);</span>
+    private int update(Connection conn, boolean closeConn, String sql, Object... params) throws SQLException {
+<span class="fc bfc" id="L511" title="All 2 branches covered.">        if (conn == null) {</span>
+<span class="fc" id="L512">            throw new SQLException(&quot;Null connection&quot;);</span>
         }
 
-<span class="fc bfc" id="L518" title="All 2 branches covered.">        if (sql == null) {</span>
-<span class="pc bpc" id="L519" title="1 of 2 branches missed.">            if (closeConn) {</span>
-<span class="fc" id="L520">                close(conn);</span>
+<span class="fc bfc" id="L515" title="All 2 branches covered.">        if (sql == null) {</span>
+<span class="pc bpc" id="L516" title="1 of 2 branches missed.">            if (closeConn) {</span>
+<span class="fc" id="L517">                close(conn);</span>
             }
-<span class="fc" id="L522">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
+<span class="fc" id="L519">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
         }
 
-<span class="fc" id="L525">        Statement stmt = null;</span>
-<span class="fc" id="L526">        int rows = 0;</span>
+<span class="fc" id="L522">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L523">        int rows = 0;</span>
 
         try {
-<span class="pc bpc" id="L529" title="1 of 4 branches missed.">            if (params != null &amp;&amp; params.length &gt; 0) {</span>
-<span class="fc" id="L530">                PreparedStatement ps = this.prepareStatement(conn, sql);</span>
-<span class="fc" id="L531">                stmt = ps;</span>
-<span class="fc" id="L532">                this.fillStatement(ps, params);</span>
-<span class="fc" id="L533">                rows = ps.executeUpdate();</span>
-<span class="fc" id="L534">            } else {</span>
-<span class="fc" id="L535">                stmt = conn.createStatement();</span>
-<span class="fc" id="L536">                rows = stmt.executeUpdate(sql);</span>
-            }
+<span class="fc" id="L526">            stmt = this.prepareStatement(conn, sql);</span>
+<span class="fc" id="L527">            this.fillStatement(stmt, params);</span>
+<span class="fc" id="L528">            rows = stmt.executeUpdate();</span>
 
-<span class="fc" id="L539">        } catch (final SQLException e) {</span>
-<span class="nc" id="L540">            this.rethrow(e, sql, params);</span>
+<span class="fc" id="L530">        } catch (SQLException e) {</span>
+<span class="nc" id="L531">            this.rethrow(e, sql, params);</span>
 
         } finally {
-<span class="fc" id="L543">            close(stmt);</span>
-<span class="fc bfc" id="L544" title="All 2 branches covered.">            if (closeConn) {</span>
-<span class="fc" id="L545">                close(conn);</span>
+<span class="fc" id="L534">            close(stmt);</span>
+<span class="fc bfc" id="L535" title="All 2 branches covered.">            if (closeConn) {</span>
+<span class="fc" id="L536">                close(conn);</span>
             }
         }
 
-<span class="fc" id="L549">        return rows;</span>
+<span class="fc" id="L540">        return rows;</span>
     }
 
     /**
      * Executes the given INSERT SQL without any replacement parameters.
-     * The {@code Connection} is retrieved from the
-     * {@code DataSource} set in the constructor.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public &lt;T&gt; T insert(final String sql, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
-<span class="nc" id="L565">        return insert(this.prepareConnection(), true, sql, rsh, (Object[]) null);</span>
+    public &lt;T&gt; T insert(String sql, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+<span class="nc" id="L556">        return insert(this.prepareConnection(), true, sql, rsh, (Object[]) null);</span>
     }
 
     /**
      * Executes the given INSERT SQL statement. The
-     * {@code Connection} is retrieved from the {@code DataSource}
-     * set in the constructor.  This {@code Connection} must be in
+     * &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt;
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in
      * auto-commit mode or the insert will not be saved.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @param params Initializes the PreparedStatement's IN (i.e. '?')
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public &lt;T&gt; T insert(final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
-<span class="fc" id="L583">        return insert(this.prepareConnection(), true, sql, rsh, params);</span>
+    public &lt;T&gt; T insert(String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+<span class="fc" id="L574">        return insert(this.prepareConnection(), true, sql, rsh, params);</span>
     }
 
     /**
@@ -589,13 +580,13 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param conn The connection to use to run the query.
      * @param sql The SQL to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public &lt;T&gt; T insert(final Connection conn, final String sql, final ResultSetHandler&lt;T&gt; rsh) throws SQLException {
-<span class="nc" id="L598">        return insert(conn, false, sql, rsh, (Object[]) null);</span>
+    public &lt;T&gt; T insert(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh) throws SQLException {
+<span class="nc" id="L589">        return insert(conn, false, sql, rsh, (Object[]) null);</span>
     }
 
     /**
@@ -604,14 +595,14 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param conn The connection to use to run the query.
      * @param sql The SQL to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @param params The query replacement parameters.
      * @return An object generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public &lt;T&gt; T insert(final Connection conn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
-<span class="nc" id="L614">        return insert(conn, false, sql, rsh, params);</span>
+    public &lt;T&gt; T insert(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+<span class="nc" id="L605">        return insert(conn, false, sql, rsh, params);</span>
     }
 
     /**
@@ -620,75 +611,69 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param closeConn True if the connection should be closed, false otherwise.
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @param params The query replacement parameters.
      * @return An object generated by the handler.
      * @throws SQLException If there are database or parameter errors.
      * @since 1.6
      */
-    private &lt;T&gt; T insert(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params)
+    private &lt;T&gt; T insert(Connection conn, boolean closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params)
             throws SQLException {
-<span class="pc bpc" id="L631" title="1 of 2 branches missed.">        if (conn == null) {</span>
-<span class="nc" id="L632">            throw new SQLException(&quot;Null connection&quot;);</span>
+<span class="pc bpc" id="L622" title="1 of 2 branches missed.">        if (conn == null) {</span>
+<span class="nc" id="L623">            throw new SQLException(&quot;Null connection&quot;);</span>
         }
 
-<span class="pc bpc" id="L635" title="1 of 2 branches missed.">        if (sql == null) {</span>
-<span class="nc bnc" id="L636" title="All 2 branches missed.">            if (closeConn) {</span>
-<span class="nc" id="L637">                close(conn);</span>
+<span class="pc bpc" id="L626" title="1 of 2 branches missed.">        if (sql == null) {</span>
+<span class="nc bnc" id="L627" title="All 2 branches missed.">            if (closeConn) {</span>
+<span class="nc" id="L628">                close(conn);</span>
             }
-<span class="nc" id="L639">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
+<span class="nc" id="L630">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
         }
 
-<span class="pc bpc" id="L642" title="1 of 2 branches missed.">        if (rsh == null) {</span>
-<span class="nc bnc" id="L643" title="All 2 branches missed.">            if (closeConn) {</span>
-<span class="nc" id="L644">                close(conn);</span>
+<span class="pc bpc" id="L633" title="1 of 2 branches missed.">        if (rsh == null) {</span>
+<span class="nc bnc" id="L634" title="All 2 branches missed.">            if (closeConn) {</span>
+<span class="nc" id="L635">                close(conn);</span>
             }
-<span class="nc" id="L646">            throw new SQLException(&quot;Null ResultSetHandler&quot;);</span>
+<span class="nc" id="L637">            throw new SQLException(&quot;Null ResultSetHandler&quot;);</span>
         }
 
-<span class="fc" id="L649">        Statement stmt = null;</span>
-<span class="fc" id="L650">        T generatedKeys = null;</span>
+<span class="fc" id="L640">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L641">        T generatedKeys = null;</span>
 
         try {
-<span class="pc bpc" id="L653" title="2 of 4 branches missed.">            if (params != null &amp;&amp; params.length &gt; 0) {</span>
-<span class="fc" id="L654">                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span>
-<span class="fc" id="L655">                stmt = ps;</span>
-<span class="fc" id="L656">                this.fillStatement(ps, params);</span>
-<span class="fc" id="L657">                ps.executeUpdate();</span>
-<span class="fc" id="L658">            } else {</span>
-<span class="nc" id="L659">                stmt = conn.createStatement();</span>
-<span class="nc" id="L660">                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);</span>
-            }
-<span class="fc" id="L662">            final ResultSet resultSet = stmt.getGeneratedKeys();</span>
-<span class="fc" id="L663">            generatedKeys = rsh.handle(resultSet);</span>
-<span class="nc" id="L664">        } catch (final SQLException e) {</span>
-<span class="nc" id="L665">            this.rethrow(e, sql, params);</span>
+<span class="fc" id="L644">            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="fc" id="L645">            this.fillStatement(stmt, params);</span>
+<span class="fc" id="L646">            stmt.executeUpdate();</span>
+<span class="fc" id="L647">            ResultSet resultSet = stmt.getGeneratedKeys();</span>
+<span class="fc" id="L648">            generatedKeys = rsh.handle(resultSet);</span>
+<span class="nc" id="L649">        } catch (SQLException e) {</span>
+<span class="nc" id="L650">            this.rethrow(e, sql, params);</span>
         } finally {
-<span class="fc" id="L667">            close(stmt);</span>
-<span class="pc bpc" id="L668" title="1 of 2 branches missed.">            if (closeConn) {</span>
-<span class="fc" id="L669">                close(conn);</span>
+<span class="fc" id="L652">            close(stmt);</span>
+<span class="pc bpc" id="L653" title="1 of 2 branches missed.">            if (closeConn) {</span>
+<span class="fc" id="L654">                close(conn);</span>
             }
         }
 
-<span class="fc" id="L673">        return generatedKeys;</span>
+<span class="fc" id="L658">        return generatedKeys;</span>
     }
 
     /**
      * Executes the given batch of INSERT SQL statements. The
-     * {@code Connection} is retrieved from the {@code DataSource}
-     * set in the constructor.  This {@code Connection} must be in
+     * &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt;
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in
      * auto-commit mode or the insert will not be saved.
      * @param &lt;T&gt; The type of object that the handler returns
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @param params Initializes the PreparedStatement's IN (i.e. '?')
      * @return The result generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public &lt;T&gt; T insertBatch(final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object[][] params) throws SQLException {
-<span class="fc" id="L691">        return insertBatch(this.prepareConnection(), true, sql, rsh, params);</span>
+    public &lt;T&gt; T insertBatch(String sql, ResultSetHandler&lt;T&gt; rsh, Object[][] params) throws SQLException {
+<span class="fc" id="L676">        return insertBatch(this.prepareConnection(), true, sql, rsh, params);</span>
     }
 
     /**
@@ -697,14 +682,14 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param conn The connection to use to run the query.
      * @param sql The SQL to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @param params The query replacement parameters.
      * @return The result generated by the handler.
      * @throws SQLException if a database access error occurs
      * @since 1.6
      */
-    public &lt;T&gt; T insertBatch(final Connection conn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object[][] params) throws SQLException {
-<span class="nc" id="L707">        return insertBatch(conn, false, sql, rsh, params);</span>
+    public &lt;T&gt; T insertBatch(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh, Object[][] params) throws SQLException {
+<span class="nc" id="L692">        return insertBatch(conn, false, sql, rsh, params);</span>
     }
 
     /**
@@ -713,55 +698,55 @@ public class QueryRunner extends AbstractQueryRunner {
      * @param closeConn True if the connection should be closed, false otherwise.
      * @param sql The SQL statement to execute.
      * @param rsh The handler used to create the result object from
-     * the {@code ResultSet} of auto-generated keys.
+     * the &lt;code&gt;ResultSet&lt;/code&gt; of auto-generated keys.
      * @param params The query replacement parameters.
      * @return The result generated by the handler.
      * @throws SQLException If there are database or parameter errors.
      * @since 1.6
      */
-    private &lt;T&gt; T insertBatch(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object[][] params)
+    private &lt;T&gt; T insertBatch(Connection conn, boolean closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object[][] params)
             throws SQLException {
-<span class="pc bpc" id="L724" title="1 of 2 branches missed.">        if (conn == null) {</span>
-<span class="nc" id="L725">            throw new SQLException(&quot;Null connection&quot;);</span>
+<span class="pc bpc" id="L709" title="1 of 2 branches missed.">        if (conn == null) {</span>
+<span class="nc" id="L710">            throw new SQLException(&quot;Null connection&quot;);</span>
         }
 
-<span class="pc bpc" id="L728" title="1 of 2 branches missed.">        if (sql == null) {</span>
-<span class="nc bnc" id="L729" title="All 2 branches missed.">            if (closeConn) {</span>
-<span class="nc" id="L730">                close(conn);</span>
+<span class="pc bpc" id="L713" title="1 of 2 branches missed.">        if (sql == null) {</span>
+<span class="nc bnc" id="L714" title="All 2 branches missed.">            if (closeConn) {</span>
+<span class="nc" id="L715">                close(conn);</span>
             }
-<span class="nc" id="L732">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
+<span class="nc" id="L717">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
         }
 
-<span class="pc bpc" id="L735" title="1 of 2 branches missed.">        if (params == null) {</span>
-<span class="nc bnc" id="L736" title="All 2 branches missed.">            if (closeConn) {</span>
-<span class="nc" id="L737">                close(conn);</span>
+<span class="pc bpc" id="L720" title="1 of 2 branches missed.">        if (params == null) {</span>
+<span class="nc bnc" id="L721" title="All 2 branches missed.">            if (closeConn) {</span>
+<span class="nc" id="L722">                close(conn);</span>
             }
-<span class="nc" id="L739">            throw new SQLException(&quot;Null parameters. If parameters aren't need, pass an empty array.&quot;);</span>
+<span class="nc" id="L724">            throw new SQLException(&quot;Null parameters. If parameters aren't need, pass an empty array.&quot;);</span>
         }
 
-<span class="fc" id="L742">        PreparedStatement stmt = null;</span>
-<span class="fc" id="L743">        T generatedKeys = null;</span>
+<span class="fc" id="L727">        PreparedStatement stmt = null;</span>
+<span class="fc" id="L728">        T generatedKeys = null;</span>
         try {
-<span class="fc" id="L745">            stmt = this.prepareStatement(conn, sql, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="fc" id="L730">            stmt = this.prepareStatement(conn, sql, Statement.RETURN_GENERATED_KEYS);</span>
 
-<span class="fc bfc" id="L747" title="All 2 branches covered.">            for (Object[] param : params) {</span>
-<span class="fc" id="L748">                this.fillStatement(stmt, param);</span>
-<span class="fc" id="L749">                stmt.addBatch();</span>
+<span class="fc bfc" id="L732" title="All 2 branches covered.">            for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="fc" id="L733">                this.fillStatement(stmt, params[i]);</span>
+<span class="fc" id="L734">                stmt.addBatch();</span>
             }
-<span class="fc" id="L751">            stmt.executeBatch();</span>
-<span class="fc" id="L752">            final ResultSet rs = stmt.getGeneratedKeys();</span>
-<span class="fc" id="L753">            generatedKeys = rsh.handle(rs);</span>
+<span class="fc" id="L736">            stmt.executeBatch();</span>
+<span class="fc" id="L737">            ResultSet rs = stmt.getGeneratedKeys();</span>
+<span class="fc" id="L738">            generatedKeys = rsh.handle(rs);</span>
 
-<span class="nc" id="L755">        } catch (final SQLException e) {</span>
-<span class="nc" id="L756">            this.rethrow(e, sql, (Object[])params);</span>
+<span class="nc" id="L740">        } catch (SQLException e) {</span>
+<span class="nc" id="L741">            this.rethrow(e, sql, (Object[])params);</span>
         } finally {
-<span class="fc" id="L758">            close(stmt);</span>
-<span class="pc bpc" id="L759" title="1 of 2 branches missed.">            if (closeConn) {</span>
-<span class="fc" id="L760">                close(conn);</span>
+<span class="fc" id="L743">            close(stmt);</span>
+<span class="pc bpc" id="L744" title="1 of 2 branches missed.">            if (closeConn) {</span>
+<span class="fc" id="L745">                close(conn);</span>
             }
         }
 
-<span class="fc" id="L764">        return generatedKeys;</span>
+<span class="fc" id="L749">        return generatedKeys;</span>
     }
 
     /**
@@ -783,8 +768,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException if a database access error occurs
      */
-    public int execute(final Connection conn, final String sql, final Object... params) throws SQLException {
-<span class="fc" id="L787">        return this.execute(conn, false, sql, params);</span>
+    public int execute(Connection conn, String sql, Object... params) throws SQLException {
+<span class="fc" id="L772">        return this.execute(conn, false, sql, params);</span>
     }
 
     /**
@@ -800,8 +785,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * If the stored procedure returns result sets, use
      * {@link #execute(java.lang.String, org.apache.commons.dbutils.ResultSetHandler, java.lang.Object...) }.
      * &lt;p&gt;
-     * The {@code Connection} is retrieved from the {@code DataSource}
-     * set in the constructor.  This {@code Connection} must be in
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt;
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in
      * auto-commit mode or the update will not be saved.
      *
      * @param sql The SQL statement to execute.
@@ -809,10 +794,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @throws SQLException if a database access error occurs
      * @return The number of rows updated.
      */
-    public int execute(final String sql, final Object... params) throws SQLException {
-<span class="fc" id="L813">        final Connection conn = this.prepareConnection();</span>
+    public int execute(String sql, Object... params) throws SQLException {
+<span class="fc" id="L798">        Connection conn = this.prepareConnection();</span>
 
-<span class="fc" id="L815">        return this.execute(conn, true, sql, params);</span>
+<span class="fc" id="L800">        return this.execute(conn, true, sql, params);</span>
     }
 
     /**
@@ -837,8 +822,8 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return A list of objects generated by the handler
      * @throws SQLException if a database access error occurs
      */
-    public &lt;T&gt; List&lt;T&gt; execute(final Connection conn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
-<span class="fc" id="L841">        return this.execute(conn, false, sql, rsh, params);</span>
+    public &lt;T&gt; List&lt;T&gt; execute(Connection conn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+<span class="fc" id="L826">        return this.execute(conn, false, sql, rsh, params);</span>
     }
 
     /**
@@ -862,10 +847,10 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return A list of objects generated by the handler
      * @throws SQLException if a database access error occurs
      */
-    public &lt;T&gt; List&lt;T&gt; execute(final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
-<span class="fc" id="L866">        final Connection conn = this.prepareConnection();</span>
+    public &lt;T&gt; List&lt;T&gt; execute(String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+<span class="fc" id="L851">        Connection conn = this.prepareConnection();</span>
 
-<span class="fc" id="L868">        return this.execute(conn, true, sql, rsh, params);</span>
+<span class="fc" id="L853">        return this.execute(conn, true, sql, rsh, params);</span>
     }
 
     /**
@@ -879,39 +864,39 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return The number of rows updated.
      * @throws SQLException If there are database or parameter errors.
      */
-    private int execute(final Connection conn, final boolean closeConn, final String sql, final Object... params) throws SQLException {
-<span class="fc bfc" id="L883" title="All 2 branches covered.">        if (conn == null) {</span>
-<span class="fc" id="L884">            throw new SQLException(&quot;Null connection&quot;);</span>
+    private int execute(Connection conn, boolean closeConn, String sql, Object... params) throws SQLException {
+<span class="fc bfc" id="L868" title="All 2 branches covered.">        if (conn == null) {</span>
+<span class="fc" id="L869">            throw new SQLException(&quot;Null connection&quot;);</span>
         }
 
-<span class="fc bfc" id="L887" title="All 2 branches covered.">        if (sql == null) {</span>
-<span class="pc bpc" id="L888" title="1 of 2 branches missed.">            if (closeConn) {</span>
-<span class="fc" id="L889">                close(conn);</span>
+<span class="fc bfc" id="L872" title="All 2 branches covered.">        if (sql == null) {</span>
+<span class="pc bpc" id="L873" title="1 of 2 branches missed.">            if (closeConn) {</span>
+<span class="fc" id="L874">                close(conn);</span>
             }
-<span class="fc" id="L891">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
+<span class="fc" id="L876">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
         }
 
-<span class="fc" id="L894">        CallableStatement stmt = null;</span>
-<span class="fc" id="L895">        int rows = 0;</span>
+<span class="fc" id="L879">        CallableStatement stmt = null;</span>
+<span class="fc" id="L880">        int rows = 0;</span>
 
         try {
-<span class="fc" id="L898">            stmt = this.prepareCall(conn, sql);</span>
-<span class="fc" id="L899">            this.fillStatement(stmt, params);</span>
-<span class="fc" id="L900">            stmt.execute();</span>
-<span class="fc" id="L901">            rows = stmt.getUpdateCount();</span>
-<span class="fc" id="L902">            this.retrieveOutParameters(stmt, params);</span>
+<span class="fc" id="L883">            stmt = this.prepareCall(conn, sql);</span>
+<span class="fc" id="L884">            this.fillStatement(stmt, params);</span>
+<span class="fc" id="L885">            stmt.execute();</span>
+<span class="fc" id="L886">            rows = stmt.getUpdateCount();</span>
+<span class="fc" id="L887">            this.retrieveOutParameters(stmt, params);</span>
 
-<span class="fc" id="L904">        } catch (final SQLException e) {</span>
-<span class="nc" id="L905">            this.rethrow(e, sql, params);</span>
+<span class="fc" id="L889">        } catch (SQLException e) {</span>
+<span class="nc" id="L890">            this.rethrow(e, sql, params);</span>
 
         } finally {
-<span class="fc" id="L908">            close(stmt);</span>
-<span class="fc bfc" id="L909" title="All 2 branches covered.">            if (closeConn) {</span>
-<span class="fc" id="L910">                close(conn);</span>
+<span class="fc" id="L893">            close(stmt);</span>
+<span class="fc bfc" id="L894" title="All 2 branches covered.">            if (closeConn) {</span>
+<span class="fc" id="L895">                close(conn);</span>
             }
         }
 
-<span class="fc" id="L914">        return rows;</span>
+<span class="fc" id="L899">        return rows;</span>
     }
 
     /**
@@ -926,77 +911,77 @@ public class QueryRunner extends AbstractQueryRunner {
      * @return List of all objects generated by the ResultSetHandler for all result sets handled.
      * @throws SQLException If there are database or parameter errors.
      */
-    private &lt;T&gt; List&lt;T&gt; execute(final Connection conn, final boolean closeConn, final String sql, final ResultSetHandler&lt;T&gt; rsh, final Object... params) throws SQLException {
-<span class="fc bfc" id="L930" title="All 2 branches covered.">        if (conn == null) {</span>
-<span class="fc" id="L931">            throw new SQLException(&quot;Null connection&quot;);</span>
+    private &lt;T&gt; List&lt;T&gt; execute(Connection conn, boolean closeConn, String sql, ResultSetHandler&lt;T&gt; rsh, Object... params) throws SQLException {
+<span class="fc bfc" id="L915" title="All 2 branches covered.">        if (conn == null) {</span>
+<span class="fc" id="L916">            throw new SQLException(&quot;Null connection&quot;);</span>
         }
 
-<span class="fc bfc" id="L934" title="All 2 branches covered.">        if (sql == null) {</span>
-<span class="pc bpc" id="L935" title="1 of 2 branches missed.">            if (closeConn) {</span>
-<span class="fc" id="L936">                close(conn);</span>
+<span class="fc bfc" id="L919" title="All 2 branches covered.">        if (sql == null) {</span>
+<span class="pc bpc" id="L920" title="1 of 2 branches missed.">            if (closeConn) {</span>
+<span class="fc" id="L921">                close(conn);</span>
             }
-<span class="fc" id="L938">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
+<span class="fc" id="L923">            throw new SQLException(&quot;Null SQL statement&quot;);</span>
         }
 
-<span class="fc bfc" id="L941" title="All 2 branches covered.">        if (rsh == null) {</span>
-<span class="pc bpc" id="L942" title="1 of 2 branches missed.">            if (closeConn) {</span>
-<span class="fc" id="L943">                close(conn);</span>
+<span class="fc bfc" id="L926" title="All 2 branches covered.">        if (rsh == null) {</span>
+<span class="pc bpc" id="L927" title="1 of 2 branches missed.">            if (closeConn) {</span>
+<span class="fc" id="L928">                close(conn);</span>
             }
-<span class="fc" id="L945">            throw new SQLException(&quot;Null ResultSetHandler&quot;);</span>
+<span class="fc" id="L930">            throw new SQLException(&quot;Null ResultSetHandler&quot;);</span>
         }
 
-<span class="fc" id="L948">        CallableStatement stmt = null;</span>
-<span class="fc" id="L949">        final List&lt;T&gt; results = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L933">        CallableStatement stmt = null;</span>
+<span class="fc" id="L934">        List&lt;T&gt; results = new LinkedList&lt;T&gt;();</span>
 
         try {
-<span class="fc" id="L952">            stmt = this.prepareCall(conn, sql);</span>
-<span class="fc" id="L953">            this.fillStatement(stmt, params);</span>
-<span class="fc" id="L954">            boolean moreResultSets = stmt.execute();</span>
+<span class="fc" id="L937">            stmt = this.prepareCall(conn, sql);</span>
+<span class="fc" id="L938">            this.fillStatement(stmt, params);</span>
+<span class="fc" id="L939">            boolean moreResultSets = stmt.execute();</span>
             // Handle multiple result sets by passing them through the handler
             // retaining the final result
-<span class="fc" id="L957">            ResultSet rs = null;</span>
-<span class="fc bfc" id="L958" title="All 2 branches covered.">            while (moreResultSets) {</span>
+<span class="fc" id="L942">            ResultSet rs = null;</span>
+<span class="fc bfc" id="L943" title="All 2 branches covered.">            while (moreResultSets) {</span>
                 try {
-<span class="fc" id="L960">                    rs = this.wrap(stmt.getResultSet());</span>
-<span class="fc" id="L961">                    results.add(rsh.handle(rs));</span>
-<span class="fc" id="L962">                    moreResultSets = stmt.getMoreResults();</span>
+<span class="fc" id="L945">                    rs = this.wrap(stmt.getResultSet());</span>
+<span class="fc" id="L946">                    results.add(rsh.handle(rs));</span>
+<span class="fc" id="L947">                    moreResultSets = stmt.getMoreResults();</span>
 
                 } finally {
-<span class="fc" id="L965">                    close(rs);</span>
-<span class="fc" id="L966">                }</span>
+<span class="fc" id="L950">                    close(rs);</span>
+<span class="fc" id="L951">                }</span>
             }
-<span class="fc" id="L968">            this.retrieveOutParameters(stmt, params);</span>
+<span class="fc" id="L953">            this.retrieveOutParameters(stmt, params);</span>
 
-<span class="fc" id="L970">        } catch (final SQLException e) {</span>
-<span class="nc" id="L971">            this.rethrow(e, sql, params);</span>
+<span class="nc" id="L955">        } catch (SQLException e) {</span>
+<span class="nc" id="L956">            this.rethrow(e, sql, params);</span>
 
         } finally {
-<span class="fc" id="L974">            close(stmt);</span>
-<span class="fc bfc" id="L975" title="All 2 branches covered.">            if (closeConn) {</span>
-<span class="fc" id="L976">                close(conn);</span>
+<span class="fc" id="L959">            close(stmt);</span>
+<span class="fc bfc" id="L960" title="All 2 branches covered.">            if (closeConn) {</span>
+<span class="fc" id="L961">                close(conn);</span>
             }
         }
 
-<span class="fc" id="L980">        return results;</span>
+<span class="fc" id="L965">        return results;</span>
     }
 
     /**
      * Set the value on all the {@link OutParameter} instances in the
-     * {@code params} array using the OUT parameter values from the
-     * {@code stmt}.
+     * &lt;code&gt;params&lt;/code&gt; array using the OUT parameter values from the
+     * &lt;code&gt;stmt&lt;/code&gt;.
      * @param stmt the statement from which to retrieve OUT parameter values
      * @param params the parameter array for the statement invocation
      * @throws SQLException when the value could not be retrieved from the
      * statement.
      */
-    private void retrieveOutParameters(final CallableStatement stmt, final Object[] params) throws SQLException {
-<span class="pc bpc" id="L993" title="1 of 2 branches missed.">        if (params != null) {</span>
-<span class="fc bfc" id="L994" title="All 2 branches covered.">            for (int i = 0; i &lt; params.length; i++) {</span>
-<span class="fc bfc" id="L995" title="All 2 branches covered.">                if (params[i] instanceof OutParameter) {</span>
-<span class="fc" id="L996">                    ((OutParameter)params[i]).setValue(stmt, i + 1);</span>
+    private void retrieveOutParameters(CallableStatement stmt, Object[] params) throws SQLException {
+<span class="pc bpc" id="L978" title="1 of 2 branches missed.">        if (params != null) {</span>
+<span class="fc bfc" id="L979" title="All 2 branches covered.">            for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="fc bfc" id="L980" title="All 2 branches covered.">                if (params[i] instanceof OutParameter) {</span>
+<span class="fc" id="L981">                    ((OutParameter)params[i]).setValue(stmt, i + 1);</span>
                 }
             }
         }
-<span class="fc" id="L1000">    }</span>
+<span class="fc" id="L985">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

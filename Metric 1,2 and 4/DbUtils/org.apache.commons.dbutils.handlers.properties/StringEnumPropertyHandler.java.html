@@ -18,19 +18,15 @@ package org.apache.commons.dbutils.handlers.properties;
 
 import org.apache.commons.dbutils.PropertyHandler;
 
-/**
- * {@link PropertyHandler} for enums. Will convert strings to enums.
- */
-<span class="fc" id="L24">public class StringEnumPropertyHandler implements PropertyHandler {</span>
+<span class="fc" id="L21">public class StringEnumPropertyHandler implements PropertyHandler {</span>
     @Override
-    public boolean match(final Class&lt;?&gt; parameter, final Object value) {
-<span class="fc bfc" id="L27" title="All 4 branches covered.">        return value instanceof String &amp;&amp; parameter.isEnum();</span>
+    public boolean match(Class&lt;?&gt; parameter, Object value) {
+<span class="fc bfc" id="L24" title="All 4 branches covered.">        return value instanceof String &amp;&amp; parameter.isEnum();</span>
     }
 
     @Override
-    @SuppressWarnings(&quot;unchecked&quot;)
-    public Object apply(final Class&lt;?&gt; parameter, final Object value) {
-<span class="fc" id="L33">        return Enum.valueOf(parameter.asSubclass(Enum.class), (String) value);</span>
+    public Object apply(Class&lt;?&gt; parameter, Object value) {
+<span class="fc" id="L29">        return Enum.valueOf(parameter.asSubclass(Enum.class), (String) value);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

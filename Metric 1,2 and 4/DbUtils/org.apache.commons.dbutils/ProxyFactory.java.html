@@ -65,72 +65,72 @@ public class ProxyFactory {
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied object
      */
-    public &lt;T&gt; T newProxyInstance(final Class&lt;T&gt; type, final InvocationHandler handler) {
+    public &lt;T&gt; T newProxyInstance(Class&lt;T&gt; type, InvocationHandler handler) {
 <span class="fc" id="L69">        return type.cast(Proxy.newProxyInstance(handler.getClass().getClassLoader(), new Class&lt;?&gt;[] {type}, handler));</span>
     }
 
     /**
-     * Creates a new proxy {@code CallableStatement} object.
+     * Creates a new proxy &lt;code&gt;CallableStatement&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied CallableStatement
      */
-    public CallableStatement createCallableStatement(final InvocationHandler handler) {
+    public CallableStatement createCallableStatement(InvocationHandler handler) {
 <span class="fc" id="L78">        return newProxyInstance(CallableStatement.class, handler);</span>
     }
 
     /**
-     * Creates a new proxy {@code Connection} object.
+     * Creates a new proxy &lt;code&gt;Connection&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied Connection
      */
-    public Connection createConnection(final InvocationHandler handler) {
+    public Connection createConnection(InvocationHandler handler) {
 <span class="fc" id="L87">        return newProxyInstance(Connection.class, handler);</span>
     }
 
     /**
-     * Creates a new proxy {@code Driver} object.
+     * Creates a new proxy &lt;code&gt;Driver&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied Driver
      */
-    public Driver createDriver(final InvocationHandler handler) {
+    public Driver createDriver(InvocationHandler handler) {
 <span class="fc" id="L96">        return newProxyInstance(Driver.class, handler);</span>
     }
 
     /**
-     * Creates a new proxy {@code PreparedStatement} object.
+     * Creates a new proxy &lt;code&gt;PreparedStatement&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied PreparedStatement
      */
-    public PreparedStatement createPreparedStatement(final InvocationHandler handler) {
+    public PreparedStatement createPreparedStatement(InvocationHandler handler) {
 <span class="fc" id="L105">        return newProxyInstance(PreparedStatement.class, handler);</span>
     }
 
     /**
-     * Creates a new proxy {@code ResultSet} object.
+     * Creates a new proxy &lt;code&gt;ResultSet&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied ResultSet
      */
-    public ResultSet createResultSet(final InvocationHandler handler) {
+    public ResultSet createResultSet(InvocationHandler handler) {
 <span class="fc" id="L114">        return newProxyInstance(ResultSet.class, handler);</span>
     }
 
     /**
-     * Creates a new proxy {@code ResultSetMetaData} object.
+     * Creates a new proxy &lt;code&gt;ResultSetMetaData&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied ResultSetMetaData
      */
-    public ResultSetMetaData createResultSetMetaData(final InvocationHandler handler) {
+    public ResultSetMetaData createResultSetMetaData(InvocationHandler handler) {
 <span class="fc" id="L123">        return newProxyInstance(ResultSetMetaData.class, handler);</span>
     }
 
     /**
-     * Creates a new proxy {@code Statement} object.
+     * Creates a new proxy &lt;code&gt;Statement&lt;/code&gt; object.
      * @param handler The handler that intercepts/overrides method calls.
      * @return proxied Statement
      */
-    public Statement createStatement(final InvocationHandler handler) {
+    public Statement createStatement(InvocationHandler handler) {
 <span class="fc" id="L132">        return newProxyInstance(Statement.class, handler);</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

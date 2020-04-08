@@ -24,8 +24,8 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.RowProcessor;
 
 /**
- * {@code ResultSetHandler} implementation that converts a
- * {@code ResultSet} into a {@code List} of beans. This class is
+ * &lt;code&gt;ResultSetHandler&lt;/code&gt; implementation that converts a
+ * &lt;code&gt;ResultSet&lt;/code&gt; into a &lt;code&gt;List&lt;/code&gt; of beans. This class is
  * thread safe.
  *
  * @param &lt;T&gt; the target bean type
@@ -47,40 +47,40 @@ public class BeanListHandler&lt;T&gt; implements ResultSetHandler&lt;List&lt;T&g
     /**
      * Creates a new instance of BeanListHandler.
      *
-     * @param type The Class that objects returned from {@code handle()}
+     * @param type The Class that objects returned from &lt;code&gt;handle()&lt;/code&gt;
      * are created from.
      */
-    public BeanListHandler(final Class&lt;? extends T&gt; type) {
+    public BeanListHandler(Class&lt;? extends T&gt; type) {
 <span class="fc" id="L54">        this(type, ArrayHandler.ROW_PROCESSOR);</span>
 <span class="fc" id="L55">    }</span>
 
     /**
      * Creates a new instance of BeanListHandler.
      *
-     * @param type The Class that objects returned from {@code handle()}
+     * @param type The Class that objects returned from &lt;code&gt;handle()&lt;/code&gt;
      * are created from.
-     * @param convert The {@code RowProcessor} implementation
+     * @param convert The &lt;code&gt;RowProcessor&lt;/code&gt; implementation
      * to use when converting rows into beans.
      */
-<span class="fc" id="L65">    public BeanListHandler(final Class&lt;? extends T&gt; type, final RowProcessor convert) {</span>
+<span class="fc" id="L65">    public BeanListHandler(Class&lt;? extends T&gt; type, RowProcessor convert) {</span>
 <span class="fc" id="L66">        this.type = type;</span>
 <span class="fc" id="L67">        this.convert = convert;</span>
 <span class="fc" id="L68">    }</span>
 
     /**
-     * Convert the whole {@code ResultSet} into a List of beans with
-     * the {@code Class} given in the constructor.
+     * Convert the whole &lt;code&gt;ResultSet&lt;/code&gt; into a List of beans with
+     * the &lt;code&gt;Class&lt;/code&gt; given in the constructor.
      *
-     * @param rs The {@code ResultSet} to handle.
+     * @param rs The &lt;code&gt;ResultSet&lt;/code&gt; to handle.
      *
-     * @return A List of beans, never {@code null}.
+     * @return A List of beans, never &lt;code&gt;null&lt;/code&gt;.
      *
      * @throws SQLException if a database access error occurs
      * @see org.apache.commons.dbutils.RowProcessor#toBeanList(ResultSet, Class)
      */
     @Override
-    public List&lt;T&gt; handle(final ResultSet rs) throws SQLException {
+    public List&lt;T&gt; handle(ResultSet rs) throws SQLException {
 <span class="fc" id="L83">        return this.convert.toBeanList(rs, type);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

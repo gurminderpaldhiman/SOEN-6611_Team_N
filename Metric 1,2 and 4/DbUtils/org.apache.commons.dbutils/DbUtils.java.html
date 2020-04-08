@@ -50,66 +50,66 @@ public final class DbUtils {
 <span class="nc" id="L50">    }</span>
 
     /**
-     * Close a {@code Connection}, avoid closing if null.
+     * Close a &lt;code&gt;Connection&lt;/code&gt;, avoid closing if null.
      *
      * @param conn Connection to close.
      * @throws SQLException if a database access error occurs
      */
-    public static void close(final Connection conn) throws SQLException {
+    public static void close(Connection conn) throws SQLException {
 <span class="fc bfc" id="L59" title="All 2 branches covered.">        if (conn != null) {</span>
 <span class="fc" id="L60">            conn.close();</span>
         }
 <span class="fc" id="L62">    }</span>
 
     /**
-     * Close a {@code ResultSet}, avoid closing if null.
+     * Close a &lt;code&gt;ResultSet&lt;/code&gt;, avoid closing if null.
      *
      * @param rs ResultSet to close.
      * @throws SQLException if a database access error occurs
      */
-    public static void close(final ResultSet rs) throws SQLException {
+    public static void close(ResultSet rs) throws SQLException {
 <span class="fc bfc" id="L71" title="All 2 branches covered.">        if (rs != null) {</span>
 <span class="fc" id="L72">            rs.close();</span>
         }
 <span class="fc" id="L74">    }</span>
 
     /**
-     * Close a {@code Statement}, avoid closing if null.
+     * Close a &lt;code&gt;Statement&lt;/code&gt;, avoid closing if null.
      *
      * @param stmt Statement to close.
      * @throws SQLException if a database access error occurs
      */
-    public static void close(final Statement stmt) throws SQLException {
+    public static void close(Statement stmt) throws SQLException {
 <span class="fc bfc" id="L83" title="All 2 branches covered.">        if (stmt != null) {</span>
 <span class="fc" id="L84">            stmt.close();</span>
         }
 <span class="fc" id="L86">    }</span>
 
     /**
-     * Close a {@code Connection}, avoid closing if null and hide
+     * Close a &lt;code&gt;Connection&lt;/code&gt;, avoid closing if null and hide
      * any SQLExceptions that occur.
      *
      * @param conn Connection to close.
      */
-    public static void closeQuietly(final Connection conn) {
+    public static void closeQuietly(Connection conn) {
         try {
 <span class="fc" id="L96">            close(conn);</span>
-<span class="fc" id="L97">        } catch (final SQLException e) { // NOPMD</span>
+<span class="fc" id="L97">        } catch (SQLException e) { // NOPMD</span>
             // quiet
 <span class="fc" id="L99">        }</span>
 <span class="fc" id="L100">    }</span>
 
     /**
-     * Close a {@code Connection}, {@code Statement} and
-     * {@code ResultSet}.  Avoid closing if null and hide any
+     * Close a &lt;code&gt;Connection&lt;/code&gt;, &lt;code&gt;Statement&lt;/code&gt; and
+     * &lt;code&gt;ResultSet&lt;/code&gt;.  Avoid closing if null and hide any
      * SQLExceptions that occur.
      *
      * @param conn Connection to close.
      * @param stmt Statement to close.
      * @param rs ResultSet to close.
      */
-    public static void closeQuietly(final Connection conn, final Statement stmt,
-            final ResultSet rs) {
+    public static void closeQuietly(Connection conn, Statement stmt,
+            ResultSet rs) {
 
         try {
 <span class="fc" id="L115">            closeQuietly(rs);</span>
@@ -124,40 +124,40 @@ public final class DbUtils {
 <span class="fc" id="L124">    }</span>
 
     /**
-     * Close a {@code ResultSet}, avoid closing if null and hide any
+     * Close a &lt;code&gt;ResultSet&lt;/code&gt;, avoid closing if null and hide any
      * SQLExceptions that occur.
      *
      * @param rs ResultSet to close.
      */
-    public static void closeQuietly(final ResultSet rs) {
+    public static void closeQuietly(ResultSet rs) {
         try {
 <span class="fc" id="L134">            close(rs);</span>
-<span class="fc" id="L135">        } catch (final SQLException e) { // NOPMD</span>
+<span class="fc" id="L135">        } catch (SQLException e) { // NOPMD</span>
             // quiet
 <span class="fc" id="L137">        }</span>
 <span class="fc" id="L138">    }</span>
 
     /**
-     * Close a {@code Statement}, avoid closing if null and hide
+     * Close a &lt;code&gt;Statement&lt;/code&gt;, avoid closing if null and hide
      * any SQLExceptions that occur.
      *
      * @param stmt Statement to close.
      */
-    public static void closeQuietly(final Statement stmt) {
+    public static void closeQuietly(Statement stmt) {
         try {
 <span class="fc" id="L148">            close(stmt);</span>
-<span class="fc" id="L149">        } catch (final SQLException e) { // NOPMD</span>
+<span class="fc" id="L149">        } catch (SQLException e) { // NOPMD</span>
             // quiet
 <span class="fc" id="L151">        }</span>
 <span class="fc" id="L152">    }</span>
 
     /**
-     * Commits a {@code Connection} then closes it, avoid closing if null.
+     * Commits a &lt;code&gt;Connection&lt;/code&gt; then closes it, avoid closing if null.
      *
      * @param conn Connection to close.
      * @throws SQLException if a database access error occurs
      */
-    public static void commitAndClose(final Connection conn) throws SQLException {
+    public static void commitAndClose(Connection conn) throws SQLException {
 <span class="fc bfc" id="L161" title="All 2 branches covered.">        if (conn != null) {</span>
             try {
 <span class="fc" id="L163">                conn.commit();</span>
@@ -168,15 +168,15 @@ public final class DbUtils {
 <span class="fc" id="L168">    }</span>
 
     /**
-     * Commits a {@code Connection} then closes it, avoid closing if null
+     * Commits a &lt;code&gt;Connection&lt;/code&gt; then closes it, avoid closing if null
      * and hide any SQLExceptions that occur.
      *
      * @param conn Connection to close.
      */
-    public static void commitAndCloseQuietly(final Connection conn) {
+    public static void commitAndCloseQuietly(Connection conn) {
         try {
 <span class="fc" id="L178">            commitAndClose(conn);</span>
-<span class="fc" id="L179">        } catch (final SQLException e) { // NOPMD</span>
+<span class="fc" id="L179">        } catch (SQLException e) { // NOPMD</span>
             // quiet
 <span class="fc" id="L181">        }</span>
 <span class="fc" id="L182">    }</span>
@@ -186,9 +186,9 @@ public final class DbUtils {
      * If this succeeds, it returns true, else it returns false.
      *
      * @param driverClassName of driver to load
-     * @return boolean {@code true} if the driver was found, otherwise {@code false}
+     * @return boolean &lt;code&gt;true&lt;/code&gt; if the driver was found, otherwise &lt;code&gt;false&lt;/code&gt;
      */
-    public static boolean loadDriver(final String driverClassName) {
+    public static boolean loadDriver(String driverClassName) {
 <span class="fc" id="L192">        return loadDriver(DbUtils.class.getClassLoader(), driverClassName);</span>
     }
 
@@ -198,43 +198,39 @@ public final class DbUtils {
      *
      * @param classLoader the class loader used to load the driver class
      * @param driverClassName of driver to load
-     * @return boolean {@code true} if the driver was found, otherwise {@code false}
+     * @return boolean &lt;code&gt;true&lt;/code&gt; if the driver was found, otherwise &lt;code&gt;false&lt;/code&gt;
      * @since 1.4
      */
-    public static boolean loadDriver(final ClassLoader classLoader, final String driverClassName) {
+    public static boolean loadDriver(ClassLoader classLoader, String driverClassName) {
         try {
-<span class="nc" id="L206">            final Class&lt;?&gt; loadedClass = classLoader.loadClass(driverClassName);</span>
+<span class="nc" id="L206">            Class&lt;?&gt; loadedClass = classLoader.loadClass(driverClassName);</span>
 
 <span class="nc bnc" id="L208" title="All 2 branches missed.">            if (!Driver.class.isAssignableFrom(loadedClass)) {</span>
 <span class="nc" id="L209">                return false;</span>
             }
 
             @SuppressWarnings(&quot;unchecked&quot;) // guarded by previous check
-            final
-<span class="nc" id="L214">            Class&lt;Driver&gt; driverClass = (Class&lt;Driver&gt;) loadedClass;</span>
-<span class="nc" id="L215">            final Constructor&lt;Driver&gt; driverConstructor = driverClass.getConstructor();</span>
+<span class="nc" id="L213">            Class&lt;Driver&gt; driverClass = (Class&lt;Driver&gt;) loadedClass;</span>
+<span class="nc" id="L214">            Constructor&lt;Driver&gt; driverConstructor = driverClass.getConstructor();</span>
 
             // make Constructor accessible if it is private
-            @SuppressWarnings(&quot;deprecation&quot;)
-            // TODO This is deprecated in Java9 and canAccess() should be used. Adding suppression for building on
-            //      later JDKs without a warning.
-<span class="nc" id="L221">            final boolean isConstructorAccessible = driverConstructor.isAccessible();</span>
-<span class="nc bnc" id="L222" title="All 2 branches missed.">            if (!isConstructorAccessible) {</span>
-<span class="nc" id="L223">                driverConstructor.setAccessible(true);</span>
+<span class="nc" id="L217">            boolean isConstructorAccessible = driverConstructor.isAccessible();</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            if (!isConstructorAccessible) {</span>
+<span class="nc" id="L219">                driverConstructor.setAccessible(true);</span>
             }
 
             try {
-<span class="nc" id="L227">                final Driver driver = driverConstructor.newInstance();</span>
-<span class="nc" id="L228">                registerDriver(new DriverProxy(driver));</span>
+<span class="nc" id="L223">                Driver driver = driverConstructor.newInstance();</span>
+<span class="nc" id="L224">                registerDriver(new DriverProxy(driver));</span>
             } finally {
-<span class="nc" id="L230">                driverConstructor.setAccessible(isConstructorAccessible);</span>
+<span class="nc" id="L226">                driverConstructor.setAccessible(isConstructorAccessible);</span>
             }
 
-<span class="nc" id="L233">            return true;</span>
-<span class="nc" id="L234">        } catch (final RuntimeException e) {</span>
-<span class="nc" id="L235">            return false;</span>
-<span class="fc" id="L236">        } catch (final Exception e) {</span>
-<span class="fc" id="L237">            return false;</span>
+<span class="nc" id="L229">            return true;</span>
+<span class="nc" id="L230">        } catch (RuntimeException e) {</span>
+<span class="nc" id="L231">            return false;</span>
+<span class="fc" id="L232">        } catch (Exception e) {</span>
+<span class="fc" id="L233">            return false;</span>
         }
     }
 
@@ -243,9 +239,9 @@ public final class DbUtils {
      *
      * @param e SQLException to print stack trace of
      */
-    public static void printStackTrace(final SQLException e) {
-<span class="nc" id="L247">        printStackTrace(e, new PrintWriter(System.err));</span>
-<span class="nc" id="L248">    }</span>
+    public static void printStackTrace(SQLException e) {
+<span class="nc" id="L243">        printStackTrace(e, new PrintWriter(System.err));</span>
+<span class="nc" id="L244">    }</span>
 
     /**
      * Print the stack trace for a SQLException to a
@@ -254,26 +250,26 @@ public final class DbUtils {
      * @param e SQLException to print stack trace of
      * @param pw PrintWriter to print to
      */
-    public static void printStackTrace(final SQLException e, final PrintWriter pw) {
+    public static void printStackTrace(SQLException e, PrintWriter pw) {
 
-<span class="nc" id="L259">        SQLException next = e;</span>
-<span class="nc bnc" id="L260" title="All 2 branches missed.">        while (next != null) {</span>
-<span class="nc" id="L261">            next.printStackTrace(pw);</span>
-<span class="nc" id="L262">            next = next.getNextException();</span>
-<span class="nc bnc" id="L263" title="All 2 branches missed.">            if (next != null) {</span>
-<span class="nc" id="L264">                pw.println(&quot;Next SQLException:&quot;);</span>
+<span class="nc" id="L255">        SQLException next = e;</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        while (next != null) {</span>
+<span class="nc" id="L257">            next.printStackTrace(pw);</span>
+<span class="nc" id="L258">            next = next.getNextException();</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">            if (next != null) {</span>
+<span class="nc" id="L260">                pw.println(&quot;Next SQLException:&quot;);</span>
             }
         }
-<span class="nc" id="L267">    }</span>
+<span class="nc" id="L263">    }</span>
 
     /**
      * Print warnings on a Connection to STDERR.
      *
      * @param conn Connection to print warnings from
      */
-    public static void printWarnings(final Connection conn) {
-<span class="nc" id="L275">        printWarnings(conn, new PrintWriter(System.err));</span>
-<span class="nc" id="L276">    }</span>
+    public static void printWarnings(Connection conn) {
+<span class="nc" id="L271">        printWarnings(conn, new PrintWriter(System.err));</span>
+<span class="nc" id="L272">    }</span>
 
     /**
      * Print warnings on a Connection to a specified PrintWriter.
@@ -281,68 +277,68 @@ public final class DbUtils {
      * @param conn Connection to print warnings from
      * @param pw PrintWriter to print to
      */
-    public static void printWarnings(final Connection conn, final PrintWriter pw) {
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        if (conn != null) {</span>
+    public static void printWarnings(Connection conn, PrintWriter pw) {
+<span class="nc bnc" id="L281" title="All 2 branches missed.">        if (conn != null) {</span>
             try {
-<span class="nc" id="L287">                printStackTrace(conn.getWarnings(), pw);</span>
-<span class="nc" id="L288">            } catch (final SQLException e) {</span>
-<span class="nc" id="L289">                printStackTrace(e, pw);</span>
-<span class="nc" id="L290">            }</span>
+<span class="nc" id="L283">                printStackTrace(conn.getWarnings(), pw);</span>
+<span class="nc" id="L284">            } catch (SQLException e) {</span>
+<span class="nc" id="L285">                printStackTrace(e, pw);</span>
+<span class="nc" id="L286">            }</span>
         }
-<span class="nc" id="L292">    }</span>
+<span class="nc" id="L288">    }</span>
 
     /**
      * Rollback any changes made on the given connection.
      * @param conn Connection to rollback.  A null value is legal.
      * @throws SQLException if a database access error occurs
      */
-    public static void rollback(final Connection conn) throws SQLException {
-<span class="fc bfc" id="L300" title="All 2 branches covered.">        if (conn != null) {</span>
-<span class="fc" id="L301">            conn.rollback();</span>
+    public static void rollback(Connection conn) throws SQLException {
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        if (conn != null) {</span>
+<span class="fc" id="L297">            conn.rollback();</span>
         }
-<span class="fc" id="L303">    }</span>
+<span class="fc" id="L299">    }</span>
 
     /**
-     * Performs a rollback on the {@code Connection} then closes it,
+     * Performs a rollback on the &lt;code&gt;Connection&lt;/code&gt; then closes it,
      * avoid closing if null.
      *
      * @param conn Connection to rollback.  A null value is legal.
      * @throws SQLException if a database access error occurs
      * @since DbUtils 1.1
      */
-    public static void rollbackAndClose(final Connection conn) throws SQLException {
-<span class="fc bfc" id="L314" title="All 2 branches covered.">        if (conn != null) {</span>
+    public static void rollbackAndClose(Connection conn) throws SQLException {
+<span class="fc bfc" id="L310" title="All 2 branches covered.">        if (conn != null) {</span>
             try {
-<span class="fc" id="L316">                conn.rollback();</span>
+<span class="fc" id="L312">                conn.rollback();</span>
             } finally {
-<span class="fc" id="L318">                conn.close();</span>
+<span class="fc" id="L314">                conn.close();</span>
             }
         }
-<span class="fc" id="L321">    }</span>
+<span class="fc" id="L317">    }</span>
 
     /**
-     * Performs a rollback on the {@code Connection} then closes it,
+     * Performs a rollback on the &lt;code&gt;Connection&lt;/code&gt; then closes it,
      * avoid closing if null and hide any SQLExceptions that occur.
      *
      * @param conn Connection to rollback.  A null value is legal.
      * @since DbUtils 1.1
      */
-    public static void rollbackAndCloseQuietly(final Connection conn) {
+    public static void rollbackAndCloseQuietly(Connection conn) {
         try {
-<span class="fc" id="L332">            rollbackAndClose(conn);</span>
-<span class="fc" id="L333">        } catch (final SQLException e) { // NOPMD</span>
+<span class="fc" id="L328">            rollbackAndClose(conn);</span>
+<span class="fc" id="L329">        } catch (SQLException e) { // NOPMD</span>
             // quiet
-<span class="fc" id="L335">        }</span>
-<span class="fc" id="L336">    }</span>
+<span class="fc" id="L331">        }</span>
+<span class="fc" id="L332">    }</span>
 
     /**
      * Simple {@link Driver} proxy class that proxies a JDBC Driver loaded dynamically.
      *
      * @since 1.6
      */
-    static final class DriverProxy implements Driver {
+    private static final class DriverProxy implements Driver {
 
-<span class="fc" id="L345">        private boolean parentLoggerSupported = true;</span>
+<span class="nc" id="L341">        private boolean parentLoggerSupported = true;</span>
 
         /**
          * The adapted JDBC Driver loaded dynamically.
@@ -354,24 +350,24 @@ public final class DbUtils {
          *
          * @param adapted the adapted JDBC Driver loaded dynamically.
          */
-<span class="fc" id="L357">        public DriverProxy(final Driver adapted) {</span>
-<span class="fc" id="L358">            this.adapted = adapted;</span>
-<span class="fc" id="L359">        }</span>
+<span class="nc" id="L353">        public DriverProxy(Driver adapted) {</span>
+<span class="nc" id="L354">            this.adapted = adapted;</span>
+<span class="nc" id="L355">        }</span>
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean acceptsURL(final String url) throws SQLException {
-<span class="fc" id="L366">            return adapted.acceptsURL(url);</span>
+        public boolean acceptsURL(String url) throws SQLException {
+<span class="nc" id="L362">            return adapted.acceptsURL(url);</span>
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public Connection connect(final String url, final Properties info) throws SQLException {
-<span class="fc" id="L374">            return adapted.connect(url, info);</span>
+        public Connection connect(String url, Properties info) throws SQLException {
+<span class="nc" id="L370">            return adapted.connect(url, info);</span>
         }
 
         /**
@@ -379,7 +375,7 @@ public final class DbUtils {
          */
         @Override
         public int getMajorVersion() {
-<span class="fc" id="L382">            return adapted.getMajorVersion();</span>
+<span class="nc" id="L378">            return adapted.getMajorVersion();</span>
         }
 
         /**
@@ -387,15 +383,15 @@ public final class DbUtils {
          */
         @Override
         public int getMinorVersion() {
-<span class="fc" id="L390">            return adapted.getMinorVersion();</span>
+<span class="nc" id="L386">            return adapted.getMinorVersion();</span>
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public DriverPropertyInfo[] getPropertyInfo(final String url, final Properties info) throws SQLException {
-<span class="fc" id="L398">            return adapted.getPropertyInfo(url, info);</span>
+        public DriverPropertyInfo[] getPropertyInfo(String url, Properties info) throws SQLException {
+<span class="nc" id="L394">            return adapted.getPropertyInfo(url, info);</span>
         }
 
         /**
@@ -403,33 +399,32 @@ public final class DbUtils {
          */
         @Override
         public boolean jdbcCompliant() {
-<span class="fc" id="L406">            return adapted.jdbcCompliant();</span>
+<span class="nc" id="L402">            return adapted.jdbcCompliant();</span>
         }
 
         /**
          * Java 1.7 method.
          */
-        @Override
         public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-<span class="nc bnc" id="L414" title="All 2 branches missed.">            if (parentLoggerSupported) {</span>
+<span class="nc bnc" id="L409" title="All 2 branches missed.">            if (parentLoggerSupported) {</span>
                 try {
-<span class="nc" id="L416">                    final Method method = adapted.getClass().getMethod(&quot;getParentLogger&quot;);</span>
-<span class="nc" id="L417">                    return (Logger)method.invoke(adapted);</span>
-<span class="nc" id="L418">                } catch (final NoSuchMethodException e) {</span>
-<span class="nc" id="L419">                    parentLoggerSupported = false;</span>
-<span class="nc" id="L420">                    throw new SQLFeatureNotSupportedException(e);</span>
-<span class="nc" id="L421">                } catch (final IllegalAccessException e) {</span>
-<span class="nc" id="L422">                    parentLoggerSupported = false;</span>
-<span class="nc" id="L423">                    throw new SQLFeatureNotSupportedException(e);</span>
-<span class="nc" id="L424">                } catch (final InvocationTargetException e) {</span>
-<span class="nc" id="L425">                    parentLoggerSupported = false;</span>
-<span class="nc" id="L426">                    throw new SQLFeatureNotSupportedException(e);</span>
+<span class="nc" id="L411">                    Method method = adapted.getClass().getMethod(&quot;getParentLogger&quot;, new Class[0]);</span>
+<span class="nc" id="L412">                    return (Logger)method.invoke(adapted, new Object[0]);</span>
+<span class="nc" id="L413">                } catch (NoSuchMethodException e) {</span>
+<span class="nc" id="L414">                    parentLoggerSupported = false;</span>
+<span class="nc" id="L415">                    throw new SQLFeatureNotSupportedException(e);</span>
+<span class="nc" id="L416">                } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L417">                    parentLoggerSupported = false;</span>
+<span class="nc" id="L418">                    throw new SQLFeatureNotSupportedException(e);</span>
+<span class="nc" id="L419">                } catch (InvocationTargetException e) {</span>
+<span class="nc" id="L420">                    parentLoggerSupported = false;</span>
+<span class="nc" id="L421">                    throw new SQLFeatureNotSupportedException(e);</span>
                 }
             }
-<span class="nc" id="L429">            throw new SQLFeatureNotSupportedException();</span>
+<span class="nc" id="L424">            throw new SQLFeatureNotSupportedException();</span>
         }
 
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

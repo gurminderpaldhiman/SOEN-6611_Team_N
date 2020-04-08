@@ -17,7 +17,7 @@
 package org.apache.commons.dbutils;
 
 /**
- * Configuration options for a {@link java.sql.Statement} when preparing statements in {@code QueryRunner}.
+ * Configuration options for a {@link java.sql.Statement} when preparing statements in &lt;code&gt;QueryRunner&lt;/code&gt;.
  */
 public class StatementConfiguration {
     private final Integer fetchDirection;
@@ -27,23 +27,22 @@ public class StatementConfiguration {
     private final Integer queryTimeout;
 
     /**
-     * Constructor for {@code StatementConfiguration}.  For more flexibility, use {@link Builder}.
+     * Constructor for &lt;code&gt;StatementConfiguration&lt;/code&gt;.  For more flexibility, use {@link Builder}.
      *
      * @param fetchDirection The direction for fetching rows from database tables.
      * @param fetchSize The number of rows that should be fetched from the database when more rows are needed.
      * @param maxFieldSize The maximum number of bytes that can be returned for character and binary column values.
-     * @param maxRows The maximum number of rows that a {@code ResultSet} can produce.
+     * @param maxRows The maximum number of rows that a &lt;code&gt;ResultSet&lt;/code&gt; can produce.
      * @param queryTimeout The number of seconds the driver will wait for execution.
      */
-    public StatementConfiguration(final Integer fetchDirection, final Integer fetchSize,
-                                  final Integer maxFieldSize, final Integer maxRows,
-<span class="fc" id="L40">                                  final Integer queryTimeout) {</span>
-<span class="fc" id="L41">        this.fetchDirection = fetchDirection;</span>
-<span class="fc" id="L42">        this.fetchSize = fetchSize;</span>
-<span class="fc" id="L43">        this.maxFieldSize = maxFieldSize;</span>
-<span class="fc" id="L44">        this.maxRows = maxRows;</span>
-<span class="fc" id="L45">        this.queryTimeout = queryTimeout;</span>
-<span class="fc" id="L46">    }</span>
+    public StatementConfiguration(Integer fetchDirection, Integer fetchSize, Integer maxFieldSize, Integer maxRows,
+<span class="fc" id="L39">                                  Integer queryTimeout) {</span>
+<span class="fc" id="L40">        this.fetchDirection = fetchDirection;</span>
+<span class="fc" id="L41">        this.fetchSize = fetchSize;</span>
+<span class="fc" id="L42">        this.maxFieldSize = maxFieldSize;</span>
+<span class="fc" id="L43">        this.maxRows = maxRows;</span>
+<span class="fc" id="L44">        this.queryTimeout = queryTimeout;</span>
+<span class="fc" id="L45">    }</span>
 
     /**
      * Get the fetch direction.
@@ -51,7 +50,7 @@ public class StatementConfiguration {
      * @return The direction to fetch or null if not set.
      */
     public Integer getFetchDirection() {
-<span class="fc" id="L54">        return fetchDirection;</span>
+<span class="fc" id="L53">        return fetchDirection;</span>
     }
 
     /**
@@ -60,7 +59,7 @@ public class StatementConfiguration {
      * @return true if set, false otherwise.
      */
     public boolean isFetchDirectionSet() {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        return fetchDirection != null;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        return fetchDirection != null;</span>
     }
 
     /**
@@ -69,7 +68,7 @@ public class StatementConfiguration {
      * @return The fetch size or null if not set.
      */
     public Integer getFetchSize() {
-<span class="fc" id="L72">        return fetchSize;</span>
+<span class="fc" id="L71">        return fetchSize;</span>
     }
 
     /**
@@ -78,7 +77,7 @@ public class StatementConfiguration {
      * @return true if set, false otherwise.
      */
     public boolean isFetchSizeSet() {
-<span class="fc bfc" id="L81" title="All 2 branches covered.">        return fetchSize != null;</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        return fetchSize != null;</span>
     }
 
     /**
@@ -87,7 +86,7 @@ public class StatementConfiguration {
      * @return The max field size or null if not set.
      */
     public Integer getMaxFieldSize() {
-<span class="fc" id="L90">        return maxFieldSize;</span>
+<span class="fc" id="L89">        return maxFieldSize;</span>
     }
 
     /**
@@ -96,7 +95,7 @@ public class StatementConfiguration {
      * @return true if set, false otherwise.
      */
     public boolean isMaxFieldSizeSet() {
-<span class="fc bfc" id="L99" title="All 2 branches covered.">        return maxFieldSize != null;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        return maxFieldSize != null;</span>
     }
 
     /**
@@ -105,7 +104,7 @@ public class StatementConfiguration {
      * @return The max rows or null if not set.
      */
     public Integer getMaxRows() {
-<span class="fc" id="L108">        return maxRows;</span>
+<span class="fc" id="L107">        return maxRows;</span>
     }
 
     /**
@@ -114,7 +113,7 @@ public class StatementConfiguration {
      * @return true if set, false otherwise.
      */
     public boolean isMaxRowsSet() {
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        return maxRows != null;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        return maxRows != null;</span>
     }
 
     /**
@@ -123,7 +122,7 @@ public class StatementConfiguration {
      * @return The query timeout or null if not set.
      */
     public Integer getQueryTimeout() {
-<span class="fc" id="L126">        return queryTimeout;</span>
+<span class="fc" id="L125">        return queryTimeout;</span>
     }
 
     /**
@@ -132,75 +131,47 @@ public class StatementConfiguration {
      * @return true if set, false otherwise.
      */
     public boolean isQueryTimeoutSet() {
-<span class="fc bfc" id="L135" title="All 2 branches covered.">        return queryTimeout != null;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        return queryTimeout != null;</span>
     }
 
     /**
-     * Builder class for {@code StatementConfiguration} for more flexible construction.
+     * Builder class for &lt;code&gt;StatementConfiguration&lt;/code&gt; for more flexible construction.
      */
-<span class="fc" id="L141">    public static final class Builder {</span>
+<span class="fc" id="L140">    public static final class Builder {</span>
         private Integer fetchDirection;
         private Integer fetchSize;
         private Integer maxRows;
         private Integer queryTimeout;
         private Integer maxFieldSize;
 
-        /**
-         * @param fetchDirection The direction for fetching rows from database tables.
-         * @return This builder for chaining.
-         * @see StatementConfiguration#getFetchDirection()
-         */
         public Builder fetchDirection(final Integer fetchDirection) {
-<span class="fc" id="L154">            this.fetchDirection = fetchDirection;</span>
-<span class="fc" id="L155">            return this;</span>
+<span class="fc" id="L148">            this.fetchDirection = fetchDirection;</span>
+<span class="fc" id="L149">            return this;</span>
         }
 
-        /**
-         * @param fetchSize The number of rows that should be fetched from the database when more rows are needed.
-         * @return This builder for chaining.
-         * @see StatementConfiguration#getFetchSize()
-         */
         public Builder fetchSize(final Integer fetchSize) {
-<span class="fc" id="L164">            this.fetchSize = fetchSize;</span>
-<span class="fc" id="L165">            return this;</span>
+<span class="fc" id="L153">            this.fetchSize = fetchSize;</span>
+<span class="fc" id="L154">            return this;</span>
         }
 
-        /**
-         * @param maxRows The maximum number of rows that a {@code ResultSet} can produce.
-         * @return This builder for chaining.
-         * @see StatementConfiguration#getMaxRows()
-         */
         public Builder maxRows(final Integer maxRows) {
-<span class="fc" id="L174">            this.maxRows = maxRows;</span>
-<span class="fc" id="L175">            return this;</span>
+<span class="fc" id="L158">            this.maxRows = maxRows;</span>
+<span class="fc" id="L159">            return this;</span>
         }
 
-        /**
-         * @param queryTimeout The number of seconds the driver will wait for execution.
-         * @return This builder for chaining.
-         * @see StatementConfiguration#getQueryTimeout()
-         */
         public Builder queryTimeout(final Integer queryTimeout) {
-<span class="fc" id="L184">            this.queryTimeout = queryTimeout;</span>
-<span class="fc" id="L185">            return this;</span>
+<span class="fc" id="L163">            this.queryTimeout = queryTimeout;</span>
+<span class="fc" id="L164">            return this;</span>
         }
 
-        /**
-         * @param maxFieldSize The maximum number of bytes that can be returned for character and binary column values.
-         * @return This builder for chaining.
-         * @see StatementConfiguration#getMaxFieldSize()
-         */
         public Builder maxFieldSize(final Integer maxFieldSize) {
-<span class="fc" id="L194">            this.maxFieldSize = maxFieldSize;</span>
-<span class="fc" id="L195">            return this;</span>
+<span class="fc" id="L168">            this.maxFieldSize = maxFieldSize;</span>
+<span class="fc" id="L169">            return this;</span>
         }
 
-        /**
-         * @return A new and configured {@link StatementConfiguration}.
-         */
         public StatementConfiguration build() {
-<span class="fc" id="L202">            return new StatementConfiguration(fetchDirection, fetchSize, maxFieldSize, maxRows, queryTimeout);</span>
+<span class="fc" id="L173">            return new StatementConfiguration(fetchDirection, fetchSize, maxFieldSize, maxRows, queryTimeout);</span>
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

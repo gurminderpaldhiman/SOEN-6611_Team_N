@@ -24,13 +24,13 @@ import org.apache.commons.dbutils.ColumnHandler;
 
 <span class="fc" id="L25">public class TimestampColumnHandler implements ColumnHandler {</span>
     @Override
-    public boolean match(final Class&lt;?&gt; propType) {
+    public boolean match(Class&lt;?&gt; propType) {
 <span class="fc" id="L28">        return propType.equals(Timestamp.class);</span>
     }
 
     @Override
-    public Object apply(final ResultSet rs, final int columnIndex) throws SQLException {
+    public Object apply(ResultSet rs, int columnIndex) throws SQLException {
 <span class="fc" id="L33">        return rs.getTimestamp(columnIndex);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
