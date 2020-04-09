@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeanProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons DbUtils</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.dbutils</a> &gt; <span class="el_source">BeanProcessor.java</span></div><h1>BeanProcessor.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.dbutils;
+
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ServiceLoader;
+
+/**
+ * &lt;p&gt;
+ * &lt;code&gt;BeanProcessor&lt;/code&gt; matches column names to bean property names
+ * and converts &lt;code&gt;ResultSet&lt;/code&gt; columns into objects for those bean
+ * properties.  Subclasses should override the methods in the processing chain
+ * to customize behavior.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This class is thread-safe.
+ * &lt;/p&gt;
+ *
+ * @see BasicRowProcessor
+ *
+ * @since DbUtils 1.1
+ */
+public class BeanProcessor {
+
+    /**
+     * Special array value used by &lt;code&gt;mapColumnsToProperties&lt;/code&gt; that
+     * indicates there is no bean property that matches a column from a
+     * &lt;code&gt;ResultSet&lt;/code&gt;.
+     */
+    protected static final int PROPERTY_NOT_FOUND = -1;
+
+    /**
+     * Set a bean's primitive properties to these defaults when SQL NULL
+     * is returned.  These are the same as the defaults that ResultSet get*
+     * methods return in the event of a NULL column.
+     */
+<span class="fc" id="L66">    private static final Map&lt;Class&lt;?&gt;, Object&gt; primitiveDefaults = new HashMap&lt;Class&lt;?&gt;, Object&gt;();</span>
+
+    /**
+     * ServiceLoader to find &lt;code&gt;ColumnHandler&lt;/code&gt; implementations on the classpath.  The iterator for this is
+     * lazy and each time &lt;code&gt;iterator()&lt;/code&gt; is called.
+     */
+    // FIXME: I think this instantiates new handlers on each iterator() call. This might be worth caching upfront.
+<span class="fc" id="L73">    private static final ServiceLoader&lt;ColumnHandler&gt; columnHandlers = ServiceLoader.load(ColumnHandler.class);</span>
+
+    /**
+     * ServiceLoader to find &lt;code&gt;PropertyHandler&lt;/code&gt; implementations on the classpath.  The iterator for this is
+     * lazy and each time &lt;code&gt;iterator()&lt;/code&gt; is called.
+     */
+    // FIXME: I think this instantiates new handlers on each iterator() call. This might be worth caching upfront.
+<span class="fc" id="L80">    private static final ServiceLoader&lt;PropertyHandler&gt; propertyHandlers = ServiceLoader.load(PropertyHandler.class);</span>
+
+    /**
+     * ResultSet column to bean property name overrides.
+     */
+    private final Map&lt;String, String&gt; columnToPropertyOverrides;
+
+    static {
+<span class="fc" id="L88">        primitiveDefaults.put(Integer.TYPE, Integer.valueOf(0));</span>
+<span class="fc" id="L89">        primitiveDefaults.put(Short.TYPE, Short.valueOf((short) 0));</span>
+<span class="fc" id="L90">        primitiveDefaults.put(Byte.TYPE, Byte.valueOf((byte) 0));</span>
+<span class="fc" id="L91">        primitiveDefaults.put(Float.TYPE, Float.valueOf(0f));</span>
+<span class="fc" id="L92">        primitiveDefaults.put(Double.TYPE, Double.valueOf(0d));</span>
+<span class="fc" id="L93">        primitiveDefaults.put(Long.TYPE, Long.valueOf(0L));</span>
+<span class="fc" id="L94">        primitiveDefaults.put(Boolean.TYPE, Boolean.FALSE);</span>
+<span class="fc" id="L95">        primitiveDefaults.put(Character.TYPE, Character.valueOf((char) 0));</span>
+<span class="fc" id="L96">    }</span>
+
+    /**
+     * Constructor for BeanProcessor.
+     */
+    public BeanProcessor() {
+<span class="fc" id="L102">        this(new HashMap&lt;String, String&gt;());</span>
+<span class="fc" id="L103">    }</span>
+
+    /**
+     * Constructor for BeanProcessor configured with column to property name overrides.
+     *
+     * @param columnToPropertyOverrides ResultSet column to bean property name overrides
+     * @since 1.5
+     */
+    public BeanProcessor(Map&lt;String, String&gt; columnToPropertyOverrides) {
+<span class="fc" id="L112">        super();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (columnToPropertyOverrides == null) {</span>
+<span class="nc" id="L114">            throw new IllegalArgumentException(&quot;columnToPropertyOverrides map cannot be null&quot;);</span>
+        }
+<span class="fc" id="L116">        this.columnToPropertyOverrides = columnToPropertyOverrides;</span>
+<span class="fc" id="L117">    }</span>
+
+    /**
+     * Convert a &lt;code&gt;ResultSet&lt;/code&gt; row into a JavaBean.  This
+     * implementation uses reflection and &lt;code&gt;BeanInfo&lt;/code&gt; classes to
+     * match column names to bean property names.  Properties are matched to
+     * columns based on several factors:
+     * &amp;lt;br/&amp;gt;
+     * &amp;lt;ol&amp;gt;
+     *     &amp;lt;li&amp;gt;
+     *     The class has a writable property with the same name as a column.
+     *     The name comparison is case insensitive.
+     *     &amp;lt;/li&amp;gt;
+     *
+     *     &amp;lt;li&amp;gt;
+     *     The column type can be converted to the property's set method
+     *     parameter type with a ResultSet.get* method.  If the conversion fails
+     *     (ie. the property was an int and the column was a Timestamp) an
+     *     SQLException is thrown.
+     *     &amp;lt;/li&amp;gt;
+     * &amp;lt;/ol&amp;gt;
+     *
+     * &amp;lt;p&amp;gt;
+     * Primitive bean properties are set to their defaults when SQL NULL is
+     * returned from the &lt;code&gt;ResultSet&lt;/code&gt;.  Numeric fields are set to 0
+     * and booleans are set to false.  Object bean properties are set to
+     * &lt;code&gt;null&lt;/code&gt; when SQL NULL is returned.  This is the same behavior
+     * as the &lt;code&gt;ResultSet&lt;/code&gt; get* methods.
+     * &amp;lt;/p&amp;gt;
+     * @param &lt;T&gt; The type of bean to create
+     * @param rs ResultSet that supplies the bean data
+     * @param type Class from which to create the bean instance
+     * @throws SQLException if a database access error occurs
+     * @return the newly created bean
+     */
+    public &lt;T&gt; T toBean(ResultSet rs, Class&lt;? extends T&gt; type) throws SQLException {
+<span class="fc" id="L153">        T bean = this.newInstance(type);</span>
+<span class="fc" id="L154">        return this.populateBean(rs, bean);</span>
+    }
+
+    /**
+     * Convert a &lt;code&gt;ResultSet&lt;/code&gt; into a &lt;code&gt;List&lt;/code&gt; of JavaBeans.
+     * This implementation uses reflection and &lt;code&gt;BeanInfo&lt;/code&gt; classes to
+     * match column names to bean property names. Properties are matched to
+     * columns based on several factors:
+     * &amp;lt;br/&amp;gt;
+     * &amp;lt;ol&amp;gt;
+     *     &amp;lt;li&amp;gt;
+     *     The class has a writable property with the same name as a column.
+     *     The name comparison is case insensitive.
+     *     &amp;lt;/li&amp;gt;
+     *
+     *     &amp;lt;li&amp;gt;
+     *     The column type can be converted to the property's set method
+     *     parameter type with a ResultSet.get* method.  If the conversion fails
+     *     (ie. the property was an int and the column was a Timestamp) an
+     *     SQLException is thrown.
+     *     &amp;lt;/li&amp;gt;
+     * &amp;lt;/ol&amp;gt;
+     *
+     * &lt;p&gt;
+     * Primitive bean properties are set to their defaults when SQL NULL is
+     * returned from the &lt;code&gt;ResultSet&lt;/code&gt;.  Numeric fields are set to 0
+     * and booleans are set to false.  Object bean properties are set to
+     * &lt;code&gt;null&lt;/code&gt; when SQL NULL is returned.  This is the same behavior
+     * as the &lt;code&gt;ResultSet&lt;/code&gt; get* methods.
+     * &amp;lt;/p&amp;gt;
+     * @param &lt;T&gt; The type of bean to create
+     * @param rs ResultSet that supplies the bean data
+     * @param type Class from which to create the bean instance
+     * @throws SQLException if a database access error occurs
+     * @return the newly created List of beans
+     */
+    public &lt;T&gt; List&lt;T&gt; toBeanList(ResultSet rs, Class&lt;? extends T&gt; type) throws SQLException {
+<span class="fc" id="L191">        List&lt;T&gt; results = new ArrayList&lt;T&gt;();</span>
+
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if (!rs.next()) {</span>
+<span class="fc" id="L194">            return results;</span>
+        }
+
+<span class="fc" id="L197">        PropertyDescriptor[] props = this.propertyDescriptors(type);</span>
+<span class="fc" id="L198">        ResultSetMetaData rsmd = rs.getMetaData();</span>
+<span class="fc" id="L199">        int[] columnToProperty = this.mapColumnsToProperties(rsmd, props);</span>
+
+        do {
+<span class="fc" id="L202">            results.add(this.createBean(rs, type, props, columnToProperty));</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        } while (rs.next());</span>
+
+<span class="fc" id="L205">        return results;</span>
+    }
+
+    /**
+     * Creates a new object and initializes its fields from the ResultSet.
+     * @param &lt;T&gt; The type of bean to create
+     * @param rs The result set.
+     * @param type The bean type (the return type of the object).
+     * @param props The property descriptors.
+     * @param columnToProperty The column indices in the result set.
+     * @return An initialized object.
+     * @throws SQLException if a database error occurs.
+     */
+    private &lt;T&gt; T createBean(ResultSet rs, Class&lt;T&gt; type,
+                             PropertyDescriptor[] props, int[] columnToProperty)
+    throws SQLException {
+
+<span class="fc" id="L222">        T bean = this.newInstance(type);</span>
+<span class="fc" id="L223">        return populateBean(rs, bean, props, columnToProperty);</span>
+    }
+
+    /**
+     * Initializes the fields of the provided bean from the ResultSet.
+     * @param &lt;T&gt; The type of bean
+     * @param rs The result set.
+     * @param bean The bean to be populated.
+     * @return An initialized object.
+     * @throws SQLException if a database error occurs.
+     */
+    public &lt;T&gt; T populateBean(ResultSet rs, T bean) throws SQLException {
+<span class="fc" id="L235">        PropertyDescriptor[] props = this.propertyDescriptors(bean.getClass());</span>
+<span class="fc" id="L236">        ResultSetMetaData rsmd = rs.getMetaData();</span>
+<span class="fc" id="L237">        int[] columnToProperty = this.mapColumnsToProperties(rsmd, props);</span>
+
+<span class="fc" id="L239">        return populateBean(rs, bean, props, columnToProperty);</span>
+    }
+
+    /**
+     * This method populates a bean from the ResultSet based upon the underlying meta-data.
+     *
+     * @param &lt;T&gt; The type of bean
+     * @param rs The result set.
+     * @param bean The bean to be populated.
+     * @param props The property descriptors.
+     * @param columnToProperty The column indices in the result set.
+     * @return An initialized object.
+     * @throws SQLException if a database error occurs.
+     */
+    private &lt;T&gt; T populateBean(ResultSet rs, T bean,
+            PropertyDescriptor[] props, int[] columnToProperty)
+            throws SQLException {
+
+<span class="fc bfc" id="L257" title="All 2 branches covered.">        for (int i = 1; i &lt; columnToProperty.length; i++) {</span>
+
+<span class="fc bfc" id="L259" title="All 2 branches covered.">            if (columnToProperty[i] == PROPERTY_NOT_FOUND) {</span>
+<span class="fc" id="L260">                continue;</span>
+            }
+
+<span class="fc" id="L263">            PropertyDescriptor prop = props[columnToProperty[i]];</span>
+<span class="fc" id="L264">            Class&lt;?&gt; propType = prop.getPropertyType();</span>
+
+<span class="fc" id="L266">            Object value = null;</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            if(propType != null) {</span>
+<span class="fc" id="L268">                value = this.processColumn(rs, i, propType);</span>
+
+<span class="pc bpc" id="L270" title="1 of 4 branches missed.">                if (value == null &amp;&amp; propType.isPrimitive()) {</span>
+<span class="nc" id="L271">                    value = primitiveDefaults.get(propType);</span>
+                }
+            }
+
+<span class="fc" id="L275">            this.callSetter(bean, prop, value);</span>
+        }
+
+<span class="fc" id="L278">        return bean;</span>
+    }
+
+    /**
+     * Calls the setter method on the target object for the given property.
+     * If no setter method exists for the property, this method does nothing.
+     * @param target The object to set the property on.
+     * @param prop The property to set.
+     * @param value The value to pass into the setter.
+     * @throws SQLException if an error occurs setting the property.
+     */
+    private void callSetter(Object target, PropertyDescriptor prop, Object value)
+            throws SQLException {
+
+<span class="fc" id="L292">        Method setter = getWriteMethod(target, prop, value);</span>
+
+<span class="pc bpc" id="L294" title="2 of 4 branches missed.">        if (setter == null || setter.getParameterTypes().length != 1) {</span>
+<span class="nc" id="L295">            return;</span>
+        }
+
+        try {
+<span class="fc" id="L299">            Class&lt;?&gt; firstParam = setter.getParameterTypes()[0];</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">            for (PropertyHandler handler : propertyHandlers) {</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">                if (handler.match(firstParam, value)) {</span>
+<span class="fc" id="L302">                    value = handler.apply(firstParam, value);</span>
+<span class="fc" id="L303">                    break;</span>
+                }
+<span class="fc" id="L305">            }</span>
+
+            // Don't call setter if the value object isn't the right type
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">            if (this.isCompatibleType(value, firstParam)) {</span>
+<span class="fc" id="L309">                setter.invoke(target, new Object[]{value});</span>
+            } else {
+<span class="nc" id="L311">              throw new SQLException(</span>
+<span class="nc" id="L312">                  &quot;Cannot set &quot; + prop.getName() + &quot;: incompatible types, cannot convert &quot;</span>
+<span class="nc" id="L313">                  + value.getClass().getName() + &quot; to &quot; + firstParam.getName());</span>
+                  // value cannot be null here because isCompatibleType allows null
+            }
+
+<span class="nc" id="L317">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L318">            throw new SQLException(</span>
+<span class="nc" id="L319">                &quot;Cannot set &quot; + prop.getName() + &quot;: &quot; + e.getMessage());</span>
+
+<span class="nc" id="L321">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L322">            throw new SQLException(</span>
+<span class="nc" id="L323">                &quot;Cannot set &quot; + prop.getName() + &quot;: &quot; + e.getMessage());</span>
+
+<span class="nc" id="L325">        } catch (InvocationTargetException e) {</span>
+<span class="nc" id="L326">            throw new SQLException(</span>
+<span class="nc" id="L327">                &quot;Cannot set &quot; + prop.getName() + &quot;: &quot; + e.getMessage());</span>
+<span class="fc" id="L328">        }</span>
+<span class="fc" id="L329">    }</span>
+
+    /**
+     * ResultSet.getObject() returns an Integer object for an INT column.  The
+     * setter method for the property might take an Integer or a primitive int.
+     * This method returns true if the value can be successfully passed into
+     * the setter method.  Remember, Method.invoke() handles the unwrapping
+     * of Integer into an int.
+     *
+     * @param value The value to be passed into the setter method.
+     * @param type The setter's parameter type (non-null)
+     * @return boolean True if the value is compatible (null =&gt; true)
+     */
+    private boolean isCompatibleType(Object value, Class&lt;?&gt; type) {
+        // Do object check first, then primitives
+<span class="pc bpc" id="L344" title="1 of 6 branches missed.">        if (value == null || type.isInstance(value) || matchesPrimitive(type, value.getClass())) {</span>
+<span class="fc" id="L345">            return true;</span>
+
+        }
+<span class="nc" id="L348">        return false;</span>
+
+    }
+
+    /**
+     * Check whether a value is of the same primitive type as &lt;code&gt;targetType&lt;/code&gt;.
+     *
+     * @param targetType The primitive type to target.
+     * @param valueType The value to match to the primitive type.
+     * @return Whether &lt;code&gt;valueType&lt;/code&gt; can be coerced (e.g. autoboxed) into &lt;code&gt;targetType&lt;/code&gt;.
+     */
+    private boolean matchesPrimitive(Class&lt;?&gt; targetType, Class&lt;?&gt; valueType) {
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">        if (!targetType.isPrimitive()) {</span>
+<span class="nc" id="L361">            return false;</span>
+        }
+
+        try {
+            // see if there is a &quot;TYPE&quot; field.  This is present for primitive wrappers.
+<span class="fc" id="L366">            Field typeField = valueType.getField(&quot;TYPE&quot;);</span>
+<span class="fc" id="L367">            Object primitiveValueType = typeField.get(valueType);</span>
+
+<span class="pc bpc" id="L369" title="1 of 2 branches missed.">            if (targetType == primitiveValueType) {</span>
+<span class="fc" id="L370">                return true;</span>
+            }
+<span class="nc" id="L372">        } catch (NoSuchFieldException e) {</span>
+            // lacking the TYPE field is a good sign that we're not working with a primitive wrapper.
+            // we can't match for compatibility
+<span class="nc" id="L375">        } catch (IllegalAccessException e) {</span>
+            // an inaccessible TYPE field is a good sign that we're not working with a primitive wrapper.
+            // nothing to do.  we can't match for compatibility
+<span class="nc" id="L378">        }</span>
+<span class="nc" id="L379">        return false;</span>
+    }
+
+    /**
+     * Get the write method to use when setting {@code value} to the {@code target}.
+     *
+     * @param target Object where the write method will be called.
+     * @param prop   BeanUtils information.
+     * @param value  The value that will be passed to the write method.
+     * @return The {@link java.lang.reflect.Method} to call on {@code target} to write {@code value} or {@code null} if
+     *         there is no suitable write method.
+     */
+    protected Method getWriteMethod(Object target, PropertyDescriptor prop, Object value) {
+<span class="fc" id="L392">        Method method = prop.getWriteMethod();</span>
+<span class="fc" id="L393">        return method;</span>
+    }
+
+    /**
+     * Factory method that returns a new instance of the given Class.  This
+     * is called at the start of the bean creation process and may be
+     * overridden to provide custom behavior like returning a cached bean
+     * instance.
+     * @param &lt;T&gt; The type of object to create
+     * @param c The Class to create an object from.
+     * @return A newly created object of the Class.
+     * @throws SQLException if creation failed.
+     */
+    protected &lt;T&gt; T newInstance(Class&lt;T&gt; c) throws SQLException {
+        try {
+<span class="fc" id="L408">            return c.newInstance();</span>
+
+<span class="nc" id="L410">        } catch (InstantiationException e) {</span>
+<span class="nc" id="L411">            throw new SQLException(</span>
+<span class="nc" id="L412">                &quot;Cannot create &quot; + c.getName() + &quot;: &quot; + e.getMessage());</span>
+
+<span class="nc" id="L414">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L415">            throw new SQLException(</span>
+<span class="nc" id="L416">                &quot;Cannot create &quot; + c.getName() + &quot;: &quot; + e.getMessage());</span>
+        }
+    }
+
+    /**
+     * Returns a PropertyDescriptor[] for the given Class.
+     *
+     * @param c The Class to retrieve PropertyDescriptors for.
+     * @return A PropertyDescriptor[] describing the Class.
+     * @throws SQLException if introspection failed.
+     */
+    private PropertyDescriptor[] propertyDescriptors(Class&lt;?&gt; c)
+        throws SQLException {
+        // Introspector caches BeanInfo classes for better performance
+<span class="fc" id="L430">        BeanInfo beanInfo = null;</span>
+        try {
+<span class="fc" id="L432">            beanInfo = Introspector.getBeanInfo(c);</span>
+
+<span class="nc" id="L434">        } catch (IntrospectionException e) {</span>
+<span class="nc" id="L435">            throw new SQLException(</span>
+<span class="nc" id="L436">                &quot;Bean introspection failed: &quot; + e.getMessage());</span>
+<span class="fc" id="L437">        }</span>
+
+<span class="fc" id="L439">        return beanInfo.getPropertyDescriptors();</span>
+    }
+
+    /**
+     * The positions in the returned array represent column numbers.  The
+     * values stored at each position represent the index in the
+     * &lt;code&gt;PropertyDescriptor[]&lt;/code&gt; for the bean property that matches
+     * the column name.  If no bean property was found for a column, the
+     * position is set to &lt;code&gt;PROPERTY_NOT_FOUND&lt;/code&gt;.
+     *
+     * @param rsmd The &lt;code&gt;ResultSetMetaData&lt;/code&gt; containing column
+     * information.
+     *
+     * @param props The bean property descriptors.
+     *
+     * @throws SQLException if a database access error occurs
+     *
+     * @return An int[] with column index to property index mappings.  The 0th
+     * element is meaningless because JDBC column indexing starts at 1.
+     */
+    protected int[] mapColumnsToProperties(ResultSetMetaData rsmd,
+            PropertyDescriptor[] props) throws SQLException {
+
+<span class="fc" id="L462">        int cols = rsmd.getColumnCount();</span>
+<span class="fc" id="L463">        int[] columnToProperty = new int[cols + 1];</span>
+<span class="fc" id="L464">        Arrays.fill(columnToProperty, PROPERTY_NOT_FOUND);</span>
+
+<span class="fc bfc" id="L466" title="All 2 branches covered.">        for (int col = 1; col &lt;= cols; col++) {</span>
+<span class="fc" id="L467">            String columnName = rsmd.getColumnLabel(col);</span>
+<span class="pc bpc" id="L468" title="1 of 4 branches missed.">            if (null == columnName || 0 == columnName.length()) {</span>
+<span class="fc" id="L469">              columnName = rsmd.getColumnName(col);</span>
+            }
+<span class="fc" id="L471">            String propertyName = columnToPropertyOverrides.get(columnName);</span>
+<span class="fc bfc" id="L472" title="All 2 branches covered.">            if (propertyName == null) {</span>
+<span class="fc" id="L473">                propertyName = columnName;</span>
+            }
+<span class="fc bfc" id="L475" title="All 2 branches covered.">            for (int i = 0; i &lt; props.length; i++) {</span>
+
+<span class="fc bfc" id="L477" title="All 2 branches covered.">                if (propertyName.equalsIgnoreCase(props[i].getName())) {</span>
+<span class="fc" id="L478">                    columnToProperty[col] = i;</span>
+<span class="fc" id="L479">                    break;</span>
+                }
+            }
+        }
+
+<span class="fc" id="L484">        return columnToProperty;</span>
+    }
+
+    /**
+     * Convert a &lt;code&gt;ResultSet&lt;/code&gt; column into an object.  Simple
+     * implementations could just call &lt;code&gt;rs.getObject(index)&lt;/code&gt; while
+     * more complex implementations could perform type manipulation to match
+     * the column's type to the bean property type.
+     *
+     * &lt;p&gt;
+     * This implementation calls the appropriate &lt;code&gt;ResultSet&lt;/code&gt; getter
+     * method for the given property type to perform the type conversion.  If
+     * the property type doesn't match one of the supported
+     * &lt;code&gt;ResultSet&lt;/code&gt; types, &lt;code&gt;getObject&lt;/code&gt; is called.
+     * &lt;/p&gt;
+     *
+     * @param rs The &lt;code&gt;ResultSet&lt;/code&gt; currently being processed.  It is
+     * positioned on a valid row before being passed into this method.
+     *
+     * @param index The current column index being processed.
+     *
+     * @param propType The bean property type that this column needs to be
+     * converted into.
+     *
+     * @throws SQLException if a database access error occurs
+     *
+     * @return The object from the &lt;code&gt;ResultSet&lt;/code&gt; at the given column
+     * index after optional type processing or &lt;code&gt;null&lt;/code&gt; if the column
+     * value was SQL NULL.
+     */
+    protected Object processColumn(ResultSet rs, int index, Class&lt;?&gt; propType)
+        throws SQLException {
+
+<span class="fc" id="L517">        Object retval = rs.getObject(index);</span>
+
+<span class="fc bfc" id="L519" title="All 4 branches covered.">        if ( !propType.isPrimitive() &amp;&amp; retval == null ) {</span>
+<span class="fc" id="L520">            return null;</span>
+        }
+
+<span class="fc bfc" id="L523" title="All 2 branches covered.">        for (ColumnHandler handler : columnHandlers) {</span>
+<span class="fc bfc" id="L524" title="All 2 branches covered.">            if (handler.match(propType)) {</span>
+<span class="fc" id="L525">                retval = handler.apply(rs, index);</span>
+<span class="fc" id="L526">                break;</span>
+            }
+<span class="fc" id="L528">        }</span>
+
+<span class="fc" id="L530">        return retval;</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

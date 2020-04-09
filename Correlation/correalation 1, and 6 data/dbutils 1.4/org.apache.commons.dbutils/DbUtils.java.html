@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DbUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Commons DbUtils</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.dbutils</a> &gt; <span class="el_source">DbUtils.java</span></div><h1>DbUtils.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.dbutils;
+
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * A collection of JDBC helper methods.  This class is thread safe.
+ */
+public final class DbUtils {
+
+    /**
+     * Default constructor.
+     *
+     * Utility classes should not have a public or default constructor,
+     * but this one preserves retro-compatibility.
+     *
+     * @since 1.4
+     */
+<span class="nc" id="L38">    public DbUtils() {</span>
+        // do nothing
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Close a &lt;code&gt;Connection&lt;/code&gt;, avoid closing if null.
+     *
+     * @param conn Connection to close.
+     * @throws SQLException if a database access error occurs
+     */
+    public static void close(Connection conn) throws SQLException {
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (conn != null) {</span>
+<span class="fc" id="L50">            conn.close();</span>
+        }
+<span class="fc" id="L52">    }</span>
+
+    /**
+     * Close a &lt;code&gt;ResultSet&lt;/code&gt;, avoid closing if null.
+     *
+     * @param rs ResultSet to close.
+     * @throws SQLException if a database access error occurs
+     */
+    public static void close(ResultSet rs) throws SQLException {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (rs != null) {</span>
+<span class="fc" id="L62">            rs.close();</span>
+        }
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * Close a &lt;code&gt;Statement&lt;/code&gt;, avoid closing if null.
+     *
+     * @param stmt Statement to close.
+     * @throws SQLException if a database access error occurs
+     */
+    public static void close(Statement stmt) throws SQLException {
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (stmt != null) {</span>
+<span class="fc" id="L74">            stmt.close();</span>
+        }
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * Close a &lt;code&gt;Connection&lt;/code&gt;, avoid closing if null and hide
+     * any SQLExceptions that occur.
+     *
+     * @param conn Connection to close.
+     */
+    public static void closeQuietly(Connection conn) {
+        try {
+<span class="nc" id="L86">            close(conn);</span>
+<span class="nc" id="L87">        } catch (SQLException e) { // NOPMD</span>
+            // quiet
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">    }</span>
+
+    /**
+     * Close a &lt;code&gt;Connection&lt;/code&gt;, &lt;code&gt;Statement&lt;/code&gt; and
+     * &lt;code&gt;ResultSet&lt;/code&gt;.  Avoid closing if null and hide any
+     * SQLExceptions that occur.
+     *
+     * @param conn Connection to close.
+     * @param stmt Statement to close.
+     * @param rs ResultSet to close.
+     */
+    public static void closeQuietly(Connection conn, Statement stmt,
+            ResultSet rs) {
+
+        try {
+<span class="nc" id="L105">            closeQuietly(rs);</span>
+        } finally {
+            try {
+<span class="nc" id="L108">                closeQuietly(stmt);</span>
+            } finally {
+<span class="nc" id="L110">                closeQuietly(conn);</span>
+            }
+        }
+
+<span class="nc" id="L114">    }</span>
+
+    /**
+     * Close a &lt;code&gt;ResultSet&lt;/code&gt;, avoid closing if null and hide any
+     * SQLExceptions that occur.
+     *
+     * @param rs ResultSet to close.
+     */
+    public static void closeQuietly(ResultSet rs) {
+        try {
+<span class="nc" id="L124">            close(rs);</span>
+<span class="nc" id="L125">        } catch (SQLException e) { // NOPMD</span>
+            // quiet
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">    }</span>
+
+    /**
+     * Close a &lt;code&gt;Statement&lt;/code&gt;, avoid closing if null and hide
+     * any SQLExceptions that occur.
+     *
+     * @param stmt Statement to close.
+     */
+    public static void closeQuietly(Statement stmt) {
+        try {
+<span class="nc" id="L138">            close(stmt);</span>
+<span class="nc" id="L139">        } catch (SQLException e) { // NOPMD</span>
+            // quiet
+<span class="nc" id="L141">        }</span>
+<span class="nc" id="L142">    }</span>
+
+    /**
+     * Commits a &lt;code&gt;Connection&lt;/code&gt; then closes it, avoid closing if null.
+     *
+     * @param conn Connection to close.
+     * @throws SQLException if a database access error occurs
+     */
+    public static void commitAndClose(Connection conn) throws SQLException {
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (conn != null) {</span>
+            try {
+<span class="nc" id="L153">                conn.commit();</span>
+            } finally {
+<span class="nc" id="L155">                conn.close();</span>
+            }
+        }
+<span class="nc" id="L158">    }</span>
+
+    /**
+     * Commits a &lt;code&gt;Connection&lt;/code&gt; then closes it, avoid closing if null
+     * and hide any SQLExceptions that occur.
+     *
+     * @param conn Connection to close.
+     */
+    public static void commitAndCloseQuietly(Connection conn) {
+        try {
+<span class="nc" id="L168">            commitAndClose(conn);</span>
+<span class="nc" id="L169">        } catch (SQLException e) { // NOPMD</span>
+            // quiet
+<span class="nc" id="L171">        }</span>
+<span class="nc" id="L172">    }</span>
+
+    /**
+     * Loads and registers a database driver class.
+     * If this succeeds, it returns true, else it returns false.
+     *
+     * @param driverClassName of driver to load
+     * @return boolean &lt;code&gt;true&lt;/code&gt; if the driver was found, otherwise &lt;code&gt;false&lt;/code&gt;
+     */
+    public static boolean loadDriver(String driverClassName) {
+<span class="nc" id="L182">        return loadDriver(DbUtils.class.getClassLoader(), driverClassName);</span>
+    }
+
+    /**
+     * Loads and registers a database driver class.
+     * If this succeeds, it returns true, else it returns false.
+     *
+     * @param classLoader the class loader used to load the driver class
+     * @param driverClassName of driver to load
+     * @return boolean &lt;code&gt;true&lt;/code&gt; if the driver was found, otherwise &lt;code&gt;false&lt;/code&gt;
+     * @since 1.4
+     */
+    public static boolean loadDriver(ClassLoader classLoader, String driverClassName) {
+        try {
+<span class="nc" id="L196">            classLoader.loadClass(driverClassName).newInstance();</span>
+<span class="nc" id="L197">            return true;</span>
+
+<span class="nc" id="L199">        } catch (IllegalAccessException e) {</span>
+            // Constructor is private, OK for DriverManager contract
+<span class="nc" id="L201">            return true;</span>
+
+<span class="nc" id="L203">        } catch (Exception e) {</span>
+<span class="nc" id="L204">            return false;</span>
+
+        }
+    }
+
+    /**
+     * Print the stack trace for a SQLException to STDERR.
+     *
+     * @param e SQLException to print stack trace of
+     */
+    public static void printStackTrace(SQLException e) {
+<span class="nc" id="L215">        printStackTrace(e, new PrintWriter(System.err));</span>
+<span class="nc" id="L216">    }</span>
+
+    /**
+     * Print the stack trace for a SQLException to a
+     * specified PrintWriter.
+     *
+     * @param e SQLException to print stack trace of
+     * @param pw PrintWriter to print to
+     */
+    public static void printStackTrace(SQLException e, PrintWriter pw) {
+
+<span class="nc" id="L227">        SQLException next = e;</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        while (next != null) {</span>
+<span class="nc" id="L229">            next.printStackTrace(pw);</span>
+<span class="nc" id="L230">            next = next.getNextException();</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">            if (next != null) {</span>
+<span class="nc" id="L232">                pw.println(&quot;Next SQLException:&quot;);</span>
+            }
+        }
+<span class="nc" id="L235">    }</span>
+
+    /**
+     * Print warnings on a Connection to STDERR.
+     *
+     * @param conn Connection to print warnings from
+     */
+    public static void printWarnings(Connection conn) {
+<span class="nc" id="L243">        printWarnings(conn, new PrintWriter(System.err));</span>
+<span class="nc" id="L244">    }</span>
+
+    /**
+     * Print warnings on a Connection to a specified PrintWriter.
+     *
+     * @param conn Connection to print warnings from
+     * @param pw PrintWriter to print to
+     */
+    public static void printWarnings(Connection conn, PrintWriter pw) {
+<span class="nc bnc" id="L253" title="All 2 branches missed.">        if (conn != null) {</span>
+            try {
+<span class="nc" id="L255">                printStackTrace(conn.getWarnings(), pw);</span>
+<span class="nc" id="L256">            } catch (SQLException e) {</span>
+<span class="nc" id="L257">                printStackTrace(e, pw);</span>
+<span class="nc" id="L258">            }</span>
+        }
+<span class="nc" id="L260">    }</span>
+
+    /**
+     * Rollback any changes made on the given connection.
+     * @param conn Connection to rollback.  A null value is legal.
+     * @throws SQLException if a database access error occurs
+     */
+    public static void rollback(Connection conn) throws SQLException {
+<span class="nc bnc" id="L268" title="All 2 branches missed.">        if (conn != null) {</span>
+<span class="nc" id="L269">            conn.rollback();</span>
+        }
+<span class="nc" id="L271">    }</span>
+
+    /**
+     * Performs a rollback on the &lt;code&gt;Connection&lt;/code&gt; then closes it,
+     * avoid closing if null.
+     *
+     * @param conn Connection to rollback.  A null value is legal.
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    public static void rollbackAndClose(Connection conn) throws SQLException {
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        if (conn != null) {</span>
+            try {
+<span class="nc" id="L284">                conn.rollback();</span>
+            } finally {
+<span class="nc" id="L286">                conn.close();</span>
+            }
+        }
+<span class="nc" id="L289">    }</span>
+
+    /**
+     * Performs a rollback on the &lt;code&gt;Connection&lt;/code&gt; then closes it,
+     * avoid closing if null and hide any SQLExceptions that occur.
+     *
+     * @param conn Connection to rollback.  A null value is legal.
+     * @since DbUtils 1.1
+     */
+    public static void rollbackAndCloseQuietly(Connection conn) {
+        try {
+<span class="nc" id="L300">            rollbackAndClose(conn);</span>
+<span class="nc" id="L301">        } catch (SQLException e) { // NOPMD</span>
+            // quiet
+<span class="nc" id="L303">        }</span>
+<span class="nc" id="L304">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

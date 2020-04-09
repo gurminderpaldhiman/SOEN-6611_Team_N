@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QueryRunner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Commons DbUtils</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.dbutils</a> &gt; <span class="el_source">QueryRunner.java</span></div><h1>QueryRunner.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.dbutils;
+
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.ParameterMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.Arrays;
+
+import javax.sql.DataSource;
+
+/**
+ * Executes SQL queries with pluggable strategies for handling 
+ * &lt;code&gt;ResultSet&lt;/code&gt;s.  This class is thread safe.
+ * 
+ * @see ResultSetHandler
+ */
+public class QueryRunner {
+
+    /**
+     * Is {@link ParameterMetaData#getParameterType(int)} broken (have we tried it yet)?
+     */
+<span class="pc" id="L46">    private volatile boolean pmdKnownBroken = false;</span>
+    
+    /**
+     * The DataSource to retrieve connections from.
+     */
+    protected final DataSource ds;
+
+    /**
+     * Constructor for QueryRunner.
+     */
+    public QueryRunner() {
+<span class="fc" id="L57">        super();</span>
+<span class="fc" id="L58">        ds = null;</span>
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * Constructor for QueryRunner, allows workaround for Oracle drivers
+     * @param pmdKnownBroken Oracle drivers don't support {@link ParameterMetaData#getParameterType(int) };
+     * if &lt;code&gt;pmdKnownBroken&lt;/code&gt; is set to true, we won't even try it; if false, we'll try it,
+     * and if it breaks, we'll remember not to use it again.
+     */
+    public QueryRunner(boolean pmdKnownBroken) {
+<span class="nc" id="L68">        super();</span>
+<span class="nc" id="L69">        this.pmdKnownBroken = pmdKnownBroken; </span>
+<span class="nc" id="L70">        ds = null;</span>
+<span class="nc" id="L71">    }</span>
+    
+    /**
+     * Constructor for QueryRunner, allows workaround for Oracle drivers.  Methods that do not take a 
+     * &lt;code&gt;Connection&lt;/code&gt; parameter will retrieve connections from this
+     * &lt;code&gt;DataSource&lt;/code&gt;.
+     * 
+     * @param ds The &lt;code&gt;DataSource&lt;/code&gt; to retrieve connections from.
+     */
+    public QueryRunner(DataSource ds) {
+<span class="nc" id="L81">        super();</span>
+<span class="nc" id="L82">        this.ds = ds;</span>
+<span class="nc" id="L83">    }</span>
+    
+    /**
+     * Constructor for QueryRunner, allows workaround for Oracle drivers.  Methods that do not take a 
+     * &lt;code&gt;Connection&lt;/code&gt; parameter will retrieve connections from this
+     * &lt;code&gt;DataSource&lt;/code&gt;.
+     * 
+     * @param ds The &lt;code&gt;DataSource&lt;/code&gt; to retrieve connections from.
+     * @param pmdKnownBroken Oracle drivers don't support {@link ParameterMetaData#getParameterType(int) };
+     * if &lt;code&gt;pmdKnownBroken&lt;/code&gt; is set to true, we won't even try it; if false, we'll try it,
+     * and if it breaks, we'll remember not to use it again.
+     */
+    public QueryRunner(DataSource ds, boolean pmdKnownBroken) {
+<span class="nc" id="L96">        super();</span>
+<span class="nc" id="L97">        this.pmdKnownBroken = pmdKnownBroken;</span>
+<span class="nc" id="L98">        this.ds = ds;</span>
+<span class="nc" id="L99">    }</span>
+    
+    /**
+     * Execute a batch of SQL INSERT, UPDATE, or DELETE queries.
+     * 
+     * @param conn The Connection to use to run the query.  The caller is
+     * responsible for closing this Connection.
+     * @param sql The SQL to execute.
+     * @param params An array of query replacement parameters.  Each row in
+     * this array is one set of batch replacement values. 
+     * @return The number of rows updated per statement.
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    public int[] batch(Connection conn, String sql, Object[][] params)
+        throws SQLException {
+
+<span class="nc" id="L116">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L117">        int[] rows = null;</span>
+        try {
+<span class="nc" id="L119">            stmt = this.prepareStatement(conn, sql);</span>
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="nc" id="L122">                this.fillStatement(stmt, params[i]);</span>
+<span class="nc" id="L123">                stmt.addBatch();</span>
+            }
+<span class="nc" id="L125">            rows = stmt.executeBatch();</span>
+
+<span class="nc" id="L127">        } catch (SQLException e) {</span>
+<span class="nc" id="L128">            this.rethrow(e, sql, params);</span>
+        } finally {
+<span class="nc" id="L130">            close(stmt);</span>
+        }
+
+<span class="nc" id="L133">        return rows;</span>
+    }
+
+    /**
+     * Execute a batch of SQL INSERT, UPDATE, or DELETE queries.  The 
+     * &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt; 
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in 
+     * auto-commit mode or the update will not be saved. 
+     * 
+     * @param sql The SQL to execute.
+     * @param params An array of query replacement parameters.  Each row in
+     * this array is one set of batch replacement values. 
+     * @return The number of rows updated per statement.
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    public int[] batch(String sql, Object[][] params) throws SQLException {
+<span class="nc" id="L150">        Connection conn = this.prepareConnection();</span>
+
+        try {
+<span class="nc" id="L153">            return this.batch(conn, sql, params);</span>
+        } finally {
+<span class="nc" id="L155">            close(conn);</span>
+        }
+    }
+
+    /**
+     * Fill the &lt;code&gt;PreparedStatement&lt;/code&gt; replacement parameters with 
+     * the given objects.
+     * @param stmt PreparedStatement to fill
+     * @param params Query replacement parameters; &lt;code&gt;null&lt;/code&gt; is a valid
+     * value to pass in.
+     * @throws SQLException if a database access error occurs
+     */
+    public void fillStatement(PreparedStatement stmt, Object[] params)
+        throws SQLException {
+
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        if (params == null) {</span>
+<span class="nc" id="L171">            return;</span>
+        }
+        
+<span class="fc" id="L174">        ParameterMetaData pmd = stmt.getParameterMetaData();</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if (pmd.getParameterCount() &lt; params.length) {</span>
+<span class="nc" id="L176">            throw new SQLException(&quot;Too many parameters: expected &quot;</span>
+<span class="nc" id="L177">                    + pmd.getParameterCount() + &quot;, was given &quot; + params.length);</span>
+        }
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">            if (params[i] != null) {</span>
+<span class="nc" id="L181">                stmt.setObject(i + 1, params[i]);</span>
+            } else {
+                // VARCHAR works with many drivers regardless
+                // of the actual column type.  Oddly, NULL and 
+                // OTHER don't work with Oracle's drivers.
+<span class="fc" id="L186">                int sqlType = Types.VARCHAR;</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">                if (!pmdKnownBroken) {</span>
+                    try {
+<span class="fc" id="L189">                        sqlType = pmd.getParameterType(i + 1);</span>
+<span class="fc" id="L190">                    } catch (SQLException e) {</span>
+<span class="fc" id="L191">                        pmdKnownBroken = true;</span>
+<span class="fc" id="L192">                    }</span>
+                }
+<span class="fc" id="L194">                stmt.setNull(i + 1, sqlType);</span>
+            }
+        }
+<span class="fc" id="L197">    }</span>
+
+    /**
+     * Fill the &lt;code&gt;PreparedStatement&lt;/code&gt; replacement parameters with the
+     * given object's bean property values.
+     * 
+     * @param stmt
+     *            PreparedStatement to fill
+     * @param bean
+     *            a JavaBean object
+     * @param properties
+     *            an ordered array of properties; this gives the order to insert
+     *            values in the statement
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    public void fillStatementWithBean(PreparedStatement stmt, Object bean,
+            PropertyDescriptor[] properties) throws SQLException {
+<span class="fc" id="L215">        Object[] params = new Object[properties.length];</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        for (int i = 0; i &lt; properties.length; i++) {</span>
+<span class="fc" id="L217">            PropertyDescriptor property = properties[i];</span>
+<span class="fc" id="L218">            Object value = null;</span>
+<span class="fc" id="L219">            Method method = property.getReadMethod();</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">            if (method == null) {</span>
+<span class="fc" id="L221">                throw new RuntimeException(&quot;No read method for bean property &quot;</span>
+<span class="fc" id="L222">                        + bean.getClass() + &quot; &quot; + property.getName());</span>
+            }
+            try {
+<span class="fc" id="L225">                value = method.invoke(bean, new Object[0]);</span>
+<span class="fc" id="L226">            } catch (InvocationTargetException e) {</span>
+<span class="fc" id="L227">                throw new RuntimeException(&quot;Couldn't invoke method: &quot; + method, e);</span>
+<span class="fc" id="L228">            } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L229">                throw new RuntimeException(&quot;Couldn't invoke method with 0 arguments: &quot; + method, e);</span>
+<span class="fc" id="L230">            } catch (IllegalAccessException e) {</span>
+<span class="fc" id="L231">                throw new RuntimeException(&quot;Couldn't invoke method: &quot; + method, e);</span>
+<span class="fc" id="L232">            } </span>
+<span class="fc" id="L233">            params[i] = value;</span>
+        }
+<span class="fc" id="L235">        fillStatement(stmt, params);</span>
+<span class="fc" id="L236">    }</span>
+
+    /**
+     * Fill the &lt;code&gt;PreparedStatement&lt;/code&gt; replacement parameters with the
+     * given object's bean property values.
+     * 
+     * @param stmt
+     *            PreparedStatement to fill
+     * @param bean
+     *            a JavaBean object
+     * @param propertyNames
+     *            an ordered array of property names (these should match the
+     *            getters/setters); this gives the order to insert values in the
+     *            statement
+     * @throws SQLException
+     *             if a database access error occurs
+     */
+    public void fillStatementWithBean(PreparedStatement stmt, Object bean,
+            String[] propertyNames) throws SQLException {
+        PropertyDescriptor[] descriptors;
+        try {
+<span class="fc" id="L257">            descriptors = Introspector.getBeanInfo(bean.getClass())</span>
+<span class="fc" id="L258">                    .getPropertyDescriptors();</span>
+<span class="nc" id="L259">        } catch (IntrospectionException e) {</span>
+<span class="nc" id="L260">            throw new RuntimeException(&quot;Couldn't introspect bean &quot; + bean.getClass().toString(), e);</span>
+<span class="fc" id="L261">        }</span>
+<span class="fc" id="L262">        PropertyDescriptor[] sorted = new PropertyDescriptor[propertyNames.length];</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        for (int i = 0; i &lt; propertyNames.length; i++) {</span>
+<span class="fc" id="L264">            String propertyName = propertyNames[i];</span>
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">            if (propertyName == null) {</span>
+<span class="nc" id="L266">                throw new NullPointerException(&quot;propertyName can't be null: &quot; + i);</span>
+            }
+<span class="fc" id="L268">            boolean found = false;</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">            for (int j = 0; j &lt; descriptors.length; j++) {</span>
+<span class="fc" id="L270">                PropertyDescriptor descriptor = descriptors[j];</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">                if (propertyName.equals(descriptor.getName())) {</span>
+<span class="fc" id="L272">                    sorted[i] = descriptor;</span>
+<span class="fc" id="L273">                    found = true;</span>
+<span class="fc" id="L274">                    break;</span>
+                }
+            }
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">            if (!found) {</span>
+<span class="nc" id="L278">                throw new RuntimeException(&quot;Couldn't find bean property: &quot;</span>
+<span class="nc" id="L279">                        + bean.getClass() + &quot; &quot; + propertyName);</span>
+            }
+        }
+<span class="fc" id="L282">        fillStatementWithBean(stmt, bean, sorted);</span>
+<span class="fc" id="L283">    }</span>
+
+    /**
+     * Returns the &lt;code&gt;DataSource&lt;/code&gt; this runner is using.  
+     * &lt;code&gt;QueryRunner&lt;/code&gt; methods always call this method to get the
+     * &lt;code&gt;DataSource&lt;/code&gt; so subclasses can provide specialized
+     * behavior.
+     *
+     * @return DataSource the runner is using
+     */
+    public DataSource getDataSource() {
+<span class="nc" id="L294">        return this.ds;</span>
+    }
+
+    /**
+     * Factory method that creates and initializes a 
+     * &lt;code&gt;PreparedStatement&lt;/code&gt; object for the given SQL.  
+     * &lt;code&gt;QueryRunner&lt;/code&gt; methods always call this method to prepare 
+     * statements for them.  Subclasses can override this method to provide 
+     * special PreparedStatement configuration if needed.  This implementation
+     * simply calls &lt;code&gt;conn.prepareStatement(sql)&lt;/code&gt;.
+     *  
+     * @param conn The &lt;code&gt;Connection&lt;/code&gt; used to create the 
+     * &lt;code&gt;PreparedStatement&lt;/code&gt;
+     * @param sql The SQL statement to prepare.
+     * @return An initialized &lt;code&gt;PreparedStatement&lt;/code&gt;.
+     * @throws SQLException if a database access error occurs
+     */
+    protected PreparedStatement prepareStatement(Connection conn, String sql)
+        throws SQLException {
+            
+<span class="nc" id="L314">        return conn.prepareStatement(sql);</span>
+    }
+    
+    /**
+     * Factory method that creates and initializes a 
+     * &lt;code&gt;Connection&lt;/code&gt; object.  &lt;code&gt;QueryRunner&lt;/code&gt; methods 
+     * always call this method to retrieve connections from its DataSource.  
+     * Subclasses can override this method to provide 
+     * special &lt;code&gt;Connection&lt;/code&gt; configuration if needed.  This 
+     * implementation simply calls &lt;code&gt;ds.getConnection()&lt;/code&gt;.
+     * 
+     * @return An initialized &lt;code&gt;Connection&lt;/code&gt;.
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected Connection prepareConnection() throws SQLException {
+<span class="nc bnc" id="L330" title="All 2 branches missed.">        if(this.getDataSource() == null) {</span>
+<span class="nc" id="L331">            throw new SQLException(&quot;QueryRunner requires a DataSource to be &quot; +</span>
+                &quot;invoked in this way, or a Connection should be passed in&quot;);
+        }
+<span class="nc" id="L334">        return this.getDataSource().getConnection();</span>
+    }
+
+    /**
+     * Execute an SQL SELECT query with a single replacement parameter. The
+     * caller is responsible for closing the connection.
+     * 
+     * @param conn The connection to execute the query in.
+     * @param sql The query to execute.
+     * @param param The replacement parameter.
+     * @param rsh The handler that converts the results into an object.
+     * @return The object returned by the handler.
+     * @throws SQLException if a database access error occurs
+     * @deprecated Use {@link #query(Connection,String,ResultSetHandler,Object[])} instead
+     */
+    public Object query(Connection conn, String sql, Object param,
+            ResultSetHandler rsh) throws SQLException {
+
+<span class="nc" id="L352">        return this.query(conn, sql, rsh, new Object[] { param });</span>
+    }
+
+    /**
+     * Execute an SQL SELECT query with replacement parameters.  The
+     * caller is responsible for closing the connection.
+     * 
+     * @param conn The connection to execute the query in.
+     * @param sql The query to execute.
+     * @param params The replacement parameters.
+     * @param rsh The handler that converts the results into an object.
+     * @return The object returned by the handler.
+     * @throws SQLException if a database access error occurs
+     * @deprecated Use {@link #query(Connection,String,ResultSetHandler,Object[])} instead
+     */
+    public Object query(Connection conn, String sql, Object[] params,
+            ResultSetHandler rsh) throws SQLException {
+<span class="nc" id="L369">                return query(conn, sql, rsh, params);</span>
+            }
+
+    /**
+     * Execute an SQL SELECT query with replacement parameters.  The
+     * caller is responsible for closing the connection.
+     * 
+     * @param conn The connection to execute the query in.
+     * @param sql The query to execute.
+     * @param rsh The handler that converts the results into an object.
+     * @param params The replacement parameters.
+     * @return The object returned by the handler.
+     * @throws SQLException if a database access error occurs
+     */
+    public Object query(Connection conn, String sql, ResultSetHandler rsh,
+            Object[] params) throws SQLException {
+
+<span class="nc" id="L386">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L387">        ResultSet rs = null;</span>
+<span class="nc" id="L388">        Object result = null;</span>
+
+        try {
+<span class="nc" id="L391">            stmt = this.prepareStatement(conn, sql);</span>
+<span class="nc" id="L392">            this.fillStatement(stmt, params);</span>
+<span class="nc" id="L393">            rs = this.wrap(stmt.executeQuery());</span>
+<span class="nc" id="L394">            result = rsh.handle(rs);</span>
+
+<span class="nc" id="L396">        } catch (SQLException e) {</span>
+<span class="nc" id="L397">            this.rethrow(e, sql, params);</span>
+
+        } finally {
+            try {
+<span class="nc" id="L401">                close(rs);</span>
+            } finally {
+<span class="nc" id="L403">                close(stmt);</span>
+            }
+        }
+
+<span class="nc" id="L407">        return result;</span>
+    }
+
+    /**
+     * Execute an SQL SELECT query without any replacement parameters.  The
+     * caller is responsible for closing the connection.
+     * 
+     * @param conn The connection to execute the query in.
+     * @param sql The query to execute.
+     * @param rsh The handler that converts the results into an object.
+     * @return The object returned by the handler.
+     * @throws SQLException if a database access error occurs
+     */
+    public Object query(Connection conn, String sql, ResultSetHandler rsh)
+        throws SQLException {
+
+<span class="nc" id="L423">        return this.query(conn, sql, rsh, (Object[]) null);</span>
+    }
+
+    /**
+     * Executes the given SELECT SQL with a single replacement parameter.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
+     * 
+     * @param sql The SQL statement to execute.
+     * @param param The replacement parameter.
+     * @param rsh The handler used to create the result object from 
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
+     * 
+     * @return An object generated by the handler.
+     * @throws SQLException if a database access error occurs
+     * @deprecated Use {@link #query(String,ResultSetHandler,Object[])} instead
+     */
+    public Object query(String sql, Object param, ResultSetHandler rsh)
+        throws SQLException {
+
+<span class="nc" id="L443">        return this.query(sql, rsh, new Object[] { param });</span>
+    }
+
+    /**
+     * Executes the given SELECT SQL query and returns a result object.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the 
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
+     * 
+     * @param sql The SQL statement to execute.
+     * @param params Initialize the PreparedStatement's IN parameters with 
+     * this array.
+     * 
+     * @param rsh The handler used to create the result object from 
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
+     * 
+     * @return An object generated by the handler.
+     * @throws SQLException if a database access error occurs
+     * @deprecated Use {@link #query(String,ResultSetHandler,Object[])} instead
+     */
+    public Object query(String sql, Object[] params, ResultSetHandler rsh)
+        throws SQLException {
+<span class="nc" id="L464">            return query(sql, rsh, params);</span>
+        }
+
+    /**
+     * Executes the given SELECT SQL query and returns a result object.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the 
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
+     * 
+     * @param sql The SQL statement to execute.
+     * @param rsh The handler used to create the result object from 
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
+     * @param params Initialize the PreparedStatement's IN parameters with 
+     * this array.
+     * @return An object generated by the handler.
+     * @throws SQLException if a database access error occurs
+     */
+    public Object query(String sql, ResultSetHandler rsh, Object[] params)
+        throws SQLException {
+
+<span class="nc" id="L483">        Connection conn = this.prepareConnection();</span>
+
+        try {
+<span class="nc" id="L486">            return this.query(conn, sql, rsh, params);</span>
+        } finally {
+<span class="nc" id="L488">            close(conn);</span>
+        }
+    }
+
+    /**
+     * Executes the given SELECT SQL without any replacement parameters.
+     * The &lt;code&gt;Connection&lt;/code&gt; is retrieved from the
+     * &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
+     * 
+     * @param sql The SQL statement to execute.
+     * @param rsh The handler used to create the result object from 
+     * the &lt;code&gt;ResultSet&lt;/code&gt;.
+     * 
+     * @return An object generated by the handler.
+     * @throws SQLException if a database access error occurs
+     */
+    public Object query(String sql, ResultSetHandler rsh) throws SQLException {
+<span class="nc" id="L505">        return this.query(sql, rsh, (Object[]) null);</span>
+    }
+
+    /**
+     * Throws a new exception with a more informative error message.
+     * 
+     * @param cause The original exception that will be chained to the new 
+     * exception when it's rethrown. 
+     * 
+     * @param sql The query that was executing when the exception happened.
+     * 
+     * @param params The query replacement parameters; &lt;code&gt;null&lt;/code&gt; is a 
+     * valid value to pass in.
+     * 
+     * @throws SQLException if a database access error occurs
+     */
+    protected void rethrow(SQLException cause, String sql, Object[] params)
+        throws SQLException {
+
+<span class="fc" id="L524">        String causeMessage = cause.getMessage();</span>
+<span class="pc bpc" id="L525" title="1 of 2 branches missed.">        if (causeMessage == null) {</span>
+<span class="fc" id="L526">            causeMessage = &quot;&quot;;</span>
+        }
+<span class="fc" id="L528">        StringBuffer msg = new StringBuffer(causeMessage);</span>
+
+<span class="fc" id="L530">        msg.append(&quot; Query: &quot;);</span>
+<span class="fc" id="L531">        msg.append(sql);</span>
+<span class="fc" id="L532">        msg.append(&quot; Parameters: &quot;);</span>
+
+<span class="pc bpc" id="L534" title="1 of 2 branches missed.">        if (params == null) {</span>
+<span class="nc" id="L535">            msg.append(&quot;[]&quot;);</span>
+        } else {
+<span class="fc" id="L537">            msg.append(Arrays.asList(params));</span>
+        }
+
+<span class="fc" id="L540">        SQLException e = new SQLException(msg.toString(), cause.getSQLState(),</span>
+<span class="fc" id="L541">                cause.getErrorCode());</span>
+<span class="fc" id="L542">        e.setNextException(cause);</span>
+
+<span class="fc" id="L544">        throw e;</span>
+    }
+
+    /**
+     * Execute an SQL INSERT, UPDATE, or DELETE query without replacement
+     * parameters.
+     * 
+     * @param conn The connection to use to run the query.
+     * @param sql The SQL to execute.
+     * @return The number of rows updated.
+     * @throws SQLException if a database access error occurs
+     */
+    public int update(Connection conn, String sql) throws SQLException {
+<span class="nc" id="L557">        return this.update(conn, sql, (Object[]) null);</span>
+    }
+
+    /**
+     * Execute an SQL INSERT, UPDATE, or DELETE query with a single replacement
+     * parameter.
+     * 
+     * @param conn The connection to use to run the query.
+     * @param sql The SQL to execute.
+     * @param param The replacement parameter.
+     * @return The number of rows updated.
+     * @throws SQLException if a database access error occurs
+     */
+    public int update(Connection conn, String sql, Object param)
+        throws SQLException {
+
+<span class="nc" id="L573">        return this.update(conn, sql, new Object[] { param });</span>
+    }
+
+    /**
+     * Execute an SQL INSERT, UPDATE, or DELETE query.
+     * 
+     * @param conn The connection to use to run the query.
+     * @param sql The SQL to execute.
+     * @param params The query replacement parameters.
+     * @return The number of rows updated.
+     * @throws SQLException if a database access error occurs
+     */
+    public int update(Connection conn, String sql, Object[] params)
+        throws SQLException {
+
+<span class="nc" id="L588">        PreparedStatement stmt = null;</span>
+<span class="nc" id="L589">        int rows = 0;</span>
+
+        try {
+<span class="nc" id="L592">            stmt = this.prepareStatement(conn, sql);</span>
+<span class="nc" id="L593">            this.fillStatement(stmt, params);</span>
+<span class="nc" id="L594">            rows = stmt.executeUpdate();</span>
+
+<span class="nc" id="L596">        } catch (SQLException e) {</span>
+<span class="nc" id="L597">            this.rethrow(e, sql, params);</span>
+
+        } finally {
+<span class="nc" id="L600">            close(stmt);</span>
+        }
+
+<span class="nc" id="L603">        return rows;</span>
+    }
+
+    /**
+     * Executes the given INSERT, UPDATE, or DELETE SQL statement without
+     * any replacement parameters. The &lt;code&gt;Connection&lt;/code&gt; is retrieved 
+     * from the &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.  This 
+     * &lt;code&gt;Connection&lt;/code&gt; must be in auto-commit mode or the update will 
+     * not be saved. 
+     * 
+     * @param sql The SQL statement to execute.
+     * @throws SQLException if a database access error occurs
+     * @return The number of rows updated.
+     */
+    public int update(String sql) throws SQLException {
+<span class="nc" id="L618">        return this.update(sql, (Object[]) null);</span>
+    }
+
+    /**
+     * Executes the given INSERT, UPDATE, or DELETE SQL statement with
+     * a single replacement parameter.  The &lt;code&gt;Connection&lt;/code&gt; is 
+     * retrieved from the &lt;code&gt;DataSource&lt;/code&gt; set in the constructor.
+     * This &lt;code&gt;Connection&lt;/code&gt; must be in auto-commit mode or the 
+     * update will not be saved. 
+     * 
+     * @param sql The SQL statement to execute.
+     * @param param The replacement parameter.
+     * @throws SQLException if a database access error occurs
+     * @return The number of rows updated.
+     */
+    public int update(String sql, Object param) throws SQLException {
+<span class="nc" id="L634">        return this.update(sql, new Object[] { param });</span>
+    }
+
+    /**
+     * Executes the given INSERT, UPDATE, or DELETE SQL statement.  The 
+     * &lt;code&gt;Connection&lt;/code&gt; is retrieved from the &lt;code&gt;DataSource&lt;/code&gt; 
+     * set in the constructor.  This &lt;code&gt;Connection&lt;/code&gt; must be in 
+     * auto-commit mode or the update will not be saved. 
+     * 
+     * @param sql The SQL statement to execute.
+     * @param params Initializes the PreparedStatement's IN (i.e. '?') 
+     * parameters.
+     * @throws SQLException if a database access error occurs
+     * @return The number of rows updated.
+     */
+    public int update(String sql, Object[] params) throws SQLException {
+<span class="nc" id="L650">        Connection conn = this.prepareConnection();</span>
+
+        try {
+<span class="nc" id="L653">            return this.update(conn, sql, params);</span>
+        } finally {
+<span class="nc" id="L655">            close(conn);</span>
+        }
+    }
+    
+    /**
+     * Wrap the &lt;code&gt;ResultSet&lt;/code&gt; in a decorator before processing it.
+     * This implementation returns the &lt;code&gt;ResultSet&lt;/code&gt; it is given
+     * without any decoration.
+     *
+     * &lt;p&gt;
+     * Often, the implementation of this method can be done in an anonymous 
+     * inner class like this:
+     * &lt;/p&gt;
+     * &lt;pre&gt; 
+     * QueryRunner run = new QueryRunner() {
+     *     protected ResultSet wrap(ResultSet rs) {
+     *         return StringTrimmedResultSet.wrap(rs);
+     *     }
+     * };
+     * &lt;/pre&gt;
+     * 
+     * @param rs The &lt;code&gt;ResultSet&lt;/code&gt; to decorate; never 
+     * &lt;code&gt;null&lt;/code&gt;.
+     * @return The &lt;code&gt;ResultSet&lt;/code&gt; wrapped in some decorator. 
+     */
+    protected ResultSet wrap(ResultSet rs) {
+<span class="nc" id="L681">        return rs;</span>
+    }
+    
+    /**
+     * Close a &lt;code&gt;Connection&lt;/code&gt;.  This implementation avoids closing if 
+     * null and does &lt;strong&gt;not&lt;/strong&gt; suppress any exceptions.  Subclasses
+     * can override to provide special handling like logging.
+     * @param conn Connection to close
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected void close(Connection conn) throws SQLException {
+<span class="nc" id="L693">        DbUtils.close(conn);</span>
+<span class="nc" id="L694">    }</span>
+    
+    /**
+     * Close a &lt;code&gt;Statement&lt;/code&gt;.  This implementation avoids closing if 
+     * null and does &lt;strong&gt;not&lt;/strong&gt; suppress any exceptions.  Subclasses
+     * can override to provide special handling like logging.
+     * @param stmt Statement to close
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected void close(Statement stmt) throws SQLException {
+<span class="nc" id="L705">        DbUtils.close(stmt);</span>
+<span class="nc" id="L706">    }</span>
+
+    /**
+     * Close a &lt;code&gt;ResultSet&lt;/code&gt;.  This implementation avoids closing if 
+     * null and does &lt;strong&gt;not&lt;/strong&gt; suppress any exceptions.  Subclasses
+     * can override to provide special handling like logging.
+     * @param rs ResultSet to close
+     * @throws SQLException if a database access error occurs
+     * @since DbUtils 1.1
+     */
+    protected void close(ResultSet rs) throws SQLException {
+<span class="nc" id="L717">        DbUtils.close(rs);</span>
+<span class="nc" id="L718">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

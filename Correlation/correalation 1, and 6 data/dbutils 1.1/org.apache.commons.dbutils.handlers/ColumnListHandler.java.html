@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColumnListHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DbUtils</a> &gt; <a href="index.source.html" class="el_package">org.apache.commons.dbutils.handlers</a> &gt; <span class="el_source">ColumnListHandler.java</span></div><h1>ColumnListHandler.java</h1><pre class="source lang-java linenums">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.dbutils.handlers;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * &lt;code&gt;ResultSetHandler&lt;/code&gt; implementation that converts one
+ * &lt;code&gt;ResultSet&lt;/code&gt; column into a &lt;code&gt;List&lt;/code&gt; of
+ * &lt;code&gt;Object&lt;/code&gt;s. This class is thread safe.
+ * 
+ * @see org.apache.commons.dbutils.ResultSetHandler
+ * @since DbUtils 1.1
+ */
+public class ColumnListHandler extends GenericListHandler {
+
+    /**
+     * The column number to retrieve.
+     */
+<span class="fc" id="L35">    private int columnIndex = 1;</span>
+
+    /**
+     * The column name to retrieve.  Either columnName or columnIndex
+     * will be used but never both.
+     */
+<span class="fc" id="L41">    private String columnName = null;</span>
+
+    /** 
+     * Creates a new instance of ColumnListHandler.  The first column of each
+     * row will be returned from &lt;code&gt;handle()&lt;/code&gt;.
+     */
+    public ColumnListHandler() {
+<span class="fc" id="L48">        super();</span>
+<span class="fc" id="L49">    }</span>
+
+    /** 
+     * Creates a new instance of ColumnListHandler.
+     * 
+     * @param columnIndex The index of the column to retrieve from the 
+     * &lt;code&gt;ResultSet&lt;/code&gt;.
+     */
+<span class="fc" id="L57">    public ColumnListHandler(int columnIndex) {</span>
+<span class="fc" id="L58">        this.columnIndex = columnIndex;</span>
+<span class="fc" id="L59">    }</span>
+
+    /** 
+     * Creates a new instance of ColumnListHandler.
+     * 
+     * @param columnName The name of the column to retrieve from the 
+     * &lt;code&gt;ResultSet&lt;/code&gt;.
+     */
+<span class="fc" id="L67">    public ColumnListHandler(String columnName) {</span>
+<span class="fc" id="L68">        this.columnName = columnName;</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Returns one &lt;code&gt;ResultSet&lt;/code&gt; column value as &lt;code&gt;Object&lt;/code&gt;.
+     * 
+     * @return &lt;code&gt;Object&lt;/code&gt;, never &lt;code&gt;null&lt;/code&gt;.
+     * 
+     * @throws SQLException if a database access error occurs
+     * 
+     * @see org.apache.commons.dbutils.handlers.GenericListHandler#handle(ResultSet)
+     */
+   protected Object handleRow(ResultSet rs) throws SQLException {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (this.columnName == null) {</span>
+<span class="fc" id="L82">            return rs.getObject(this.columnIndex);</span>
+        } else {
+<span class="fc" id="L84">            return rs.getObject(this.columnName);</span>
+        }
+   }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
