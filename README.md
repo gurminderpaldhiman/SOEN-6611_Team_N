@@ -57,21 +57,13 @@ Issue-Tracking : https://issues.apache.org/jira/projects/DBUTILS/issues/<br />
 
 ## Project Structure:
 
-### Metric 1:
+### Metric 1,2 & 4:
 
-This folder contains the results of metric 1 i.e Statement Coverage for each project. The details on how to calculate statement coverage is explained inside the metric 1 folder. Please refer to the following folder for more details.
-
-### Metric 2:
-
-This folder contains the results of metric 2 i.e Branch Coverage for each project. The details on how to calculate Branch Coverage is explained inside the metric 2 folder. Please refer to the following folder for more details.
+This folder contains the results of metric 1,2,4 for each project. The details on how to calculate the metrics is explained inside the metric 1,2&4 folder. Please refer to the following folder for more details.
 
 ### Metric 3:
 
 This folder contains the results of metric 3 i.e Mutation Score for each project. The details on how to calculate Mutation Score is explained inside the metric 3 folder. Please refer to the following folder for more details.
-
-### Metric 4:
-
-This folder contains the results of metric 4 i.e McCabe Cyclomatic Complexity for each project. The details on how to calculate McCabe Cyclomatic Complexity is explained inside the metric 4 folder. Please refer to the following folder for more details.
 
 ### Metric 5:
 
