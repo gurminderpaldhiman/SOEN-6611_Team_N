@@ -12,7 +12,7 @@
 
 ## Metrics
 
-**Metric 1:** Statement Coverage__
+**Metric 1:** Statement Coverage<br />
 **Metric 2:** Branch Coverage
 
 **Metric 3:** Mutation Score
