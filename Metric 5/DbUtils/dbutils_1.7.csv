@@ -29,9 +29,12 @@ Name, No. Methods, LCOM, AVCC, NOS, HBUG, HEFF, UWCS, INST, PACK, RFC, CBO, MI, 
 "AsyncQueryRunner$QueryCallableStatement",2,0.67,2.00,27,0.26,6824.93,8,6,8,2,1,56.43,22,38,7.00
 "AsyncQueryRunner$UpdateCallableStatement",2,0.60,2.00,21,0.19,4219.25,7,5,8,2,0,62.14,22,29,6.00
 "AsyncQueryRunnerTest",42,0.16,1.14,234,3.65,81861.19,49,7,22,42,3,162.33,22,324,18.00
+"AsyncQueryRunnerTest$MyBean",6,0.20,1.00,16,0.08,781.52,9,3,20,6,0,182.99,3,11,0.00
 "BaseResultSetHandler",192,0.01,1.01,390,4.47,71105.02,193,1,21,192,2,107.16,1147,590,13.00
 "BaseResultSetHandlerTest",1,0.00,2.00,18,0.23,9693.91,1,0,6,1,1,92.32,0,19,10.00
 "BaseResultSetHandlerTest$ToMapCollectionHandler",1,0.00,3.00,12,0.19,8261.44,1,0,6,1,1,99.21,0,15,10.00
+"BaseResultSetHandlerTestCase",1,0.00,2.00,18,0.23,9693.91,1,0,6,1,1,92.32,0,19,10.00
+"BaseResultSetHandlerTestCase$ToMapCollectionHandler",1,0.00,3.00,12,0.19,8261.44,1,0,6,1,1,99.21,0,15,10.00
 "BaseTestCase",4,0.17,1.00,25,0.37,7153.87,14,10,6,9,18,69.75,30,66,4.00
 "BasicRowProcessor",7,0.17,1.43,38,0.45,16980.55,10,3,8,9,6,80.13,85,48,9.00
 "BasicRowProcessor$CaseInsensitiveHashMap",5,0.12,1.20,25,0.35,7519.24,7,2,8,6,0,71.15,50,34,10.00
@@ -54,7 +57,7 @@ Name, No. Methods, LCOM, AVCC, NOS, HBUG, HEFF, UWCS, INST, PACK, RFC, CBO, MI, 
 "ByteColumnHandler",2,0.00,1.00,5,0.08,1617.97,2,0,3,2,2,133.03,0,10,7.00
 "ByteColumnHandlerTest",2,0.00,1.00,6,0.08,1036.55,2,0,5,2,2,131.60,0,11,8.00
 "ColumnHandler",2,0.00,1.00,3,0.06,761.66,2,0,2,2,14,95.77,16,4,0.00
-"ColumnHandlerTestBase",4,0.11,1.00,12,0.10,1359.52,7,3,6,4,9,133.04,0,20,2.00
+"ColumnHandlerTestBase",4,0.11,1.00,12,0.10,1359.52,7,3,6,4,11,133.04,0,20,2.00
 "ColumnListHandler",5,0.38,1.20,17,0.15,2467.11,7,2,2,5,2,81.21,50,26,10.00
 "ColumnListHandlerTest",4,0.00,1.00,27,0.42,9702.42,4,0,4,4,3,162.06,3,32,13.00
 "DatePropertyHandler",2,0.00,4.50,23,0.36,16012.98,2,0,2,2,2,99.66,0,35,12.00
@@ -66,6 +69,7 @@ Name, No. Methods, LCOM, AVCC, NOS, HBUG, HEFF, UWCS, INST, PACK, RFC, CBO, MI, 
 "DoubleColumnHandlerTest",2,0.00,1.00,6,0.08,1036.55,2,0,5,2,2,131.60,0,11,8.00
 "FloatColumnHandler",2,0.00,1.00,5,0.08,1617.97,2,0,3,2,2,133.03,0,10,7.00
 "FloatColumnHandlerTest",2,0.00,1.00,6,0.08,1036.55,2,0,5,2,2,131.60,0,11,8.00
+"GenericListHandler",2,0.00,1.50,7,0.07,1161.31,2,0,5,2,1,80.12,20,10,6.00
 "GenerousBeanProcessor",2,0.00,3.00,24,0.30,20294.36,2,0,4,2,2,80.63,10,28,50.00
 "GenerousBeanProcessorTest",5,0.67,1.00,59,0.91,28208.38,8,3,9,6,1,101.25,0,74,9.00
 "GenerousBeanProcessorTest$TestBean",6,0.20,1.00,16,0.08,781.52,9,3,9,6,0,138.23,0,23,0.00
@@ -93,7 +97,13 @@ Name, No. Methods, LCOM, AVCC, NOS, HBUG, HEFF, UWCS, INST, PACK, RFC, CBO, MI, 
 "QueryRunner",41,0.00,2.24,259,3.58,167559.01,41,0,9,41,7,75.17,495,368,26.00
 "QueryRunnerTest",73,0.14,1.15,535,9.23,425584.07,82,9,30,73,6,155.23,42,688,21.00
 "QueryRunnerTest$Answer<Boolean>",1,0.00,1.00,4,0.02,246.02,2,1,30,1,0,129.48,0,9,3.00
+"QueryRunnerTest$BadPrivatePropertyDescriptor",2,0.00,1.50,8,0.07,1108.76,3,1,11,2,0,126.59,0,11,1.00
+"QueryRunnerTest$IndexedPropertyDescriptor",1,0.00,1.00,3,0.01,145.30,1,0,11,1,0,135.95,0,5,1.00
+"QueryRunnerTest$InvocationHandler",1,0.00,2.00,5,0.04,693.08,1,0,11,1,0,122.10,0,9,5.00
+"QueryRunnerTest$InvocationHandler_0",1,0.00,4.00,9,0.12,3540.14,1,0,11,1,0,106.54,0,14,9.00
+"QueryRunnerTest$InvocationHandler_1",1,0.00,1.00,3,0.02,290.57,1,0,11,1,0,133.57,0,6,5.00
 "QueryRunnerTest$MyBean",6,0.20,1.00,16,0.08,781.52,9,3,30,6,0,182.99,3,11,0.00
+"QueryRunnerTest$NoOpFillStatement",1,1.00,1.00,4,0.03,408.00,2,1,11,1,1,127.75,0,7,3.00
 "QueryRunnerTest$ResultSetHandler<List<Object>>",1,0.00,2.00,6,0.07,2194.53,1,0,30,1,0,115.20,0,13,9.00
 "ResultSetHandler",1,0.00,1.00,2,0.02,228.96,1,0,2,1,13,103.40,12,3,0.00
 "ResultSetIterator",7,0.25,1.43,27,0.26,4564.94,9,2,3,7,4,77.61,58,43,5.00
@@ -131,4 +141,4 @@ Name, No. Methods, LCOM, AVCC, NOS, HBUG, HEFF, UWCS, INST, PACK, RFC, CBO, MI, 
 "TimestampColumnHandlerTest",2,0.00,1.00,6,0.09,1310.10,2,0,7,2,2,130.79,0,11,50.00
 System overview for No System Name
 Name, No. Packages, NOS, AVCC, HBUG, HEFF, MI, CCML, NLOC
-"No System Name",5,8200,1.28,60.41,1971464.35,72.25,6181,6954
+"No System Name",5,195635,1.28,61.28,1997548.38,79.03,32076,32912
