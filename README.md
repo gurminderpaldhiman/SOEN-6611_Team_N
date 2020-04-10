@@ -24,4 +24,28 @@
 
 **Metric 6:** Post release defect density
 
+# Selected Open Source Projects
+
+## Apache Commons Collections
+
+Version : 4.4
+LOC : 126K
+Source : https://github.com/apache/commons-collections
+Issue-Tracking : https://issues.apache.org/jira/projects/COLLECTIONS/issues/
+
+## Apache Commons Configurations
+
+Version : 2.0
+LOC : 121K
+Source : https://github.com/apache/commons-configuration/releases/tag/CONFIGURATION_2_0
+Issue-Tracking : https://issues.apache.org/jira/projects/CONFIGURATION/issues/
+
+## Apache Commons DbUtils
+
+Version : 1.7
+LOC : 15K
+Source : https://github.com/apache/commons-dbutils/releases/tag/DBUTILS_1_7
+Issue-Tracking : https://issues.apache.org/jira/projects/DBUTILS/issues/
+
+
 
