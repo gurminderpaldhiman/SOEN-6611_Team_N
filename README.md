@@ -1,10 +1,8 @@
 # SOEN-6611_Team_N
 
 ## Submitted To:
-### Professor:
-JINQIU YANG
-### POD and Marker:
-ZISHUO DING
+### Professor: JINQIU YANG
+### POD and Marker: ZISHUO DING
 
 ## Team Information:
 
