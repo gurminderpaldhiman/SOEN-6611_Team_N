@@ -11,16 +11,16 @@ ZISHUO DING
 ## Team N:
 
 **Venkata Pavan Kumar Reddy Ravi:**<br />
-Register : 40083392<br />
+Register Number : 40083392<br />
 E-mail : pavan.03121996@gmail.com<br />
 **Swetha Chenna:**<br />
-Register : 40092019<br />
+Register Number : 40092019<br />
 E-mail : swethachenna2018@gmail.com<br />
 **Nandini Bandlamudi:**<br />
-Register : 40105415<br />
+Register Number : 40105415<br />
 E-mail : nandu.angel555@gmail.com<br />
 **Gurminder Pal Dhiman:**<br />
-Register : 40076840<br />
+Register Number : 40076840<br />
 E-mail : gurminderpaldhiman@gmail.com<br />
 
 # Selected Open Source Projects
