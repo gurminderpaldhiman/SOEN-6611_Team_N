@@ -59,19 +59,27 @@ Issue-Tracking : https://issues.apache.org/jira/projects/DBUTILS/issues/<br />
 
 ### Metric 1,2 & 4:
 
-This folder contains the results of metric 1,2,4 for each project. The details on how to calculate the metrics is explained inside the metric 1,2&4 folder. Please refer to the following folder for more details.
+This folder contains the results of metric 1,2,4 for each project. The details on how to calculate the metrics is explained inside the metric 1,2&4 folder. Please refer to the following link for more details.
+
+https://github.com/RVPKR777/SOEN-6611_Team_N/tree/master/Metric%201%2C2%20and%204
 
 ### Metric 3:
 
 This folder contains the results of metric 3 i.e Mutation Score for each project. The details on how to calculate Mutation Score is explained inside the metric 3 folder. Please refer to the following folder for more details.
 
+https://github.com/RVPKR777/SOEN-6611_Team_N/tree/master/Metric%203
+
 ### Metric 5:
 
 This folder contains the version wise results of metric 5 i.e Maintainability Index for each project where 5 different versions are considered for each project. The details on how to calculate Maintainability Index is explained inside the metric 5 folder. Please refer to the following folder for more details.
 
+https://github.com/RVPKR777/SOEN-6611_Team_N/tree/master/Metric%205
+
 ### Metric 6:
 
 This folder contains version wise results for metric 6 i.e Post Defect Density for 5 different versions of each project. This folder contains following folders:
+
+https://github.com/RVPKR777/SOEN-6611_Team_N/tree/master/Metric%206
 
 #### Defects:
 
