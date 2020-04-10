@@ -4,20 +4,18 @@
 
 ## Team N:
 
-### Swetha Chenna: 40092019 - swethachenna2018@gmail.com
-### Nandini Bandlamudi: 40105415 - nandu.angel555@gmail.com
-### Gurminder Pal Dhiman: 40076840 - gurminderpaldhiman@gmail.com
-### Venkata Pavan Kumar Reddy Ravi: 40083392 - pavan.03121996@gmail.com
-
-
-## Metrics
-
-**Metric 1:** Statement Coverage<br />
-**Metric 2:** Branch Coverage<br />
-**Metric 3:** Mutation Score<br />
-**Metric 4:** McCabe Complexity Metric<br />
-**Metric 5:** Maintaninability Index<br />
-**Metric 6:** Post release defect density<br />
+#### Venkata Pavan Kumar Reddy Ravi:
+Register : 40083392<br />
+E-mail : pavan.03121996@gmail.com<br />
+#### Swetha Chenna:
+Register : 40092019<br />
+E-mail : swethachenna2018@gmail.com<br />
+#### Nandini Bandlamudi:
+Register : 40105415<br />
+E-mail : nandu.angel555@gmail.com<br />
+#### Gurminder Pal Dhiman:
+Register : 40076840<br />
+E-mail : gurminderpaldhiman@gmail.com<br />
 
 # Selected Open Source Projects
 
@@ -41,6 +39,17 @@ Version : 1.7<br />
 LOC : 15K<br />
 Source : https://github.com/apache/commons-dbutils/releases/tag/DBUTILS_1_7<br />
 Issue-Tracking : https://issues.apache.org/jira/projects/DBUTILS/issues/<br />
+
+## Selected Metrics
+
+**Metric 1:** Statement Coverage<br />
+**Metric 2:** Branch Coverage<br />
+**Metric 3:** Mutation Score<br />
+**Metric 4:** McCabe Complexity Metric<br />
+**Metric 5:** Maintaninability Index<br />
+**Metric 6:** Post release defect density<br />
+
+
 
 
 
