@@ -1,19 +1,25 @@
 # SOEN-6611_Team_N
 
+## Submitted To:
+### Professor:
+JINQIU YANG
+#### POD and Marker:
+ZISHUO DING
+
 ## Team Information:
 
 ## Team N:
 
-**Venkata Pavan Kumar Reddy Ravi:**
+**Venkata Pavan Kumar Reddy Ravi:**<br />
 Register : 40083392<br />
 E-mail : pavan.03121996@gmail.com<br />
-**Swetha Chenna:**
+**Swetha Chenna:**<br />
 Register : 40092019<br />
 E-mail : swethachenna2018@gmail.com<br />
-**Nandini Bandlamudi:**
+**Nandini Bandlamudi:**<br />
 Register : 40105415<br />
 E-mail : nandu.angel555@gmail.com<br />
-**Gurminder Pal Dhiman:**
+**Gurminder Pal Dhiman:**<br />
 Register : 40076840<br />
 E-mail : gurminderpaldhiman@gmail.com<br />
 
