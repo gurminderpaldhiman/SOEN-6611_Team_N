@@ -87,6 +87,11 @@ In this folder defects for each version of the project are shown in version wise
 
 This folder contains the results for Post Defect Density of selected versions of the projects. For details on how to find defect density please refer to the following folder.
 
+## Correleation Analysys:
+
+Correleation analysys between metrics 1,2,3 , 1,2,4 , 5,6 and 1,2,6 are clearly explained with results in the following folder. Please refer to the following link to see the results.
+
+https://github.com/RVPKR777/SOEN-6611_Team_N/tree/master/Correlation
 
 
 
