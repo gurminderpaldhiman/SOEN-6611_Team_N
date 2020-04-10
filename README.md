@@ -23,7 +23,7 @@ E-mail : nandu.angel555@gmail.com<br />
 Register Number : 40076840<br />
 E-mail : gurminderpaldhiman@gmail.com<br />
 
-# Selected Open Source Projects
+## Selected Open Source Projects
 
 ## Apache Commons Collections:
 
@@ -54,6 +54,41 @@ Issue-Tracking : https://issues.apache.org/jira/projects/DBUTILS/issues/<br />
 **Metric 4:** McCabe Complexity Metric<br />
 **Metric 5:** Maintaninability Index<br />
 **Metric 6:** Post release defect density<br />
+
+## Project Structure:
+
+### Metric 1:
+
+This folder contains the results of metric 1 i.e Statement Coverage for each project. The details on how to calculate statement coverage is explained inside the metric 1 folder. Please refer to the following folder for more details.
+
+### Metric 2:
+
+This folder contains the results of metric 2 i.e Branch Coverage for each project. The details on how to calculate Branch Coverage is explained inside the metric 2 folder. Please refer to the following folder for more details.
+
+### Metric 3:
+
+This folder contains the results of metric 3 i.e Mutation Score for each project. The details on how to calculate Mutation Score is explained inside the metric 3 folder. Please refer to the following folder for more details.
+
+### Metric 4:
+
+This folder contains the results of metric 4 i.e McCabe Cyclomatic Complexity for each project. The details on how to calculate McCabe Cyclomatic Complexity is explained inside the metric 4 folder. Please refer to the following folder for more details.
+
+### Metric 5:
+
+This folder contains the version wise results of metric 5 i.e Maintainability Index for each project where 5 different versions are considered for each project. The details on how to calculate Maintainability Index is explained inside the metric 5 folder. Please refer to the following folder for more details.
+
+### Metric 6:
+
+This folder contains version wise results for metric 6 i.e Post Defect Density for 5 different versions of each project. This folder contains following folders:
+
+#### Defects:
+
+In this folder defects for each version of the project are shown in version wise documents. For details on how to find defects please refer to the following folder.
+
+#### Defect Density:
+
+This folder contains the results for Post Defect Density of selected versions of the projects. For details on how to find defect density please refer to the following folder.
+
 
 
 
