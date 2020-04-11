@@ -7,19 +7,12 @@
 ## Team Information:
 
 ## Team N:
-
-**Venkata Pavan Kumar Reddy Ravi:**<br />
-Register Number : 40083392<br />
-E-mail : pavan.03121996@gmail.com<br />
-**Swetha Chenna:**<br />
-Register Number : 40092019<br />
-E-mail : swethachenna2018@gmail.com<br />
-**Nandini Bandlamudi:**<br />
-Register Number : 40105415<br />
-E-mail : nandu.angel555@gmail.com<br />
-**Gurminder Pal Dhiman:**<br />
-Register Number : 40076840<br />
-E-mail : gurminderpaldhiman@gmail.com<br />
+| Name  | Student ID | Email |
+| ------------- | ------------- | ---------|
+| Venkata Pavan Kumar Reddy Ravi  | 40083392  | pavan.03121996@gmail.com|
+| Swetha Chenna  | 40092019  | swethachenna2018@gmail.com|
+| Nandini Bandlamudi  | 40105415  |nandu.angel555@gmail.com|
+| Gurminder Pal Dhiman  | 40076840  |gurminderpaldhiman@gmail.com|
 
 ## Selected Open Source Projects
 
